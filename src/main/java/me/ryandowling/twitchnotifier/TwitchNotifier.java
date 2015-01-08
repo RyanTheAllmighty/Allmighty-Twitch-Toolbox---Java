@@ -43,6 +43,7 @@ public class TwitchNotifier {
                 followers = GSON.fromJson(request.get(), TwitchUserFollows.class);
 
                 for (TwitchFollower follower : followers.getFollows()) {
+                    follower.addTimestamps();
                     this.followers.put(follower.getUser().getName(), follower);
                 }
 
@@ -55,6 +56,8 @@ public class TwitchNotifier {
                 e.printStackTrace();
             }
         }
+
+        this.followers = Utils.sortMapByValue(this.followers);
 
         saveFollowers();
     }
