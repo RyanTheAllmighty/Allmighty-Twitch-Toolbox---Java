@@ -7,15 +7,14 @@ import me.ryandowling.twitchnotifier.data.Settings;
 import me.ryandowling.twitchnotifier.data.twitch.TwitchAPIRequest;
 import me.ryandowling.twitchnotifier.data.twitch.TwitchFollower;
 import me.ryandowling.twitchnotifier.data.twitch.TwitchUserFollows;
+import me.ryandowling.twitchnotifier.events.managers.FollowerManager;
 import me.ryandowling.twitchnotifier.utils.Utils;
 import org.apache.commons.io.FileUtils;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -102,9 +101,7 @@ public class TwitchNotifier {
         saveFollowers();
     }
 
-    public List<TwitchFollower> checkForNewFollowers() {
-        List<TwitchFollower> newFollowers = new ArrayList<>();
-
+    public void checkForNewFollowers() {
         TwitchAPIRequest request = new TwitchAPIRequest("/channels/" + this.settings.getTwitchUsername() +
                 "/follows?direction=desc&limit=100");
 
@@ -119,14 +116,12 @@ public class TwitchNotifier {
 
                     System.out.println("New Follower " + follower.getUser().getDisplayName() + " - Followed " + Utils
                             .timeConversion((int) (nowTimestamp - followedTimestamp)) + " ago!");
-                    newFollowers.add(follower);
+                    FollowerManager.newFollow(follower);
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return newFollowers;
     }
 
     public void saveFollowers() {
@@ -187,7 +182,7 @@ public class TwitchNotifier {
         }
     }
 
-    public Map<String,TwitchFollower> getFollowers() {
+    public Map<String, TwitchFollower> getFollowers() {
         return this.followers;
     }
 }

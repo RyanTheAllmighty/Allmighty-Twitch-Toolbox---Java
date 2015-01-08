@@ -2,14 +2,15 @@ package me.ryandowling.twitchnotifier.gui;
 
 import me.ryandowling.twitchnotifier.App;
 import me.ryandowling.twitchnotifier.data.twitch.TwitchFollower;
-import me.ryandowling.twitchnotifier.utils.Utils;
+import me.ryandowling.twitchnotifier.events.listeners.FollowerListener;
+import me.ryandowling.twitchnotifier.events.managers.FollowerManager;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FollowerTable extends JTable {
+public class FollowerTable extends JTable implements FollowerListener {
     private DefaultTableModel tableModel;
 
     public FollowerTable() {
@@ -20,6 +21,8 @@ public class FollowerTable extends JTable {
         setModel(this.tableModel);
 
         getTableHeader().setReorderingAllowed(false);
+
+        FollowerManager.addListener(this);
     }
 
     private void setupTableModel() {
@@ -44,5 +47,10 @@ public class FollowerTable extends JTable {
                 return null;
             }
         };
+    }
+
+    @Override
+    public void onNewFollow(final TwitchFollower follower) {
+        this.tableModel.fireTableDataChanged();
     }
 }
