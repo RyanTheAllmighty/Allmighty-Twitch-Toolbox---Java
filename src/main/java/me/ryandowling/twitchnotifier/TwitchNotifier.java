@@ -186,4 +186,8 @@ public class TwitchNotifier {
             this.server.stop();
         }
     }
+
+    public Map<String,TwitchFollower> getFollowers() {
+        return this.followers;
+    }
 }

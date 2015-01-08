@@ -10,7 +10,7 @@ public class TwitchFollower implements Comparable {
     private boolean notifications;
     private TwitchUser user;
 
-    public String getCreated_at() {
+    public String getCreatedAt() {
         return this.created_at;
     }
 

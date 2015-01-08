@@ -19,6 +19,8 @@ public class MainFrame extends JFrame {
 
         this.setLayout(new BorderLayout());
 
+        add(new TabbedPanel(), BorderLayout.CENTER);
+
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
