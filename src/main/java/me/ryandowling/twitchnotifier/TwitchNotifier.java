@@ -5,14 +5,15 @@ import com.google.gson.GsonBuilder;
 import me.ryandowling.twitchnotifier.data.Settings;
 import me.ryandowling.twitchnotifier.utils.Utils;
 import org.apache.commons.io.FileUtils;
-import org.eclipse.jetty.server.Server;
 
 import java.io.IOException;
 import java.nio.file.Files;
 
 public class TwitchNotifier {
     private Settings settings;
+
     private Server server; // The Jetty server
+
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     public TwitchNotifier() {
@@ -49,17 +50,11 @@ public class TwitchNotifier {
     }
 
     public void startServer() {
-        if (this.server != null && this.server.isRunning()) {
-            try {
-                this.server.stop();
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.err.println("Cannot stop the server! Exiting!");
-                System.exit(1);
-            }
+        if (this.server != null && this.server.isAlive()) {
+            this.server.stop();
         }
 
-        this.server = new Server(this.getSettings().getServerPort());
+        this.server = new Server(this.settings.getServerPort());
 
         try {
             this.server.start();
@@ -71,14 +66,8 @@ public class TwitchNotifier {
     }
 
     public void stopServer() {
-        if (this.server != null && this.server.isRunning()) {
-            try {
-                this.server.stop();
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.err.println("Cannot stop the server! Exiting!");
-                System.exit(1);
-            }
+        if (this.server != null && this.server.isAlive()) {
+            this.server.stop();
         }
     }
 }
