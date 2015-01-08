@@ -23,7 +23,7 @@ public class FollowerTable extends JTable {
     }
 
     private void setupTableModel() {
-        String[] columnNames = {"Username", "Time Followed", "How Long Ago?"};
+        String[] columnNames = {"Username", "Time Followed"};
 
         this.tableModel = new DefaultTableModel(columnNames, App.NOTIFIER.getFollowers().size()) {
             @Override
@@ -38,9 +38,7 @@ public class FollowerTable extends JTable {
                         // Name
                         return follower.getUser().getName();
                     case 1:
-                        return follower.getCreatedAt();
-                    case 2:
-                        return Utils.timeConversion((int) ((System.currentTimeMillis() / 1000) - (follower.getCreatedAtTimestamp() / 1000)));
+                        return follower.getCreatedAtLocalTime();
                 }
 
                 return null;

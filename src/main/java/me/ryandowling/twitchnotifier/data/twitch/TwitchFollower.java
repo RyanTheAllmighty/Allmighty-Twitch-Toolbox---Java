@@ -1,8 +1,10 @@
 package me.ryandowling.twitchnotifier.data.twitch;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class TwitchFollower implements Comparable {
     private String created_at;
@@ -11,6 +13,24 @@ public class TwitchFollower implements Comparable {
     private TwitchUser user;
 
     public String getCreatedAt() {
+        return this.created_at;
+    }
+
+    public String getCreatedAtLocalTime() {
+        try {
+            DateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            originalFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+            Date date = originalFormat.parse(this.created_at);
+
+            DateFormat localFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            localFormat.setTimeZone(TimeZone.getDefault());
+
+            return localFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         return this.created_at;
     }
 
