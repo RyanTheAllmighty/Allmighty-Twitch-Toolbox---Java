@@ -12,4 +12,8 @@ public class Utils {
     public static Path getSettingsFile() {
         return getCoreDir().resolve("settings.json");
     }
+
+    public static Path getFollowersFile() {
+        return getCoreDir().resolve("followers.json");
+    }
 }

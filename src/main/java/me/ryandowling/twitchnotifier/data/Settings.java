@@ -8,10 +8,13 @@ public class Settings {
     private Dimension guiSize;
     private int serverPort;
 
+    private String twitchUsername;
+
     public void loadDefaults() {
         this.guiPosition = new Point(0, 0);
         this.guiSize = new Dimension(600, 400);
         this.serverPort = 9001;
+        this.twitchUsername = "";
     }
 
     public Point getGuiPosition() {
@@ -32,5 +35,9 @@ public class Settings {
 
     public int getServerPort() {
         return this.serverPort;
+    }
+
+    public String getTwitchUsername() {
+        return this.twitchUsername;
     }
 }
