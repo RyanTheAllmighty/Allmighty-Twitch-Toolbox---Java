@@ -6,10 +6,12 @@ import java.awt.Point;
 public class Settings {
     private Point guiPosition;
     private Dimension guiSize;
+    private int serverPort;
 
     public void loadDefaults() {
         this.guiPosition = new Point(0, 0);
         this.guiSize = new Dimension(600, 400);
+        this.serverPort = 9001;
     }
 
     public Point getGuiPosition() {
@@ -26,5 +28,9 @@ public class Settings {
 
     public void setGuiSize(Dimension guiSize) {
         this.guiSize = guiSize;
+    }
+
+    public int getServerPort() {
+        return this.serverPort;
     }
 }

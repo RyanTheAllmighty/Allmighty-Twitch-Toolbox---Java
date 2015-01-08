@@ -47,6 +47,7 @@ public class MainFrame extends JFrame {
     private void exit() {
         System.out.println("Exiting the application!");
         App.NOTIFIER.saveSettings();
+        App.NOTIFIER.stopServer();
         System.exit(0);
     }
 }
