@@ -111,11 +111,6 @@ public class TwitchNotifier {
             for (TwitchFollower follower : followers.getFollows()) {
                 if (!this.followers.containsKey(follower.getUser().getName())) {
                     follower.addTimestamps();
-                    long followedTimestamp = follower.getCreatedAtTimestamp() / 1000;
-                    long nowTimestamp = System.currentTimeMillis() / 1000;
-
-                    System.out.println("New Follower " + follower.getUser().getDisplayName() + " - Followed " + Utils
-                            .timeConversion((int) (nowTimestamp - followedTimestamp)) + " ago!");
                     FollowerManager.newFollow(follower);
                 }
             }
@@ -184,5 +179,10 @@ public class TwitchNotifier {
 
     public Map<String, TwitchFollower> getFollowers() {
         return this.followers;
+    }
+
+    public void addFollower(TwitchFollower follower) {
+        this.followers.put(follower.getUser().getName(), follower);
+        this.followers = Utils.sortMapByValue(this.followers);
     }
 }

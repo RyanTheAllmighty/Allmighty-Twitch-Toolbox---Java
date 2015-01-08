@@ -12,6 +12,21 @@ public class TwitchFollower implements Comparable {
     private boolean notifications;
     private TwitchUser user;
 
+    public TwitchFollower create(String username) {
+        if (this.user != null) {
+            return this; // Don't allow editing this if it's an existing follow
+        }
+
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+
+        this.created_at = format.format(new Date());
+        this.created_at_timestamp = System.currentTimeMillis();
+        this.notifications = true;
+        this.user = new TwitchUser().create(username);
+
+        return this;
+    }
+
     public String getCreatedAt() {
         return this.created_at;
     }

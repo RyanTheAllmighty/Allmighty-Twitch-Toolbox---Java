@@ -6,12 +6,12 @@ import me.ryandowling.twitchnotifier.events.listeners.FollowerListener;
 import me.ryandowling.twitchnotifier.events.managers.FollowerManager;
 
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FollowerTable extends JTable implements FollowerListener {
-    private DefaultTableModel tableModel;
+    private AbstractTableModel tableModel;
 
     public FollowerTable() {
         super();
@@ -26,9 +26,24 @@ public class FollowerTable extends JTable implements FollowerListener {
     }
 
     private void setupTableModel() {
-        String[] columnNames = {"Username", "Time Followed"};
+        final String[] columnNames = {"Username", "Time Followed"};
 
-        this.tableModel = new DefaultTableModel(columnNames, App.NOTIFIER.getFollowers().size()) {
+        this.tableModel = new AbstractTableModel() {
+            @Override
+            public int getRowCount() {
+                return App.NOTIFIER.getFollowers().size();
+            }
+
+            @Override
+            public int getColumnCount() {
+                return columnNames.length;
+            }
+
+            @Override
+            public String getColumnName(int column) {
+                return columnNames[column];
+            }
+
             @Override
             public Object getValueAt(int rowIndex, int columnIndex) {
                 List<String> keys = new ArrayList<>();
@@ -38,8 +53,7 @@ public class FollowerTable extends JTable implements FollowerListener {
 
                 switch (columnIndex) {
                     case 0:
-                        // Name
-                        return follower.getUser().getName();
+                        return follower.getUser().getDisplayName();
                     case 1:
                         return follower.getCreatedAtLocalTime();
                 }

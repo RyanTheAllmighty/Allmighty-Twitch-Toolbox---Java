@@ -8,5 +8,6 @@ public class TabbedPanel extends JTabbedPane {
 
         addTab("Console", new ConsolePanel());
         addTab("Followers", new FollowerPanel());
+        addTab("Test", new TestPanel());
     }
 }

@@ -1,5 +1,6 @@
 package me.ryandowling.twitchnotifier.data.twitch;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,6 +16,26 @@ public class TwitchUser {
 
     private String display_name;
     private String type;
+
+    public TwitchUser create(String username) {
+        if (this.name != null) {
+            return this; // Don't allow editing this if it's an existing user
+        }
+
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+
+        this._id = 0;
+        this.name = username;
+        this.created_at = format.format(new Date());
+        this.created_at_timestamp = System.currentTimeMillis();
+        this.updated_at = format.format(new Date());
+        this.updated_at_timestamp = System.currentTimeMillis();
+
+        this.display_name = username.toUpperCase();
+        this.type = "user";
+
+        return this;
+    }
 
     public long getID() {
         return this._id;
