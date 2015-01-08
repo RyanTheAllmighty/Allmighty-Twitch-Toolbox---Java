@@ -10,6 +10,8 @@ public class Settings {
 
     private String twitchUsername;
 
+    private int secondsBetweenFollowerChecks;
+
     public void loadDefaults() {
         this.guiPosition = new Point(0, 0);
         this.guiSize = new Dimension(600, 400);
@@ -39,5 +41,9 @@ public class Settings {
 
     public String getTwitchUsername() {
         return this.twitchUsername;
+    }
+
+    public int getSecondsBetweenFollowerChecks() {
+        return this.secondsBetweenFollowerChecks;
     }
 }

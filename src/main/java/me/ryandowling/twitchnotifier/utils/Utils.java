@@ -37,4 +37,34 @@ public class Utils {
         }
         return result;
     }
+    
+    public static String timeConversion(int totalSeconds) {
+        final int HOURS_IN_A_DAY = 24;
+        final int MINUTES_IN_AN_HOUR = 60;
+        final int SECONDS_IN_A_MINUTE = 60;
+
+        int seconds = totalSeconds % SECONDS_IN_A_MINUTE;
+
+        int totalMinutes = totalSeconds / SECONDS_IN_A_MINUTE;
+        int minutes = totalMinutes % MINUTES_IN_AN_HOUR;
+
+        int totalHours = totalMinutes / MINUTES_IN_AN_HOUR;
+        int hours = totalHours % HOURS_IN_A_DAY;
+
+        int days = totalHours / HOURS_IN_A_DAY;
+
+        if (days != 0) {
+            return days + " days, " + hours + " hours, " + minutes + " minutes and " + seconds + " seconds";
+        } else {
+            if (hours != 0) {
+                return hours + " hours, " + minutes + " minutes and " + seconds + " seconds";
+            } else {
+                if (minutes != 0) {
+                    return minutes + " minutes and " + seconds + " seconds";
+                } else {
+                    return seconds + " seconds";
+                }
+            }
+        }
+    }
 }
