@@ -27,7 +27,7 @@ public class TwitchNotifier {
         }
 
         try {
-            GSON.fromJson(FileUtils.readFileToString(Utils.getSettingsFile().toFile()), Settings.class);
+            this.settings = GSON.fromJson(FileUtils.readFileToString(Utils.getSettingsFile().toFile()), Settings.class);
         } catch (IOException e) {
             e.printStackTrace();
         }

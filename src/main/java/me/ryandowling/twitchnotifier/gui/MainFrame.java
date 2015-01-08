@@ -5,6 +5,8 @@ import me.ryandowling.twitchnotifier.App;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import java.awt.BorderLayout;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -22,6 +24,20 @@ public class MainFrame extends JFrame {
             public void windowClosed(WindowEvent e) {
                 super.windowClosed(e);
                 exit();
+            }
+        });
+
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
+                App.NOTIFIER.getSettings().setGuiSize(getSize());
+            }
+
+            @Override
+            public void componentMoved(ComponentEvent e) {
+                super.componentMoved(e);
+                App.NOTIFIER.getSettings().setGuiPosition(getLocation());
             }
         });
 

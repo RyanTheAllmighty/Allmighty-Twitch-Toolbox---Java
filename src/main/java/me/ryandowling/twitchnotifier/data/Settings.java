@@ -19,4 +19,12 @@ public class Settings {
     public Dimension getGuiSize() {
         return this.guiSize;
     }
+
+    public void setGuiPosition(Point guiPosition) {
+        this.guiPosition = guiPosition;
+    }
+
+    public void setGuiSize(Dimension guiSize) {
+        this.guiSize = guiSize;
+    }
 }
