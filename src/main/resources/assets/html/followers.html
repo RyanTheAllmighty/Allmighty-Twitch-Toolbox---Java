@@ -1,0 +1,96 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Twitch Notifier by RyanTheAllmighty - Follower Alert</title>
+        <style>
+            body {
+                background-color: transparent;
+                color: white;
+            }
+            
+            #alert {
+                display: none;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                width: 580px;
+                height: 110px;
+                color: red;
+            }
+            
+            #alert .text {
+                margin-left: 22px;
+                padding-top: 48px;
+                text-align: center;
+                width: 382px;
+                line-height: 43px;
+                vertical-align: middle;
+                font-size: 45px;
+                font-family: Impact;
+                text-shadow: 2px 2px 1px #000;
+                white-space: nowrap;
+                color: #ffffff;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="alert">
+            <div class="text" id="follower-name"></div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script type="text/javascript">
+            var latestFollower;
+            
+            function checkForNewFollow() {
+                var newest = getLatestFollower();
+                
+                console.log(newest);
+                
+                if (newest != latestFollower) {
+                    latestFollower = newest;
+                    $("#follower-name").html(latestFollower + " followed");
+                    
+                    $("#alert .text").css("font-size", "35px");
+                    
+                    $("#alert").animate({width:'toggle'}, 600);
+                    
+                    resizeName();
+                    
+                    setTimeout(function() {
+                        $("#alert").animate({width:'toggle'}, 600);
+                    }, 6000);
+                }
+            }
+
+            function resizeName() {
+                while($('#alert .text')[0].scrollWidth > $('#alert .text').width()+5) {
+                    var currentSize = parseInt($("#alert .text").css("font-size").replace("px",""));
+                    $("#alert .text").css("font-size", (currentSize-1)+"px");
+                }
+            }
+            
+            function getLatestFollower() {
+                var latest;
+            
+                $.ajax({
+                    url: document.URL + "/latest/text",
+                    type: 'GET',
+                    async: false,
+                    success: function(result) {
+                        latest = result;
+                    }
+                });
+                
+                return latest;
+            }
+            
+            $(document).ready(function() {
+                latestFollower = getLatestFollower();
+                
+                $('#alert').css('background-image','url('+document.URL + "/image"+')');
+                
+                setInterval(checkForNewFollow, 500);
+            });
+        </script>
+    </body>
+</html>

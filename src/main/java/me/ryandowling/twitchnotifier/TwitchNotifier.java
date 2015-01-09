@@ -15,6 +15,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.net.URL;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +39,32 @@ public class TwitchNotifier {
 
     public TwitchNotifier() {
         loadSettings();
+        checkForServerResources();
         startServer();
+    }
+
+    private void checkForServerResources() {
+        if (!Files.exists(Utils.getFollowersHTMLFile())) {
+            try {
+                URL inputUrl = System.class.getResource("/assets/html/followers.html");
+                FileUtils.copyURLToFile(inputUrl, Utils.getFollowersHTMLFile().toFile());
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.err.println("Failed to copy followers.html to disk! Exiting!");
+                System.exit(1);
+            }
+        }
+
+        if (!Files.exists(Utils.getFollowersImageFile())) {
+            try {
+                URL inputUrl = System.class.getResource("/assets/image/followers.png");
+                FileUtils.copyURLToFile(inputUrl, Utils.getFollowersImageFile().toFile());
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.err.println("Failed to copy followers.png to disk! Exiting!");
+                System.exit(1);
+            }
+        }
     }
 
     public void setup() {
