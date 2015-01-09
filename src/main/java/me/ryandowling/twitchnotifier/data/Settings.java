@@ -2,6 +2,8 @@ package me.ryandowling.twitchnotifier.data;
 
 import java.awt.Dimension;
 import java.awt.Point;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Settings {
     private Point guiPosition;
@@ -12,11 +14,14 @@ public class Settings {
 
     private int secondsBetweenFollowerChecks;
 
+    private String newFollowSoundPath;
+
     public void loadDefaults() {
         this.guiPosition = new Point(0, 0);
         this.guiSize = new Dimension(600, 400);
         this.serverPort = 9001;
         this.twitchUsername = "";
+        this.newFollowSoundPath = "";
     }
 
     public Point getGuiPosition() {
@@ -45,5 +50,9 @@ public class Settings {
 
     public int getSecondsBetweenFollowerChecks() {
         return this.secondsBetweenFollowerChecks;
+    }
+
+    public Path getNewFollowSound() {
+        return Paths.get(this.newFollowSoundPath);
     }
 }
