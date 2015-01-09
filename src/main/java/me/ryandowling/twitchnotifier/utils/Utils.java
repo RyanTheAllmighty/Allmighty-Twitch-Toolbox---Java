@@ -20,8 +20,20 @@ public class Utils {
         return getCoreDir().resolve("data");
     }
 
+    public static Path getHTMLDir() {
+        return getDataDir().resolve("html");
+    }
+
     public static Path getSettingsFile() {
         return getCoreDir().resolve("settings.json");
+    }
+
+    public static Path getFollowersHTMLFile() {
+        return getHTMLDir().resolve("followers.html");
+    }
+
+    public static Path getFollowersImageFile() {
+        return getHTMLDir().resolve("followers.png");
     }
 
     public static Path getFollowersFile() {
