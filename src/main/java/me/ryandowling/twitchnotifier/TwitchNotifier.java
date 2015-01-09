@@ -34,6 +34,9 @@ public class TwitchNotifier {
     public TwitchNotifier() {
         loadSettings();
         startServer();
+    }
+
+    public void setup() {
         loadFollowers();
         startCheckingForNewFollowers();
         loadNotifiers();
@@ -41,6 +44,7 @@ public class TwitchNotifier {
 
     private void loadNotifiers() {
         FollowerFiles followerFiles = new FollowerFiles();
+        followerFiles.createFiles();
     }
 
     private void startCheckingForNewFollowers() {

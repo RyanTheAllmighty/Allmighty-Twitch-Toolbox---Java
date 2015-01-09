@@ -1,5 +1,7 @@
 package me.ryandowling.twitchnotifier.utils;
 
+import org.apache.commons.io.FileUtils;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
@@ -14,12 +16,24 @@ public class Utils {
         return Paths.get(System.getProperty("user.dir"));
     }
 
+    public static Path getDataDir() {
+        return getCoreDir().resolve("data");
+    }
+
     public static Path getSettingsFile() {
         return getCoreDir().resolve("settings.json");
     }
 
     public static Path getFollowersFile() {
-        return getCoreDir().resolve("followers.json");
+        return getDataDir().resolve("followers.json");
+    }
+
+    public static Path getLatestFollowerFile() {
+        return getDataDir().resolve("latestFollower.txt");
+    }
+
+    public static Path getNumberOfFollowerFile() {
+        return getDataDir().resolve("numberOfFollowers.txt");
     }
 
     public static <K, V extends Comparable<? super V>> Map<K, V> sortMapByValue(Map<K, V> map) {

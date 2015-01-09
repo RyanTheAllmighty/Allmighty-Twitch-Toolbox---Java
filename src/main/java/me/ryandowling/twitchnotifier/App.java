@@ -11,6 +11,7 @@ public class App {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
+                NOTIFIER.setup();
                 new MainFrame();
             }
         });
