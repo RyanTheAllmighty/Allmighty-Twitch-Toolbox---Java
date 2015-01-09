@@ -4,6 +4,7 @@ import io.github.asyncronous.toast.Toaster;
 import me.ryandowling.twitchnotifier.App;
 import me.ryandowling.twitchnotifier.utils.SoundPlayer;
 import me.ryandowling.twitchnotifier.utils.Utils;
+import org.apache.commons.io.FileUtils;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -18,6 +19,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -175,7 +177,7 @@ public class SettingsPanel extends JPanel {
     private void saveSettings() {
         boolean restartApp = false;
 
-        if (this.twitchUsernameLabel.getText().isEmpty()) {
+        if (this.twitchUsernameTextField.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Twitch username cannot be empty!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -212,6 +214,22 @@ public class SettingsPanel extends JPanel {
         Toaster.instance().pop("Settings saved!");
 
         if (restartApp) {
+            try {
+                if (Files.exists(Utils.getFollowersFile())) {
+                    FileUtils.forceDeleteOnExit(Utils.getFollowersFile().toFile());
+                }
+
+                if (Files.exists(Utils.getLatestFollowerFile())) {
+                    FileUtils.forceDeleteOnExit(Utils.getLatestFollowerFile().toFile());
+                }
+
+                if (Files.exists(Utils.getNumberOfFollowerFile())) {
+                    FileUtils.forceDeleteOnExit(Utils.getNumberOfFollowerFile().toFile());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             JOptionPane.showMessageDialog(this, "The app must be restarted! Please rerun the application after " +
                     "clicking OK!", "Restart Required", JOptionPane.INFORMATION_MESSAGE);
             System.exit(0);
