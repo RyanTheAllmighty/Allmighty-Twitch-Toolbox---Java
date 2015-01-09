@@ -6,33 +6,56 @@ import me.ryandowling.twitchnotifier.events.managers.FollowerManager;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class TestPanel extends JPanel {
-    private JButton testNewFollower;
     private JPanel buttonPanel;
+
+    private JPanel newFollowerPanel;
+    private JTextField newFollowerName;
+    private JButton testNewFollower;
 
     public TestPanel() {
         super();
+        setupPanel();
+        setupButtons();
+        addComponents();
+    }
 
+    private void setupPanel() {
         setLayout(new BorderLayout());
+    }
 
-        buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+    private void setupButtons() {
+        this.buttonPanel = new JPanel();
+        this.buttonPanel.setLayout(new BoxLayout(this.buttonPanel, BoxLayout.Y_AXIS));
 
-        testNewFollower = new JButton("Test New Follower");
-        testNewFollower.addActionListener(new ActionListener() {
+        this.newFollowerPanel = new JPanel();
+        this.newFollowerPanel.setLayout(new FlowLayout());
+
+        this.newFollowerName = new JTextField(16);
+
+        this.testNewFollower = new JButton("Test New Follower");
+        this.testNewFollower.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.testNewFollower.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                FollowerManager.newFollow(new TwitchFollower().create("Test User"));
+                FollowerManager.newFollow(new TwitchFollower().create(newFollowerName.getText()));
             }
         });
+    }
 
-        buttonPanel.add(this.testNewFollower);
+    private void addComponents() {
+        this.newFollowerPanel.add(this.newFollowerName);
+        this.newFollowerPanel.add(this.testNewFollower);
 
-        add(buttonPanel, BorderLayout.CENTER);
+        add(this.buttonPanel, BorderLayout.CENTER);
+
+        buttonPanel.add(this.newFollowerPanel);
     }
 }
