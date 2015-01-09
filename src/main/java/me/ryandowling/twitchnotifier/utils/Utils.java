@@ -40,6 +40,10 @@ public class Utils {
         return getDataDir().resolve("followers.json");
     }
 
+    public static Path getDonationsFile() {
+        return getDataDir().resolve("donations.json");
+    }
+
     public static Path getLatestFollowerFile() {
         return getDataDir().resolve("latestFollower.txt");
     }

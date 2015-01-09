@@ -4,11 +4,15 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import me.ryandowling.twitchnotifier.data.Settings;
+import me.ryandowling.twitchnotifier.data.streamtip.StreamTipAPIRequest;
+import me.ryandowling.twitchnotifier.data.streamtip.StreamTipTip;
+import me.ryandowling.twitchnotifier.data.streamtip.StreamTipTips;
 import me.ryandowling.twitchnotifier.data.twitch.TwitchAPIRequest;
 import me.ryandowling.twitchnotifier.data.twitch.TwitchFollower;
 import me.ryandowling.twitchnotifier.data.twitch.TwitchUserFollows;
 import me.ryandowling.twitchnotifier.events.FollowerAlert;
 import me.ryandowling.twitchnotifier.events.FollowerFiles;
+import me.ryandowling.twitchnotifier.events.managers.DonationManager;
 import me.ryandowling.twitchnotifier.events.managers.FollowerManager;
 import me.ryandowling.twitchnotifier.gui.Console;
 import me.ryandowling.twitchnotifier.utils.Utils;
@@ -33,6 +37,7 @@ public class TwitchNotifier {
     private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 
     private Map<String, TwitchFollower> followers = new HashMap<>();
+    private Map<String, StreamTipTip> donations = new HashMap<>();
 
     // All the notificators
     private FollowerFiles followerFiles;
@@ -73,7 +78,12 @@ public class TwitchNotifier {
         if (this.settings.isSetup()) {
             loadFollowers();
             startCheckingForNewFollowers();
+
+            loadDonations();
+            startCheckingForNewDonations();
+
             loadNotifiers();
+
             startServer();
         }
     }
@@ -95,6 +105,18 @@ public class TwitchNotifier {
 
         this.executor.scheduleAtFixedRate(runnable, this.settings.getSecondsBetweenFollowerChecks(), this.settings
                 .getSecondsBetweenFollowerChecks(), TimeUnit.SECONDS);
+    }
+
+    private void startCheckingForNewDonations() {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                checkForNewDonations();
+            }
+        };
+
+        this.executor.scheduleAtFixedRate(runnable, this.settings.getSecondsBetweenDonationChecks(), this.settings
+                .getSecondsBetweenDonationChecks(), TimeUnit.SECONDS);
     }
 
     private void loadFollowers() {
@@ -149,6 +171,43 @@ public class TwitchNotifier {
         saveFollowers();
     }
 
+    private void loadDonations() {
+        boolean loadedFromFile = false;
+        int offset = 0;
+        StreamTipTips donations;
+
+        if (Files.exists(Utils.getDonationsFile())) {
+            Type listType = new TypeToken<HashMap<String, StreamTipTip>>() {
+            }.getType();
+
+            try {
+                this.donations = GSON.fromJson(FileUtils.readFileToString(Utils.getDonationsFile().toFile()), listType);
+                loadedFromFile = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        StreamTipAPIRequest request = new StreamTipAPIRequest("/tips");
+
+        try {
+            donations = GSON.fromJson(request.get(), StreamTipTips.class);
+
+            for (StreamTipTip tip : donations.getTips()) {
+                tip.addTimestamps();
+                if (!this.donations.containsKey(tip.getID())) {
+                    this.donations.put(tip.getID(), tip);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        this.donations = Utils.sortMapByValue(this.donations);
+
+        saveFollowers();
+    }
+
     public void checkForNewFollowers() {
         TwitchAPIRequest request = new TwitchAPIRequest("/channels/" + this.settings.getTwitchUsername() +
                 "/follows?direction=desc&limit=100");
@@ -159,6 +218,23 @@ public class TwitchNotifier {
             for (TwitchFollower follower : followers.getFollows()) {
                 follower.addTimestamps();
                 FollowerManager.newFollow(follower);
+            }
+
+            this.followers = Utils.sortMapByValue(this.followers);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void checkForNewDonations() {
+        StreamTipAPIRequest request = new StreamTipAPIRequest("/tips");
+
+        try {
+            StreamTipTips donations = GSON.fromJson(request.get(), StreamTipTips.class);
+
+            for (StreamTipTip tip : donations.getTips()) {
+                tip.addTimestamps();
+                DonationManager.newDonation(tip);
             }
 
             this.followers = Utils.sortMapByValue(this.followers);
@@ -229,11 +305,24 @@ public class TwitchNotifier {
         return this.followers;
     }
 
+    public Map<String, StreamTipTip> getDonations() {
+        return this.donations;
+    }
+
     public boolean addFollower(TwitchFollower follower) {
         boolean isNew = !this.followers.containsKey(follower.getUser().getName());
 
         this.followers.put(follower.getUser().getName(), follower);
         this.followers = Utils.sortMapByValue(this.followers);
+
+        return isNew;
+    }
+
+    public boolean addDonation(StreamTipTip donation) {
+        boolean isNew = !this.donations.containsKey(donation.getID());
+
+        this.donations.put(donation.getID(), donation);
+        this.donations = Utils.sortMapByValue(this.donations);
 
         return isNew;
     }
