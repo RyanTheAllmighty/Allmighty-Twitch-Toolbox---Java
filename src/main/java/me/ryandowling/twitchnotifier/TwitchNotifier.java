@@ -7,6 +7,7 @@ import me.ryandowling.twitchnotifier.data.Settings;
 import me.ryandowling.twitchnotifier.data.twitch.TwitchAPIRequest;
 import me.ryandowling.twitchnotifier.data.twitch.TwitchFollower;
 import me.ryandowling.twitchnotifier.data.twitch.TwitchUserFollows;
+import me.ryandowling.twitchnotifier.events.FollowerFiles;
 import me.ryandowling.twitchnotifier.events.managers.FollowerManager;
 import me.ryandowling.twitchnotifier.utils.Utils;
 import org.apache.commons.io.FileUtils;
@@ -35,6 +36,11 @@ public class TwitchNotifier {
         startServer();
         loadFollowers();
         startCheckingForNewFollowers();
+        loadNotifiers();
+    }
+
+    private void loadNotifiers() {
+        FollowerFiles followerFiles = new FollowerFiles();
     }
 
     private void startCheckingForNewFollowers() {
@@ -109,11 +115,11 @@ public class TwitchNotifier {
             TwitchUserFollows followers = GSON.fromJson(request.get(), TwitchUserFollows.class);
 
             for (TwitchFollower follower : followers.getFollows()) {
-                if (!this.followers.containsKey(follower.getUser().getName())) {
-                    follower.addTimestamps();
-                    FollowerManager.newFollow(follower);
-                }
+                follower.addTimestamps();
+                FollowerManager.newFollow(follower);
             }
+
+            this.followers = Utils.sortMapByValue(this.followers);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -181,8 +187,12 @@ public class TwitchNotifier {
         return this.followers;
     }
 
-    public void addFollower(TwitchFollower follower) {
+    public boolean addFollower(TwitchFollower follower) {
+        boolean isNew = !this.followers.containsKey(follower.getUser().getName());
+
         this.followers.put(follower.getUser().getName(), follower);
         this.followers = Utils.sortMapByValue(this.followers);
+
+        return isNew;
     }
 }

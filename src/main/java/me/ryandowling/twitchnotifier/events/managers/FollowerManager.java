@@ -23,10 +23,10 @@ public class FollowerManager {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                App.NOTIFIER.addFollower(follower);
-
-                for (FollowerListener listener : listeners) {
-                    listener.onNewFollow(follower);
+                if(App.NOTIFIER.addFollower(follower)) {
+                    for (FollowerListener listener : listeners) {
+                        listener.onNewFollow(follower);
+                    }
                 }
             }
         });

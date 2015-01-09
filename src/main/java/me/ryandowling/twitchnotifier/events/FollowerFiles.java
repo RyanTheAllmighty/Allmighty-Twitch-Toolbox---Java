@@ -11,6 +11,6 @@ public class FollowerFiles implements FollowerListener {
 
     @Override
     public void onNewFollow(final TwitchFollower follower) {
-
+        System.out.println("New follower " + follower.getUser().getDisplayName());
     }
 }
