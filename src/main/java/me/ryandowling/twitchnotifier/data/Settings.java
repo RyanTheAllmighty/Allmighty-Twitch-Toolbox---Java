@@ -55,4 +55,12 @@ public class Settings {
     public Path getNewFollowSound() {
         return Paths.get(this.newFollowSoundPath);
     }
+
+    public String getNewFollowSoundPath() {
+        return this.newFollowSoundPath;
+    }
+
+    public void setNewFollowSound(String path) {
+        this.newFollowSoundPath = path;
+    }
 }

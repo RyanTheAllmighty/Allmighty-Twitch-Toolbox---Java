@@ -1,7 +1,7 @@
 package me.ryandowling.twitchnotifier.utils;
 
-import org.apache.commons.io.FileUtils;
-
+import javax.swing.filechooser.FileFilter;
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
@@ -51,7 +51,7 @@ public class Utils {
         }
         return result;
     }
-    
+
     public static String timeConversion(int totalSeconds) {
         final int HOURS_IN_A_DAY = 24;
         final int MINUTES_IN_AN_HOUR = 60;
@@ -80,5 +80,20 @@ public class Utils {
                 }
             }
         }
+    }
+
+    public static FileFilter getWavFileFilter() {
+        return new FileFilter() {
+            @Override
+            public boolean accept(File f) {
+                return f.isDirectory() || f.getName().endsWith(".wav");
+
+            }
+
+            @Override
+            public String getDescription() {
+                return "WAV sound files";
+            }
+        };
     }
 }
