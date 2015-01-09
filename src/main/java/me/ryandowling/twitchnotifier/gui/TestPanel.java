@@ -45,7 +45,9 @@ public class TestPanel extends JPanel {
         this.testNewFollower.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                FollowerManager.newFollow(new TwitchFollower().create(newFollowerName.getText()));
+                if (!newFollowerName.getText().isEmpty()) {
+                    FollowerManager.newFollow(new TwitchFollower().create(newFollowerName.getText()));
+                }
             }
         });
     }

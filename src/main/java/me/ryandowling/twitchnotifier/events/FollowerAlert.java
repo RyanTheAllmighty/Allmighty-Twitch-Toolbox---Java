@@ -20,7 +20,7 @@ public class FollowerAlert implements FollowerListener {
             @Override
             public void run() {
                 Toaster.instance().pop("New Follower: " + follower.getUser().getDisplayName());
-                soundPlayer.playSound(App.NOTIFIER.getSettings().getNewFollowSound());
+                SoundPlayer.playSound(App.NOTIFIER.getSettings().getNewFollowSound());
             }
         });
         thread.run();
