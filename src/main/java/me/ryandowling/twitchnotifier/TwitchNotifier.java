@@ -10,6 +10,7 @@ import me.ryandowling.twitchnotifier.data.twitch.TwitchUserFollows;
 import me.ryandowling.twitchnotifier.events.FollowerAlert;
 import me.ryandowling.twitchnotifier.events.FollowerFiles;
 import me.ryandowling.twitchnotifier.events.managers.FollowerManager;
+import me.ryandowling.twitchnotifier.gui.Console;
 import me.ryandowling.twitchnotifier.utils.Utils;
 import org.apache.commons.io.FileUtils;
 
@@ -36,6 +37,8 @@ public class TwitchNotifier {
     // All the notificators
     private FollowerFiles followerFiles;
     private FollowerAlert followerAlert;
+
+    private Console console;
 
     public TwitchNotifier() {
         loadSettings();
@@ -237,5 +240,13 @@ public class TwitchNotifier {
 
     public TwitchFollower getLatestFollower() {
         return this.followers.entrySet().iterator().next().getValue();
+    }
+
+    public void setConsole(Console console) {
+        this.console = console;
+    }
+
+    public Console getConsole() {
+        return this.console;
     }
 }
