@@ -1,5 +1,7 @@
 package me.ryandowling.twitchnotifier.utils;
 
+import org.apache.commons.io.FileUtils;
+
 import javax.swing.filechooser.FileFilter;
 import java.io.File;
 import java.nio.file.Path;
@@ -50,6 +52,10 @@ public class Utils {
 
     public static Path getNumberOfFollowerFile() {
         return getDataDir().resolve("numberOfFollowers.txt");
+    }
+
+    public static Path getLatestDonationFile() {
+        return getDataDir().resolve("latestDonation.txt");
     }
 
     public static <K, V extends Comparable<? super V>> Map<K, V> sortMapByValue(Map<K, V> map) {

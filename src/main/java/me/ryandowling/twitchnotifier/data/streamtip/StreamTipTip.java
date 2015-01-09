@@ -29,6 +29,22 @@ public class StreamTipTip implements Comparable {
     private String amount;
     private String id;
 
+    public StreamTipTip create(String username, String amount) {
+        if (this.username != null) {
+            return this; // Don't allow editing this if it's an existing donation
+        }
+
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'");
+
+        this.username = username;
+        this.amount = amount;
+        this.date = format.format(new Date());
+        this.date_timestamp = System.currentTimeMillis();
+        this.currencySymbol = "$";
+
+        return this;
+    }
+
     public void addTimestamps() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'");
         Date date;

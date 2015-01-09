@@ -10,6 +10,8 @@ import me.ryandowling.twitchnotifier.data.streamtip.StreamTipTips;
 import me.ryandowling.twitchnotifier.data.twitch.TwitchAPIRequest;
 import me.ryandowling.twitchnotifier.data.twitch.TwitchFollower;
 import me.ryandowling.twitchnotifier.data.twitch.TwitchUserFollows;
+import me.ryandowling.twitchnotifier.events.DonationAlert;
+import me.ryandowling.twitchnotifier.events.DonationFiles;
 import me.ryandowling.twitchnotifier.events.FollowerAlert;
 import me.ryandowling.twitchnotifier.events.FollowerFiles;
 import me.ryandowling.twitchnotifier.events.managers.DonationManager;
@@ -42,6 +44,9 @@ public class TwitchNotifier {
     // All the notificators
     private FollowerFiles followerFiles;
     private FollowerAlert followerAlert;
+
+    private DonationFiles donationFiles;
+    private DonationAlert donationAlert;
 
     private Console console;
 
@@ -93,6 +98,11 @@ public class TwitchNotifier {
         followerFiles.writeFiles();
 
         followerAlert = new FollowerAlert();
+
+        donationFiles = new DonationFiles();
+        donationFiles.writeFiles();
+
+        donationAlert = new DonationAlert();
     }
 
     private void startCheckingForNewFollowers() {
@@ -329,6 +339,10 @@ public class TwitchNotifier {
 
     public TwitchFollower getLatestFollower() {
         return this.followers.entrySet().iterator().next().getValue();
+    }
+
+    public StreamTipTip getLatestDonation() {
+        return this.donations.entrySet().iterator().next().getValue();
     }
 
     public void setConsole(Console console) {

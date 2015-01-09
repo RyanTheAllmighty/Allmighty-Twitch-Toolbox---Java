@@ -1,6 +1,8 @@
 package me.ryandowling.twitchnotifier.gui;
 
+import me.ryandowling.twitchnotifier.data.streamtip.StreamTipTip;
 import me.ryandowling.twitchnotifier.data.twitch.TwitchFollower;
+import me.ryandowling.twitchnotifier.events.managers.DonationManager;
 import me.ryandowling.twitchnotifier.events.managers.FollowerManager;
 
 import javax.swing.BoxLayout;
@@ -19,6 +21,11 @@ public class TestPanel extends JPanel {
     private JPanel newFollowerPanel;
     private JTextField newFollowerName;
     private JButton testNewFollower;
+
+    private JPanel newDonationPanel;
+    private JTextField newDonationName;
+    private JTextField newDonationAmount;
+    private JButton testNewDonation;
 
     public TestPanel() {
         super();
@@ -50,14 +57,37 @@ public class TestPanel extends JPanel {
                 }
             }
         });
+
+        this.newDonationPanel = new JPanel();
+        this.newDonationPanel.setLayout(new FlowLayout());
+
+        this.newDonationName = new JTextField(16);
+        this.newDonationAmount = new JTextField(16);
+
+        this.testNewDonation = new JButton("Test New Donation");
+        this.testNewDonation.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.testNewDonation.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!newDonationName.getText().isEmpty()) {
+                    DonationManager.newDonation(new StreamTipTip().create(newDonationName.getText(),
+                            newDonationAmount.getText()));
+                }
+            }
+        });
     }
 
     private void addComponents() {
         this.newFollowerPanel.add(this.newFollowerName);
         this.newFollowerPanel.add(this.testNewFollower);
 
+        this.newDonationPanel.add(this.newDonationName);
+        this.newDonationPanel.add(this.newDonationAmount);
+        this.newDonationPanel.add(this.testNewDonation);
+
         add(this.buttonPanel, BorderLayout.CENTER);
 
         buttonPanel.add(this.newFollowerPanel);
+        buttonPanel.add(this.newDonationPanel);
     }
 }
