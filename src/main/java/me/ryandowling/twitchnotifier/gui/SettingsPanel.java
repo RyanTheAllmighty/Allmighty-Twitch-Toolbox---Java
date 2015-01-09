@@ -182,7 +182,13 @@ public class SettingsPanel extends JPanel {
 
         if ((int) this.timeBetweenFollowerChecksSpinner.getValue() < 10 || (int) this
                 .timeBetweenFollowerChecksSpinner.getValue() > 60) {
-            JOptionPane.showMessageDialog(this, "Twitch username cannot be empty!", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Time between follower checks must be between 10 and 60 seconds!",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (this.newFollowerSoundTextField.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "New follower sound must be set!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -201,6 +207,7 @@ public class SettingsPanel extends JPanel {
                     .getAbsolutePath());
         }
 
+        App.NOTIFIER.getSettings().setupFinished();
         App.NOTIFIER.saveSettings();
         Toaster.instance().pop("Settings saved!");
 

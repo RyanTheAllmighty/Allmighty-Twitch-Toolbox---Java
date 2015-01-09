@@ -16,6 +16,8 @@ public class Settings {
 
     private String newFollowSoundPath;
 
+    private boolean isSetup;
+
     public void loadDefaults() {
         this.guiPosition = new Point(0, 0);
         this.guiSize = new Dimension(600, 400);
@@ -23,6 +25,7 @@ public class Settings {
         this.twitchUsername = "";
         this.secondsBetweenFollowerChecks = 30;
         this.newFollowSoundPath = "";
+        this.isSetup = false;
     }
 
     public Point getGuiPosition() {
@@ -79,5 +82,13 @@ public class Settings {
 
     public void setNewFollowSoundPath(String newFollowSoundPath) {
         this.newFollowSoundPath = newFollowSoundPath;
+    }
+
+    public boolean isSetup() {
+        return this.isSetup;
+    }
+
+    public void setupFinished() {
+        this.isSetup = true;
     }
 }

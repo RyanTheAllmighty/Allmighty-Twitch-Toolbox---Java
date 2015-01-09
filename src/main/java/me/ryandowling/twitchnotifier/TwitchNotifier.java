@@ -42,7 +42,7 @@ public class TwitchNotifier {
     }
 
     public void setup() {
-        if (!this.settings.getTwitchUsername().isEmpty()) {
+        if (this.settings.isSetup()) {
             loadFollowers();
             startCheckingForNewFollowers();
             loadNotifiers();
