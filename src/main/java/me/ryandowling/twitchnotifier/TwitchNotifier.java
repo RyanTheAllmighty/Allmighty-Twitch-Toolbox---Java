@@ -32,22 +32,28 @@ public class TwitchNotifier {
 
     private Map<String, TwitchFollower> followers = new HashMap<>();
 
+    // All the notificators
+    private FollowerFiles followerFiles;
+    private FollowerAlert followerAlert;
+
     public TwitchNotifier() {
         loadSettings();
         startServer();
     }
 
     public void setup() {
-        loadFollowers();
-        startCheckingForNewFollowers();
-        loadNotifiers();
+        if (!this.settings.getTwitchUsername().isEmpty()) {
+            loadFollowers();
+            startCheckingForNewFollowers();
+            loadNotifiers();
+        }
     }
 
     private void loadNotifiers() {
-        FollowerFiles followerFiles = new FollowerFiles();
+        followerFiles = new FollowerFiles();
         followerFiles.writeFiles();
 
-        FollowerAlert followerAlert = new FollowerAlert();
+        followerAlert = new FollowerAlert();
     }
 
     private void startCheckingForNewFollowers() {
@@ -201,5 +207,9 @@ public class TwitchNotifier {
         this.followers = Utils.sortMapByValue(this.followers);
 
         return isNew;
+    }
+
+    public TwitchFollower getLatestFollower() {
+        return this.followers.entrySet().iterator().next().getValue();
     }
 }

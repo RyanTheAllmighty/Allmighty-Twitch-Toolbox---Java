@@ -21,6 +21,7 @@ public class Settings {
         this.guiSize = new Dimension(600, 400);
         this.serverPort = 9001;
         this.twitchUsername = "";
+        this.secondsBetweenFollowerChecks = 30;
         this.newFollowSoundPath = "";
     }
 
@@ -62,5 +63,21 @@ public class Settings {
 
     public void setNewFollowSound(String path) {
         this.newFollowSoundPath = path;
+    }
+
+    public void setTwitchUsername(String twitchUsername) {
+        this.twitchUsername = twitchUsername;
+    }
+
+    public void setServerPort(int serverPort) {
+        this.serverPort = serverPort;
+    }
+
+    public void setSecondsBetweenFollowerChecks(int secondsBetweenFollowerChecks) {
+        this.secondsBetweenFollowerChecks = secondsBetweenFollowerChecks;
+    }
+
+    public void setNewFollowSoundPath(String newFollowSoundPath) {
+        this.newFollowSoundPath = newFollowSoundPath;
     }
 }
