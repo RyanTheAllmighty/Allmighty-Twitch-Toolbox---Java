@@ -12,9 +12,14 @@ public class Settings {
 
     private String twitchUsername;
 
+    private String streamTipClientID;
+    private String streamTipAccessToken;
+
     private int secondsBetweenFollowerChecks;
+    private int secondsBetweenDonationChecks;
 
     private String newFollowSoundPath;
+    private String newDonationSoundPath;
 
     private boolean isSetup;
 
@@ -24,7 +29,9 @@ public class Settings {
         this.serverPort = 9001;
         this.twitchUsername = "";
         this.secondsBetweenFollowerChecks = 30;
+        this.secondsBetweenDonationChecks = 30;
         this.newFollowSoundPath = "";
+        this.newDonationSoundPath = "";
         this.isSetup = false;
     }
 
@@ -56,8 +63,16 @@ public class Settings {
         return this.secondsBetweenFollowerChecks;
     }
 
+    public int getSecondsBetweenDonationChecks() {
+        return this.secondsBetweenDonationChecks;
+    }
+
     public Path getNewFollowSound() {
         return Paths.get(this.newFollowSoundPath);
+    }
+
+    public Path getNewDonationSound() {
+        return Paths.get(this.newDonationSoundPath);
     }
 
     public String getNewFollowSoundPath() {
@@ -66,6 +81,10 @@ public class Settings {
 
     public void setNewFollowSound(String path) {
         this.newFollowSoundPath = path;
+    }
+
+    public void setNewDonationSound(String path) {
+        this.newDonationSoundPath = path;
     }
 
     public void setTwitchUsername(String twitchUsername) {
@@ -80,8 +99,16 @@ public class Settings {
         this.secondsBetweenFollowerChecks = secondsBetweenFollowerChecks;
     }
 
+    public void setSecondsBetweenDonationChecks(int secondsBetweenDonationChecks) {
+        this.secondsBetweenDonationChecks = secondsBetweenDonationChecks;
+    }
+
     public void setNewFollowSoundPath(String newFollowSoundPath) {
         this.newFollowSoundPath = newFollowSoundPath;
+    }
+
+    public void setNewDonationSoundPath(String newDonationSoundPath) {
+        this.newDonationSoundPath = newDonationSoundPath;
     }
 
     public boolean isSetup() {
@@ -90,5 +117,21 @@ public class Settings {
 
     public void setupFinished() {
         this.isSetup = true;
+    }
+
+    public String getStreamTipClientID() {
+        return this.streamTipClientID;
+    }
+
+    public void setStreamTipClientID(String streamTipClientID) {
+        this.streamTipClientID = streamTipClientID;
+    }
+
+    public String getStreamTipAccessToken() {
+        return this.streamTipAccessToken;
+    }
+
+    public void setStreamTipAccessToken(String streamTipAccessToken) {
+        this.streamTipAccessToken = streamTipAccessToken;
     }
 }

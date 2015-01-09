@@ -43,7 +43,6 @@ public class TwitchNotifier {
     public TwitchNotifier() {
         loadSettings();
         checkForServerResources();
-        startServer();
     }
 
     private void checkForServerResources() {
@@ -75,6 +74,7 @@ public class TwitchNotifier {
             loadFollowers();
             startCheckingForNewFollowers();
             loadNotifiers();
+            startServer();
         }
     }
 

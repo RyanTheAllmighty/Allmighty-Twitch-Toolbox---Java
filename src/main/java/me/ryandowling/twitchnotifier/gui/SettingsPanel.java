@@ -32,9 +32,21 @@ public class SettingsPanel extends JPanel {
     private JLabel twitchUsernameLabel;
     private JTextField twitchUsernameTextField;
 
+    private JPanel streamTipClientIDPanel;
+    private JLabel streamTipClientIDLabel;
+    private JTextField streamTipClientIDTextField;
+
+    private JPanel streamTipAccessTokenPanel;
+    private JLabel streamTipAccessTokenLabel;
+    private JTextField streamTipAccessTokenTextField;
+
     private JPanel timeBetweenFollowerChecksPanel;
     private JLabel timeBetweenFollowerChecksLabel;
     private JSpinner timeBetweenFollowerChecksSpinner;
+
+    private JPanel timeBetweenDonationChecksPanel;
+    private JLabel timeBetweenDonationChecksLabel;
+    private JSpinner timeBetweenDonationChecksSpinner;
 
     private JPanel serverPortPanel;
     private JLabel serverPortLabel;
@@ -46,6 +58,13 @@ public class SettingsPanel extends JPanel {
     private JFileChooser newFollowerSoundChooser;
     private JButton newFollowerSoundChooserButton;
     private JButton newFollowerSoundTestButton;
+
+    private JPanel newDonationSoundPanel;
+    private JLabel newDonationSoundLabel;
+    private JTextField newDonationSoundTextField;
+    private JFileChooser newDonationSoundChooser;
+    private JButton newDonationSoundChooserButton;
+    private JButton newDonationSoundTestButton;
 
     private JButton saveButton;
 
@@ -65,9 +84,13 @@ public class SettingsPanel extends JPanel {
         this.buttonPane.setLayout(new FlowLayout());
 
         setupTwitchUsernamePanel();
+        setupStreamTipClientIDPanel();
+        setupStreamTipAccessTokenPanel();
         setupTimeBetweenFollowerChecksPanel();
+        setupTimeBetweenDonationChecksPanel();
         setupServerPortPanel();
         setupFollowerSoundPanel();
+        setupDonationSoundPanel();
         setupButtonPanel();
     }
 
@@ -82,6 +105,28 @@ public class SettingsPanel extends JPanel {
         this.twitchUsernamePanel.add(this.twitchUsernameTextField);
     }
 
+    private void setupStreamTipClientIDPanel() {
+        this.streamTipClientIDPanel = new JPanel();
+        this.streamTipClientIDPanel.setLayout(new FlowLayout());
+
+        this.streamTipClientIDLabel = new JLabel("Stream Tip Client ID:");
+        this.streamTipClientIDTextField = new JTextField(App.NOTIFIER.getSettings().getStreamTipClientID(), 16);
+
+        this.streamTipClientIDPanel.add(this.streamTipClientIDLabel);
+        this.streamTipClientIDPanel.add(this.streamTipClientIDTextField);
+    }
+
+    private void setupStreamTipAccessTokenPanel() {
+        this.streamTipAccessTokenPanel = new JPanel();
+        this.streamTipAccessTokenPanel.setLayout(new FlowLayout());
+
+        this.streamTipAccessTokenLabel = new JLabel("Stream Tip Access Token:");
+        this.streamTipAccessTokenTextField = new JTextField(App.NOTIFIER.getSettings().getStreamTipAccessToken(), 16);
+
+        this.streamTipAccessTokenPanel.add(this.streamTipAccessTokenLabel);
+        this.streamTipAccessTokenPanel.add(this.streamTipAccessTokenTextField);
+    }
+
     private void setupTimeBetweenFollowerChecksPanel() {
         this.timeBetweenFollowerChecksPanel = new JPanel();
         this.timeBetweenFollowerChecksPanel.setLayout(new FlowLayout());
@@ -94,6 +139,20 @@ public class SettingsPanel extends JPanel {
 
         this.timeBetweenFollowerChecksPanel.add(this.timeBetweenFollowerChecksLabel);
         this.timeBetweenFollowerChecksPanel.add(this.timeBetweenFollowerChecksSpinner);
+    }
+
+    private void setupTimeBetweenDonationChecksPanel() {
+        this.timeBetweenDonationChecksPanel = new JPanel();
+        this.timeBetweenDonationChecksPanel.setLayout(new FlowLayout());
+
+        this.timeBetweenDonationChecksLabel = new JLabel("Seconds Between New Donation Checks:");
+
+        this.timeBetweenDonationChecksSpinner = new JSpinner();
+        this.timeBetweenDonationChecksSpinner.setModel(new SpinnerNumberModel(App.NOTIFIER.getSettings()
+                .getSecondsBetweenDonationChecks(), 10, 60, 5));
+
+        this.timeBetweenDonationChecksPanel.add(this.timeBetweenDonationChecksLabel);
+        this.timeBetweenDonationChecksPanel.add(this.timeBetweenDonationChecksSpinner);
     }
 
     private void setupServerPortPanel() {
@@ -152,6 +211,50 @@ public class SettingsPanel extends JPanel {
         this.newFollowerSoundPanel.add(this.newFollowerSoundTestButton);
     }
 
+    private void setupDonationSoundPanel() {
+        this.newDonationSoundPanel = new JPanel();
+        this.newDonationSoundPanel.setLayout(new FlowLayout());
+
+        this.newDonationSoundLabel = new JLabel("New Donation Sound:");
+
+        this.newDonationSoundTextField = new JTextField(App.NOTIFIER.getSettings().getNewFollowSoundPath(), 16);
+        this.newDonationSoundTextField.setEnabled(false);
+
+        this.newDonationSoundChooser = new JFileChooser();
+        this.newDonationSoundChooser.setMultiSelectionEnabled(false);
+        this.newDonationSoundChooser.addChoosableFileFilter(Utils.getWavFileFilter());
+        this.newDonationSoundChooser.setFileFilter(Utils.getWavFileFilter());
+
+        this.newDonationSoundChooserButton = new JButton("Browse");
+        this.newDonationSoundChooserButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                newDonationSoundChooser.showOpenDialog(SettingsPanel.this);
+                if (newDonationSoundChooser.getSelectedFile() != null) {
+                    newDonationSoundTextField.setText(newDonationSoundChooser.getSelectedFile().getAbsolutePath());
+                }
+            }
+        });
+
+        this.newDonationSoundTestButton = new JButton("Test");
+        this.newDonationSoundTestButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!newDonationSoundTextField.getText().isEmpty()) {
+                    Path path = Paths.get(newDonationSoundTextField.getText());
+                    if (Files.exists(path) && Files.isRegularFile(path)) {
+                        SoundPlayer.playSound(path);
+                    }
+                }
+            }
+        });
+
+        this.newDonationSoundPanel.add(this.newDonationSoundLabel);
+        this.newDonationSoundPanel.add(this.newDonationSoundTextField);
+        this.newDonationSoundPanel.add(this.newDonationSoundChooserButton);
+        this.newDonationSoundPanel.add(this.newDonationSoundTestButton);
+    }
+
     private void setupButtonPanel() {
         this.saveButton = new JButton("Save");
         this.saveButton.addActionListener(new ActionListener() {
@@ -164,9 +267,13 @@ public class SettingsPanel extends JPanel {
 
     private void addComponents() {
         this.mainPane.add(this.twitchUsernamePanel);
+        this.mainPane.add(this.streamTipClientIDPanel);
+        this.mainPane.add(this.streamTipAccessTokenPanel);
         this.mainPane.add(this.timeBetweenFollowerChecksPanel);
+        this.mainPane.add(this.timeBetweenDonationChecksPanel);
         this.mainPane.add(this.serverPortPanel);
         this.mainPane.add(this.newFollowerSoundPanel);
+        this.mainPane.add(this.newDonationSoundPanel);
 
         this.buttonPane.add(this.saveButton);
 
@@ -182,9 +289,28 @@ public class SettingsPanel extends JPanel {
             return;
         }
 
+        if (this.streamTipClientIDTextField.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Stream Tip client ID cannot be empty!", "Error", JOptionPane
+                    .ERROR_MESSAGE);
+            return;
+        }
+
+        if (this.streamTipAccessTokenTextField.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Stream Tip access token cannot be empty!", "Error", JOptionPane
+                    .ERROR_MESSAGE);
+            return;
+        }
+
         if ((int) this.timeBetweenFollowerChecksSpinner.getValue() < 10 || (int) this
                 .timeBetweenFollowerChecksSpinner.getValue() > 60) {
             JOptionPane.showMessageDialog(this, "Time between follower checks must be between 10 and 60 seconds!",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if ((int) this.timeBetweenDonationChecksSpinner.getValue() < 10 || (int) this
+                .timeBetweenDonationChecksSpinner.getValue() > 60) {
+            JOptionPane.showMessageDialog(this, "Time between donation checks must be between 10 and 60 seconds!",
                     "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -194,18 +320,32 @@ public class SettingsPanel extends JPanel {
             return;
         }
 
+        if (this.newDonationSoundTextField.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "New donation sound must be set!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         if (!App.NOTIFIER.getSettings().getTwitchUsername().equalsIgnoreCase(this.twitchUsernameTextField.getText())) {
             restartApp = true;
         }
 
         App.NOTIFIER.getSettings().setTwitchUsername(this.twitchUsernameTextField.getText());
+        App.NOTIFIER.getSettings().setStreamTipClientID(this.streamTipClientIDTextField.getText());
+        App.NOTIFIER.getSettings().setStreamTipAccessToken(this.streamTipAccessTokenTextField.getText());
         App.NOTIFIER.getSettings().setSecondsBetweenFollowerChecks((int) this.timeBetweenFollowerChecksSpinner
+                .getValue());
+        App.NOTIFIER.getSettings().setSecondsBetweenDonationChecks((int) this.timeBetweenDonationChecksSpinner
                 .getValue());
         App.NOTIFIER.getSettings().setServerPort(Integer.parseInt(this.serverPortTextField.getText().replaceAll
                 ("[^0-9]", "")));
 
         if (this.newFollowerSoundChooser.getSelectedFile() != null) {
             App.NOTIFIER.getSettings().setNewFollowSound(this.newFollowerSoundChooser.getSelectedFile()
+                    .getAbsolutePath());
+        }
+
+        if (this.newDonationSoundChooser.getSelectedFile() != null) {
+            App.NOTIFIER.getSettings().setNewDonationSound(this.newDonationSoundChooser.getSelectedFile()
                     .getAbsolutePath());
         }
 
