@@ -7,6 +7,7 @@ import me.ryandowling.twitchnotifier.data.Settings;
 import me.ryandowling.twitchnotifier.data.twitch.TwitchAPIRequest;
 import me.ryandowling.twitchnotifier.data.twitch.TwitchFollower;
 import me.ryandowling.twitchnotifier.data.twitch.TwitchUserFollows;
+import me.ryandowling.twitchnotifier.events.FollowerAlert;
 import me.ryandowling.twitchnotifier.events.FollowerFiles;
 import me.ryandowling.twitchnotifier.events.managers.FollowerManager;
 import me.ryandowling.twitchnotifier.utils.Utils;
@@ -44,7 +45,9 @@ public class TwitchNotifier {
 
     private void loadNotifiers() {
         FollowerFiles followerFiles = new FollowerFiles();
-        followerFiles.createFiles();
+        followerFiles.writeFiles();
+
+        FollowerAlert followerAlert = new FollowerAlert();
     }
 
     private void startCheckingForNewFollowers() {

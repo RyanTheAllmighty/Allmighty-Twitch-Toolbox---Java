@@ -27,6 +27,10 @@
             <id>jsumners-github-snapshots</id>
             <url>https://github.com/jsumners/mvn-repo/raw/master/snapshots/</url>
         </repository>
+        <repository>
+            <id>atlauncher-repo</id>
+            <url>http://maven.atlcdn.net/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -52,6 +56,11 @@
             <groupId>fi.iki.elonen</groupId>
             <artifactId>nanohttpd</artifactId>
             <version>2.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.asyncronous</groupId>
+            <artifactId>toast</artifactId>
+            <version>1.0.1</version>
         </dependency>
     </dependencies>
 

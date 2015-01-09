@@ -16,10 +16,10 @@ public class FollowerFiles implements FollowerListener {
 
     @Override
     public void onNewFollow(final TwitchFollower follower) {
-        createFiles();
+        writeFiles();
     }
 
-    public void createFiles() {
+    public void writeFiles() {
         try {
             TwitchFollower latestFollower = App.NOTIFIER.getFollowers().entrySet().iterator().next().getValue();
 
