@@ -357,10 +357,6 @@ public class TwitchNotifier {
     }
 
     public boolean addFollower(Follower follower) {
-        if (follower.isTest()) {
-            return true;
-        }
-
         boolean isNew = !this.followers.containsKey(follower.getUsername());
 
         this.followers.put(follower.getUsername(), follower);
@@ -374,10 +370,6 @@ public class TwitchNotifier {
     }
 
     public boolean addDonation(Donation donation) {
-        if (donation.isTest()) {
-            return true;
-        }
-
         boolean isNew = !this.donations.containsKey(donation.getID());
 
         this.donations.put(donation.getID(), donation);
