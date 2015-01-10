@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class TwitchFollower implements Follower {
+    private boolean isTest;
     private String created_at;
     private boolean notifications;
     private TwitchUser user;
@@ -57,6 +58,10 @@ public class TwitchFollower implements Follower {
         return this.created_at;
     }
 
+    public boolean isTest() {
+        return this.isTest;
+    }
+
     public Follower create(String username) {
         if (this.user != null) {
             return this; // Don't allow editing this if it's an existing follow
@@ -67,6 +72,7 @@ public class TwitchFollower implements Follower {
         this.created_at = format.format(new Date());
         this.notifications = true;
         this.user = new TwitchUser().create(username);
+        this.isTest = true;
 
         return this;
     }

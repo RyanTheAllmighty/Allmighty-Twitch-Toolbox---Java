@@ -43,7 +43,7 @@ public class Server extends NanoHTTPD {
                 json = TwitchNotifier.GSON.toJson(App.NOTIFIER.getLatestFollower().getDisplayName());
                 break;
             case "/followers/total":
-                json = TwitchNotifier.GSON.toJson(App.NOTIFIER.getFollowers().size());
+                json = TwitchNotifier.GSON.toJson(App.NOTIFIER.getFollowersTotal());
                 break;
             default:
                 return notFound();

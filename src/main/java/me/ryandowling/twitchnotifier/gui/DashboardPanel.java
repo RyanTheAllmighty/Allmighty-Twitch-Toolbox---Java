@@ -72,7 +72,7 @@ public class DashboardPanel extends JPanel implements FollowerListener, Donation
         this.totalFollowersPanel.setLayout(new FlowLayout());
 
         this.totalFollowersLabel = new JLabel("Total Followers:");
-        this.totalFollowers = new JLabel(String.valueOf(App.NOTIFIER.getFollowers().size()));
+        this.totalFollowers = new JLabel(String.valueOf(App.NOTIFIER.getFollowersTotal()));
 
         this.totalFollowersPanel.add(this.totalFollowersLabel);
         this.totalFollowersPanel.add(this.totalFollowers);
@@ -160,7 +160,7 @@ public class DashboardPanel extends JPanel implements FollowerListener, Donation
     }
 
     public void updateFollowerValues() {
-        this.totalFollowers.setText(String.valueOf(App.NOTIFIER.getFollowers().size()));
+        this.totalFollowers.setText(String.valueOf(App.NOTIFIER.getFollowersTotal()));
         this.followersTally.setText(String.valueOf(App.NOTIFIER.getFollowersTally()));
     }
 

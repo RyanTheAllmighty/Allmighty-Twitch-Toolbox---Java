@@ -32,7 +32,7 @@ public class FollowerTable extends JTable implements FollowerListener {
         this.tableModel = new AbstractTableModel() {
             @Override
             public int getRowCount() {
-                return App.NOTIFIER.getFollowers().size();
+                return App.NOTIFIER.getFollowersTotal();
             }
 
             @Override

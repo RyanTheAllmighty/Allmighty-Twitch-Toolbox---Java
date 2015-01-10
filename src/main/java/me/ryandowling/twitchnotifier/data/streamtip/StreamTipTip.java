@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class StreamTipTip implements Donation {
+    private boolean isTest;
     private String username;
     private String currencySymbol;
     private String date;
@@ -69,6 +70,10 @@ public class StreamTipTip implements Donation {
         return this.date;
     }
 
+    public boolean isTest() {
+        return this.isTest;
+    }
+
     public Donation create(String username, String amount, String note) {
         if (this.username != null) {
             return this; // Don't allow editing this if it's an existing donation
@@ -82,6 +87,7 @@ public class StreamTipTip implements Donation {
         this.date = format.format(new Date());
         this.currencySymbol = "$";
         this.note = note;
+        this.isTest = true;
 
         return this;
     }

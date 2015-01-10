@@ -357,6 +357,10 @@ public class TwitchNotifier {
     }
 
     public boolean addFollower(Follower follower) {
+        if (follower.isTest()) {
+            return true;
+        }
+
         boolean isNew = !this.followers.containsKey(follower.getUsername());
 
         this.followers.put(follower.getUsername(), follower);
@@ -370,6 +374,10 @@ public class TwitchNotifier {
     }
 
     public boolean addDonation(Donation donation) {
+        if (donation.isTest()) {
+            return true;
+        }
+
         boolean isNew = !this.donations.containsKey(donation.getID());
 
         this.donations.put(donation.getID(), donation);
@@ -420,11 +428,15 @@ public class TwitchNotifier {
         float total = 0.0f;
 
         for (Map.Entry<String, Donation> entry : this.donations.entrySet()) {
-            total += entry.getValue().getAmount();
+                total += entry.getValue().getAmount();
         }
 
         DecimalFormat df = new DecimalFormat("#0.00");
 
         return Float.parseFloat(df.format(total));
+    }
+
+    public int getFollowersTotal() {
+        return this.followers.size();
     }
 }

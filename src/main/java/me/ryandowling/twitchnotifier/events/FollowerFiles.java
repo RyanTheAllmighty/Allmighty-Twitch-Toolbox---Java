@@ -24,7 +24,7 @@ public class FollowerFiles implements FollowerListener {
             Follower latestFollower = App.NOTIFIER.getFollowers().entrySet().iterator().next().getValue();
 
             FileUtils.write(Utils.getLatestFollowerFile().toFile(), latestFollower.getDisplayName());
-            FileUtils.write(Utils.getNumberOfFollowerFile().toFile(), "" + App.NOTIFIER.getFollowers().size());
+            FileUtils.write(Utils.getNumberOfFollowerFile().toFile(), "" + App.NOTIFIER.getFollowersTotal());
         } catch (IOException e) {
             e.printStackTrace();
         }
