@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.nio.file.Files;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executors;
@@ -53,6 +54,7 @@ public class TwitchNotifier {
     private Console console;
 
     private int followersTally;
+    private float donationsTally;
 
     public TwitchNotifier() {
         loadSettings();
@@ -338,6 +340,10 @@ public class TwitchNotifier {
         this.donations.put(donation.getID(), donation);
         this.donations = Utils.sortMapByValue(this.donations);
 
+        if (isNew) {
+            this.donationsTally = +donation.getAmount();
+        }
+
         return isNew;
     }
 
@@ -363,5 +369,27 @@ public class TwitchNotifier {
 
     public void resetFollowersTally() {
         this.followersTally = 0;
+    }
+
+    public float getDonationsTally() {
+        DecimalFormat df = new DecimalFormat("#0.00");
+
+        return Float.parseFloat(df.format(this.donationsTally));
+    }
+
+    public void resetDonationsTally() {
+        this.donationsTally = 0.0f;
+    }
+
+    public float getDonationsTotal() {
+        float total = 0.0f;
+
+        for (Map.Entry<String, Donation> entry : this.donations.entrySet()) {
+            total += entry.getValue().getAmount();
+        }
+
+        DecimalFormat df = new DecimalFormat("#0.00");
+
+        return Float.parseFloat(df.format(total));
     }
 }
