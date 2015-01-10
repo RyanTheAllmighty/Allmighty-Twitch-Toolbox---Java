@@ -1,6 +1,6 @@
 package me.ryandowling.twitchnotifier.data.interfaces;
 
-public interface Follower extends Comparable {
+public interface Follower extends Comparable<Follower> {
     public String getUsername();
 
     public String getDisplayName();

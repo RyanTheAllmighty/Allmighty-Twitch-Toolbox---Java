@@ -87,9 +87,9 @@ public class StreamTipTip implements Donation {
     }
 
     @Override
-    public int compareTo(Object o) {
+    public int compareTo(Donation o) {
         long time1 = this.getTime();
-        long time2 = ((StreamTipTip) o).getTime();
+        long time2 = o.getTime();
 
         if (time1 == time2) {
             return 0;

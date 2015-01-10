@@ -1,6 +1,6 @@
 package me.ryandowling.twitchnotifier.data.interfaces;
 
-public interface Donation extends Comparable {
+public interface Donation extends Comparable<Donation> {
     public String getID();
 
     public String getPrintableAmount();

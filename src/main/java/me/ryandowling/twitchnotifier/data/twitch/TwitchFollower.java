@@ -72,9 +72,9 @@ public class TwitchFollower implements Follower {
     }
 
     @Override
-    public int compareTo(Object o) {
+    public int compareTo(Follower o) {
         long time1 = this.getTime();
-        long time2 = ((TwitchFollower) o).getTime();
+        long time2 = o.getTime();
 
         if (time1 == time2) {
             return 0;
