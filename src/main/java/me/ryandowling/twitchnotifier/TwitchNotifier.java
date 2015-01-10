@@ -136,6 +136,21 @@ public class TwitchNotifier {
     }
 
     private void loadFollowers() {
+        switch (this.settings.getFollowerType()) {
+            case "TwitchFollower":
+                loadTwitchFollowers();
+                break;
+            default:
+                System.err.println("No follower type of " + this.settings.getFollowerType() + " found!");
+                System.exit(1);
+        }
+
+        this.followers = Utils.sortMapByValue(this.followers);
+
+        saveFollowers();
+    }
+
+    private void loadTwitchFollowers() {
         boolean loadedFromFile = false;
         boolean hasMoreFollowers = true;
         int offset = 0;
@@ -180,15 +195,24 @@ public class TwitchNotifier {
                 e.printStackTrace();
             }
         }
+    }
 
-        this.followers = Utils.sortMapByValue(this.followers);
+    private void loadDonations() {
+        switch (this.settings.getDonationType()) {
+            case "StreamTipTip":
+                loadStreamTipDonations();
+                break;
+            default:
+                System.err.println("No donation type of " + this.settings.getDonationType() + " found!");
+                System.exit(1);
+        }
+
+        this.donations = Utils.sortMapByValue(this.donations);
 
         saveFollowers();
     }
 
-    private void loadDonations() {
-        boolean loadedFromFile = false;
-        int offset = 0;
+    private void loadStreamTipDonations() {
         StreamTipTips donations;
 
         if (Files.exists(Utils.getDonationsFile())) {
@@ -197,7 +221,6 @@ public class TwitchNotifier {
 
             try {
                 this.donations = GSON.fromJson(FileUtils.readFileToString(Utils.getDonationsFile().toFile()), listType);
-                loadedFromFile = true;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -216,13 +239,17 @@ public class TwitchNotifier {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        this.donations = Utils.sortMapByValue(this.donations);
-
-        saveFollowers();
     }
 
     public void checkForNewFollowers() {
+        switch (this.settings.getFollowerType()) {
+            case "TwitchFollower":
+                checkForNewTwitchFollowers();
+                break;
+        }
+    }
+
+    private void checkForNewTwitchFollowers() {
         TwitchAPIRequest request = new TwitchAPIRequest("/channels/" + this.settings.getTwitchUsername() +
                 "/follows?direction=desc&limit=100");
 
@@ -240,6 +267,14 @@ public class TwitchNotifier {
     }
 
     public void checkForNewDonations() {
+        switch (this.settings.getDonationType()) {
+            case "StreamTipTip":
+                checkForNewStreamTipDonations();
+                break;
+        }
+    }
+
+    private void checkForNewStreamTipDonations() {
         StreamTipAPIRequest request = new StreamTipAPIRequest("/tips");
 
         try {

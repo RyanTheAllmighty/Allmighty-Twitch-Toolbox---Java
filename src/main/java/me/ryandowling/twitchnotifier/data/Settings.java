@@ -21,6 +21,9 @@ public class Settings {
     private String newFollowSoundPath;
     private String newDonationSoundPath;
 
+    private String followerType;
+    private String donationType;
+
     private boolean isSetup;
 
     public void loadDefaults() {
@@ -33,6 +36,9 @@ public class Settings {
         this.newFollowSoundPath = "";
         this.newDonationSoundPath = "";
         this.isSetup = false;
+
+        this.followerType = "TwitchFollower";
+        this.donationType = "StreamTipTip";
     }
 
     public Point getGuiPosition() {
@@ -133,5 +139,13 @@ public class Settings {
 
     public void setStreamTipAccessToken(String streamTipAccessToken) {
         this.streamTipAccessToken = streamTipAccessToken;
+    }
+
+    public String getFollowerType() {
+        return this.followerType;
+    }
+
+    public String getDonationType() {
+        return this.donationType;
     }
 }
