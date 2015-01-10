@@ -2,6 +2,7 @@ package me.ryandowling.twitchnotifier.events.managers;
 
 import me.ryandowling.twitchnotifier.App;
 import me.ryandowling.twitchnotifier.Logger;
+import me.ryandowling.twitchnotifier.data.interfaces.Follower;
 import me.ryandowling.twitchnotifier.data.twitch.TwitchFollower;
 import me.ryandowling.twitchnotifier.events.listeners.FollowerListener;
 
@@ -20,12 +21,12 @@ public class FollowerManager {
         listeners.remove(listener);
     }
 
-    public static synchronized void newFollow(final TwitchFollower follower) {
+    public static synchronized void newFollow(final Follower follower) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 if (App.NOTIFIER.addFollower(follower)) {
-                    Logger.log(follower.getUser().getDisplayName() + " followed the channel!");
+                    Logger.log(follower.getDisplayName() + " followed the channel!");
 
                     for (FollowerListener listener : listeners) {
                         listener.onNewFollow(follower);

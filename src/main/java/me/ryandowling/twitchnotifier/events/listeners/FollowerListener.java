@@ -1,7 +1,7 @@
 package me.ryandowling.twitchnotifier.events.listeners;
 
-import me.ryandowling.twitchnotifier.data.twitch.TwitchFollower;
+import me.ryandowling.twitchnotifier.data.interfaces.Follower;
 
 public interface FollowerListener {
-    public void onNewFollow(final TwitchFollower follower);
+    public void onNewFollow(final Follower follower);
 }

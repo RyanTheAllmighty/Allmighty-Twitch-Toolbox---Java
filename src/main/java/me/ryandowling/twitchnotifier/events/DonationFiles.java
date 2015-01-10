@@ -1,8 +1,7 @@
 package me.ryandowling.twitchnotifier.events;
 
 import me.ryandowling.twitchnotifier.App;
-import me.ryandowling.twitchnotifier.data.streamtip.StreamTipTip;
-import me.ryandowling.twitchnotifier.data.twitch.TwitchFollower;
+import me.ryandowling.twitchnotifier.data.interfaces.Donation;
 import me.ryandowling.twitchnotifier.events.listeners.DonationListener;
 import me.ryandowling.twitchnotifier.events.managers.DonationManager;
 import me.ryandowling.twitchnotifier.utils.Utils;
@@ -16,13 +15,13 @@ public class DonationFiles implements DonationListener {
     }
 
     @Override
-    public void onNewDonation(final StreamTipTip tip) {
+    public void onNewDonation(final Donation tip) {
         writeFiles();
     }
 
     public void writeFiles() {
         try {
-            StreamTipTip tip = App.NOTIFIER.getLatestDonation();
+            Donation tip = App.NOTIFIER.getLatestDonation();
 
             FileUtils.write(Utils.getLatestDonationFile().toFile(), tip.getUsername() + ": " + tip.getPrintableAmount
                     ());

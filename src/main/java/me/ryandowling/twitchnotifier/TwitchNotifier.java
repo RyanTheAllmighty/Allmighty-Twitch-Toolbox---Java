@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import me.ryandowling.twitchnotifier.data.Settings;
+import me.ryandowling.twitchnotifier.data.interfaces.Donation;
+import me.ryandowling.twitchnotifier.data.interfaces.Follower;
 import me.ryandowling.twitchnotifier.data.streamtip.StreamTipAPIRequest;
 import me.ryandowling.twitchnotifier.data.streamtip.StreamTipTip;
 import me.ryandowling.twitchnotifier.data.streamtip.StreamTipTips;
@@ -38,8 +40,8 @@ public class TwitchNotifier {
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 
-    private Map<String, TwitchFollower> followers = new HashMap<>();
-    private Map<String, StreamTipTip> donations = new HashMap<>();
+    private Map<String, Follower> followers = new HashMap<>();
+    private Map<String, Donation> donations = new HashMap<>();
 
     // All the notificators
     private FollowerFiles followerFiles;
@@ -159,7 +161,6 @@ public class TwitchNotifier {
                 int added = 0;
 
                 for (TwitchFollower follower : followers.getFollows()) {
-                    follower.addTimestamps();
                     if (!this.followers.containsKey(follower.getUser().getName())) {
                         added++;
                         this.followers.put(follower.getUser().getName(), follower);
@@ -204,7 +205,6 @@ public class TwitchNotifier {
             donations = GSON.fromJson(request.get(), StreamTipTips.class);
 
             for (StreamTipTip tip : donations.getTips()) {
-                tip.addTimestamps();
                 if (!this.donations.containsKey(tip.getID())) {
                     this.donations.put(tip.getID(), tip);
                 }
@@ -226,7 +226,6 @@ public class TwitchNotifier {
             TwitchUserFollows followers = GSON.fromJson(request.get(), TwitchUserFollows.class);
 
             for (TwitchFollower follower : followers.getFollows()) {
-                follower.addTimestamps();
                 FollowerManager.newFollow(follower);
             }
 
@@ -243,7 +242,6 @@ public class TwitchNotifier {
             StreamTipTips donations = GSON.fromJson(request.get(), StreamTipTips.class);
 
             for (StreamTipTip tip : donations.getTips()) {
-                tip.addTimestamps();
                 DonationManager.newDonation(tip);
             }
 
@@ -311,24 +309,24 @@ public class TwitchNotifier {
         }
     }
 
-    public Map<String, TwitchFollower> getFollowers() {
+    public Map<String, Follower> getFollowers() {
         return this.followers;
     }
 
-    public Map<String, StreamTipTip> getDonations() {
+    public Map<String, Donation> getDonations() {
         return this.donations;
     }
 
-    public boolean addFollower(TwitchFollower follower) {
-        boolean isNew = !this.followers.containsKey(follower.getUser().getName());
+    public boolean addFollower(Follower follower) {
+        boolean isNew = !this.followers.containsKey(follower.getUsername());
 
-        this.followers.put(follower.getUser().getName(), follower);
+        this.followers.put(follower.getUsername(), follower);
         this.followers = Utils.sortMapByValue(this.followers);
 
         return isNew;
     }
 
-    public boolean addDonation(StreamTipTip donation) {
+    public boolean addDonation(Donation donation) {
         boolean isNew = !this.donations.containsKey(donation.getID());
 
         this.donations.put(donation.getID(), donation);
@@ -337,11 +335,11 @@ public class TwitchNotifier {
         return isNew;
     }
 
-    public TwitchFollower getLatestFollower() {
+    public Follower getLatestFollower() {
         return this.followers.entrySet().iterator().next().getValue();
     }
 
-    public StreamTipTip getLatestDonation() {
+    public Donation getLatestDonation() {
         return this.donations.entrySet().iterator().next().getValue();
     }
 

@@ -2,6 +2,7 @@ package me.ryandowling.twitchnotifier.events.managers;
 
 import me.ryandowling.twitchnotifier.App;
 import me.ryandowling.twitchnotifier.Logger;
+import me.ryandowling.twitchnotifier.data.interfaces.Donation;
 import me.ryandowling.twitchnotifier.data.streamtip.StreamTipTip;
 import me.ryandowling.twitchnotifier.events.listeners.DonationListener;
 import me.ryandowling.twitchnotifier.events.listeners.FollowerListener;
@@ -21,7 +22,7 @@ public class DonationManager {
         listeners.remove(listener);
     }
 
-    public static synchronized void newDonation(final StreamTipTip donation) {
+    public static synchronized void newDonation(final Donation donation) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {

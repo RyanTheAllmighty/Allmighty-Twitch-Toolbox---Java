@@ -1,7 +1,7 @@
 package me.ryandowling.twitchnotifier.events.listeners;
 
-import me.ryandowling.twitchnotifier.data.streamtip.StreamTipTip;
+import me.ryandowling.twitchnotifier.data.interfaces.Donation;
 
 public interface DonationListener {
-    public void onNewDonation(final StreamTipTip donation);
+    public void onNewDonation(final Donation donation);
 }

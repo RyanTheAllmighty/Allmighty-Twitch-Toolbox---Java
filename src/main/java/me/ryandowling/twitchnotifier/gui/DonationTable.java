@@ -1,6 +1,7 @@
 package me.ryandowling.twitchnotifier.gui;
 
 import me.ryandowling.twitchnotifier.App;
+import me.ryandowling.twitchnotifier.data.interfaces.Donation;
 import me.ryandowling.twitchnotifier.data.streamtip.StreamTipTip;
 import me.ryandowling.twitchnotifier.events.listeners.DonationListener;
 import me.ryandowling.twitchnotifier.events.managers.DonationManager;
@@ -49,17 +50,17 @@ public class DonationTable extends JTable implements DonationListener {
                 List<String> keys = new ArrayList<>();
                 keys.addAll(App.NOTIFIER.getDonations().keySet());
 
-                StreamTipTip tip = App.NOTIFIER.getDonations().get(keys.get(rowIndex));
+                Donation donation = App.NOTIFIER.getDonations().get(keys.get(rowIndex));
 
                 switch (columnIndex) {
                     case 0:
-                        return tip.getUsername();
+                        return donation.getUsername();
                     case 1:
-                        return tip.getPrintableAmount();
+                        return donation.getPrintableAmount();
                     case 2:
-                        return tip.getNote();
+                        return donation.getNote();
                     case 3:
-                        return tip.getDateLocalTime();
+                        return donation.getTimeLocal();
                 }
 
                 return null;
@@ -68,7 +69,7 @@ public class DonationTable extends JTable implements DonationListener {
     }
 
     @Override
-    public void onNewDonation(final StreamTipTip donation) {
+    public void onNewDonation(final Donation donation) {
         this.tableModel.fireTableDataChanged();
     }
 }

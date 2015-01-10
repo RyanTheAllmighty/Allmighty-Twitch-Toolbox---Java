@@ -2,6 +2,7 @@ package me.ryandowling.twitchnotifier.events;
 
 import io.github.asyncronous.toast.Toaster;
 import me.ryandowling.twitchnotifier.App;
+import me.ryandowling.twitchnotifier.data.interfaces.Donation;
 import me.ryandowling.twitchnotifier.data.streamtip.StreamTipTip;
 import me.ryandowling.twitchnotifier.events.listeners.DonationListener;
 import me.ryandowling.twitchnotifier.events.managers.DonationManager;
@@ -15,7 +16,7 @@ public class DonationAlert implements DonationListener {
     }
 
     @Override
-    public void onNewDonation(final StreamTipTip tip) {
+    public void onNewDonation(final Donation tip) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {

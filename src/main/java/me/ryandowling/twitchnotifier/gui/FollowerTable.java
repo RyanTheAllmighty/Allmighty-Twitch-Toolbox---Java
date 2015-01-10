@@ -1,6 +1,7 @@
 package me.ryandowling.twitchnotifier.gui;
 
 import me.ryandowling.twitchnotifier.App;
+import me.ryandowling.twitchnotifier.data.interfaces.Follower;
 import me.ryandowling.twitchnotifier.data.twitch.TwitchFollower;
 import me.ryandowling.twitchnotifier.events.listeners.FollowerListener;
 import me.ryandowling.twitchnotifier.events.managers.FollowerManager;
@@ -49,13 +50,13 @@ public class FollowerTable extends JTable implements FollowerListener {
                 List<String> keys = new ArrayList<>();
                 keys.addAll(App.NOTIFIER.getFollowers().keySet());
 
-                TwitchFollower follower = App.NOTIFIER.getFollowers().get(keys.get(rowIndex));
+                Follower follower = App.NOTIFIER.getFollowers().get(keys.get(rowIndex));
 
                 switch (columnIndex) {
                     case 0:
-                        return follower.getUser().getDisplayName();
+                        return follower.getDisplayName();
                     case 1:
-                        return follower.getCreatedAtLocalTime();
+                        return follower.getTimeLocal();
                 }
 
                 return null;
@@ -64,7 +65,7 @@ public class FollowerTable extends JTable implements FollowerListener {
     }
 
     @Override
-    public void onNewFollow(final TwitchFollower follower) {
+    public void onNewFollow(final Follower follower) {
         this.tableModel.fireTableDataChanged();
     }
 }
