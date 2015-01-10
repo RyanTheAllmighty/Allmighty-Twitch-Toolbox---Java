@@ -17,17 +17,17 @@ public class Server extends NanoHTTPD {
         String json;
 
         switch (session.getUri()) {
-            case "/followers":
+            case "/":
                 try {
-                    return found(FileUtils.readFileToString(Utils.getFollowersHTMLFile().toFile()));
+                    return found(FileUtils.readFileToString(Utils.getNotificationsHTMLFile().toFile()));
                 } catch (IOException e) {
                     e.printStackTrace();
                     return error();
                 }
-            case "/followers/image":
+            case "/image":
                 FileInputStream fis = null;
                 try {
-                    fis = new FileInputStream(Utils.getFollowersImageFile().toFile());
+                    fis = new FileInputStream(Utils.getNotificationsImageFile().toFile());
                     return new NanoHTTPD.Response(Response.Status.OK, "image/png", fis);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -44,6 +44,18 @@ public class Server extends NanoHTTPD {
                 break;
             case "/followers/total":
                 json = TwitchNotifier.GSON.toJson(App.NOTIFIER.getFollowersTotal());
+                break;
+            case "/donations/latest":
+                json = TwitchNotifier.GSON.toJson(App.NOTIFIER.getLatestDonation());
+                break;
+            case "/donations/latest/text":
+                json = TwitchNotifier.GSON.toJson(App.NOTIFIER.getLatestDonation().getID());
+                break;
+            case "/donations/latest/username":
+                json = TwitchNotifier.GSON.toJson(App.NOTIFIER.getLatestDonation().getUsername());
+                break;
+            case "/donations/latest/amount":
+                json = TwitchNotifier.GSON.toJson(App.NOTIFIER.getLatestDonation().getPrintableAmount());
                 break;
             default:
                 return notFound();

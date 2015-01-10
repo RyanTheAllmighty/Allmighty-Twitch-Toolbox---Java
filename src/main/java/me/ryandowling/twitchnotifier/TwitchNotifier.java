@@ -62,24 +62,24 @@ public class TwitchNotifier {
     }
 
     private void checkForServerResources() {
-        if (!Files.exists(Utils.getFollowersHTMLFile())) {
+        if (!Files.exists(Utils.getNotificationsHTMLFile())) {
             try {
-                URL inputUrl = System.class.getResource("/assets/html/followers.html");
-                FileUtils.copyURLToFile(inputUrl, Utils.getFollowersHTMLFile().toFile());
+                URL inputUrl = System.class.getResource("/assets/html/notifications.html");
+                FileUtils.copyURLToFile(inputUrl, Utils.getNotificationsHTMLFile().toFile());
             } catch (Exception e) {
                 e.printStackTrace();
-                System.err.println("Failed to copy followers.html to disk! Exiting!");
+                System.err.println("Failed to copy notifications.html to disk! Exiting!");
                 System.exit(1);
             }
         }
 
-        if (!Files.exists(Utils.getFollowersImageFile())) {
+        if (!Files.exists(Utils.getNotificationsImageFile())) {
             try {
-                URL inputUrl = System.class.getResource("/assets/image/followers.png");
-                FileUtils.copyURLToFile(inputUrl, Utils.getFollowersImageFile().toFile());
+                URL inputUrl = System.class.getResource("/assets/image/notifications.png");
+                FileUtils.copyURLToFile(inputUrl, Utils.getNotificationsImageFile().toFile());
             } catch (Exception e) {
                 e.printStackTrace();
-                System.err.println("Failed to copy followers.png to disk! Exiting!");
+                System.err.println("Failed to copy notifications.png to disk! Exiting!");
                 System.exit(1);
             }
         }

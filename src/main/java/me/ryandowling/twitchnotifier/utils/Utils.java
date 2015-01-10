@@ -29,12 +29,12 @@ public class Utils {
         return getCoreDir().resolve("settings.json");
     }
 
-    public static Path getFollowersHTMLFile() {
-        return getHTMLDir().resolve("followers.html");
+    public static Path getNotificationsHTMLFile() {
+        return getHTMLDir().resolve("notifications.html");
     }
 
-    public static Path getFollowersImageFile() {
-        return getHTMLDir().resolve("followers.png");
+    public static Path getNotificationsImageFile() {
+        return getHTMLDir().resolve("notifications.png");
     }
 
     public static Path getFollowersFile() {
