@@ -15,5 +15,5 @@ public interface Donation extends Comparable<Donation> {
 
     public String getTimeLocal();
 
-    public Donation create(String username, String amount);
+    public Donation create(String username, String amount, String note);
 }

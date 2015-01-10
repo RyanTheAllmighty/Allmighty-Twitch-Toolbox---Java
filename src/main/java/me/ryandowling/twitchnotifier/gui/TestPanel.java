@@ -25,6 +25,7 @@ public class TestPanel extends JPanel {
     private JPanel newDonationPanel;
     private JTextField newDonationName;
     private JTextField newDonationAmount;
+    private JTextField newDonationNote;
     private JButton testNewDonation;
 
     public TestPanel() {
@@ -45,7 +46,7 @@ public class TestPanel extends JPanel {
         this.newFollowerPanel = new JPanel();
         this.newFollowerPanel.setLayout(new FlowLayout());
 
-        this.newFollowerName = new JTextField(16);
+        this.newFollowerName = new JTextField("Username", 16);
 
         this.testNewFollower = new JButton("Test New Follower");
         this.testNewFollower.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -61,8 +62,9 @@ public class TestPanel extends JPanel {
         this.newDonationPanel = new JPanel();
         this.newDonationPanel.setLayout(new FlowLayout());
 
-        this.newDonationName = new JTextField(16);
-        this.newDonationAmount = new JTextField(16);
+        this.newDonationName = new JTextField("Username", 16);
+        this.newDonationAmount = new JTextField("Amount", 16);
+        this.newDonationNote = new JTextField("Note", 16);
 
         this.testNewDonation = new JButton("Test New Donation");
         this.testNewDonation.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -71,7 +73,7 @@ public class TestPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if (!newDonationName.getText().isEmpty()) {
                     DonationManager.newDonation(new StreamTipTip().create(newDonationName.getText(),
-                            newDonationAmount.getText()));
+                            newDonationAmount.getText(), newDonationNote.getText()));
                 }
             }
         });
@@ -83,6 +85,7 @@ public class TestPanel extends JPanel {
 
         this.newDonationPanel.add(this.newDonationName);
         this.newDonationPanel.add(this.newDonationAmount);
+        this.newDonationPanel.add(this.newDonationNote);
         this.newDonationPanel.add(this.testNewDonation);
 
         add(this.buttonPanel, BorderLayout.CENTER);

@@ -69,7 +69,7 @@ public class StreamTipTip implements Donation {
         return this.date;
     }
 
-    public Donation create(String username, String amount) {
+    public Donation create(String username, String amount, String note) {
         if (this.username != null) {
             return this; // Don't allow editing this if it's an existing donation
         }
@@ -81,7 +81,7 @@ public class StreamTipTip implements Donation {
         this.amount = amount;
         this.date = format.format(new Date());
         this.currencySymbol = "$";
-        this.note = "Test Donation";
+        this.note = note;
 
         return this;
     }
