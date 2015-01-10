@@ -52,6 +52,8 @@ public class TwitchNotifier {
 
     private Console console;
 
+    private int followersTally;
+
     public TwitchNotifier() {
         loadSettings();
         checkForServerResources();
@@ -323,6 +325,10 @@ public class TwitchNotifier {
         this.followers.put(follower.getUsername(), follower);
         this.followers = Utils.sortMapByValue(this.followers);
 
+        if (isNew) {
+            this.followersTally++;
+        }
+
         return isNew;
     }
 
@@ -349,5 +355,13 @@ public class TwitchNotifier {
 
     public Console getConsole() {
         return this.console;
+    }
+
+    public int getFollowersTally() {
+        return this.followersTally;
+    }
+
+    public void resetFollowersTally() {
+        this.followersTally = 0;
     }
 }
