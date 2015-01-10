@@ -126,7 +126,7 @@ public class DashboardPanel extends JPanel implements FollowerListener, Donation
             @Override
             public void actionPerformed(ActionEvent e) {
                 App.NOTIFIER.resetDonationsTally();
-                resetDonationTally.setText("$0.00");
+                donationsTally.setText("$0.00");
             }
         });
     }
