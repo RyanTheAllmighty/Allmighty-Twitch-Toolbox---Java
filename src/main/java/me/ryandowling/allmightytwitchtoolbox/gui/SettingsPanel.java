@@ -2,6 +2,7 @@ package me.ryandowling.allmightytwitchtoolbox.gui;
 
 import io.github.asyncronous.toast.Toaster;
 import me.ryandowling.allmightytwitchtoolbox.App;
+import me.ryandowling.allmightytwitchtoolbox.events.managers.SettingsManager;
 import me.ryandowling.allmightytwitchtoolbox.utils.SoundPlayer;
 import me.ryandowling.allmightytwitchtoolbox.utils.Utils;
 
@@ -378,6 +379,7 @@ public class SettingsPanel extends JPanel {
 
         App.NOTIFIER.getSettings().setupFinished();
         App.NOTIFIER.saveSettings();
+        SettingsManager.setupComplete();
         Toaster.instance().pop("Settings saved!");
 
         if (restartApp) {

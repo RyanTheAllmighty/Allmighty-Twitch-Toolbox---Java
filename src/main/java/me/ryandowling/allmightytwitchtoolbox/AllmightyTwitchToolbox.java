@@ -90,7 +90,11 @@ public class AllmightyTwitchToolbox {
     }
 
     public void setup() {
-        if (this.settings.isSetup()) {
+        this.setup(true);
+    }
+    
+    public void setup(boolean checkAPIToken) {
+        if (checkAPIToken && this.settings.isSetup()) {
             checkTwitchAPIToken();
         }
 
