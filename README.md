@@ -18,6 +18,8 @@ This is a collection of tools and utilities I use for Twitch to tell me such as 
 
 To get a runnable Jar file run 'mvn clean install' in the root of the project.
 
+To get a Twitch API token for use in the application you can either visit http://www.ryandowling.me/twitch-api-token-generator to generate a token using my site or you can follow the directions on Twitch's API docs (https://github.com/justintv/Twitch-API/blob/master/authentication.md) making sure to grant rights for all scopes when doing so
+
 More instructions to follow
 
 ### License
