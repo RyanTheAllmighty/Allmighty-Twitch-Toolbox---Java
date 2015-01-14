@@ -2,14 +2,15 @@ package me.ryandowling.twitchnotifier.gui;
 
 import me.ryandowling.twitchnotifier.App;
 import me.ryandowling.twitchnotifier.data.interfaces.Donation;
-import me.ryandowling.twitchnotifier.data.streamtip.StreamTipTip;
 import me.ryandowling.twitchnotifier.events.listeners.DonationListener;
 import me.ryandowling.twitchnotifier.events.managers.DonationManager;
 
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class DonationTable extends JTable implements DonationListener {
     private AbstractTableModel tableModel;
@@ -66,6 +67,19 @@ public class DonationTable extends JTable implements DonationListener {
                 return null;
             }
         };
+    }
+
+    @Override
+    public String getToolTipText(MouseEvent event) {
+        int row = rowAtPoint(event.getPoint());
+        int column = columnAtPoint(event.getPoint());
+
+        if (column != 2) {
+            return null;
+        }
+
+        Object value = getValueAt(row, column);
+        return value == null ? null : value.toString();
     }
 
     @Override
