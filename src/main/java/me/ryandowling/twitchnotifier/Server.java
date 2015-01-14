@@ -1,15 +1,30 @@
 package me.ryandowling.twitchnotifier;
 
 import fi.iki.elonen.NanoHTTPD;
+import me.ryandowling.twitchnotifier.data.interfaces.Donation;
+import me.ryandowling.twitchnotifier.data.interfaces.Follower;
+import me.ryandowling.twitchnotifier.events.listeners.DonationListener;
+import me.ryandowling.twitchnotifier.events.listeners.FollowerListener;
+import me.ryandowling.twitchnotifier.events.managers.DonationManager;
+import me.ryandowling.twitchnotifier.events.managers.FollowerManager;
 import me.ryandowling.twitchnotifier.utils.Utils;
 import org.apache.commons.io.FileUtils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public class Server extends NanoHTTPD {
+public class Server extends NanoHTTPD implements FollowerListener, DonationListener {
+    private Follower latestFollower;
+    private Donation latestDonation;
+
     public Server(int port) {
         super(port);
+
+        this.latestFollower = App.NOTIFIER.getLatestFollower();
+        this.latestDonation = App.NOTIFIER.getLatestDonation();
+
+        FollowerManager.addListener(this);
+        DonationManager.addListener(this);
     }
 
     @Override
@@ -37,25 +52,25 @@ public class Server extends NanoHTTPD {
                 json = TwitchNotifier.GSON.toJson(App.NOTIFIER.getFollowers());
                 break;
             case "/followers/latest":
-                json = TwitchNotifier.GSON.toJson(App.NOTIFIER.getLatestFollower());
+                json = TwitchNotifier.GSON.toJson(this.latestFollower);
                 break;
             case "/followers/latest/text":
-                json = TwitchNotifier.GSON.toJson(App.NOTIFIER.getLatestFollower().getDisplayName());
+                json = TwitchNotifier.GSON.toJson(this.latestFollower.getDisplayName());
                 break;
             case "/followers/total":
                 json = TwitchNotifier.GSON.toJson(App.NOTIFIER.getFollowersTotal());
                 break;
             case "/donations/latest":
-                json = TwitchNotifier.GSON.toJson(App.NOTIFIER.getLatestDonation());
+                json = TwitchNotifier.GSON.toJson(this.latestDonation);
                 break;
             case "/donations/latest/text":
-                json = TwitchNotifier.GSON.toJson(App.NOTIFIER.getLatestDonation().getID());
+                json = TwitchNotifier.GSON.toJson(this.latestDonation.getID());
                 break;
             case "/donations/latest/username":
-                json = TwitchNotifier.GSON.toJson(App.NOTIFIER.getLatestDonation().getUsername());
+                json = TwitchNotifier.GSON.toJson(this.latestDonation.getUsername());
                 break;
             case "/donations/latest/amount":
-                json = TwitchNotifier.GSON.toJson(App.NOTIFIER.getLatestDonation().getPrintableAmount());
+                json = TwitchNotifier.GSON.toJson(this.latestDonation.getPrintableAmount());
                 break;
             default:
                 return notFound();
@@ -74,5 +89,15 @@ public class Server extends NanoHTTPD {
 
     private Response error() {
         return new NanoHTTPD.Response(Response.Status.INTERNAL_ERROR, "text/html", "500 Internal Error");
+    }
+
+    @Override
+    public void onNewFollow(Follower follower) {
+        this.latestFollower = follower;
+    }
+
+    @Override
+    public void onNewDonation(Donation donation) {
+        this.latestDonation = donation;
     }
 }
