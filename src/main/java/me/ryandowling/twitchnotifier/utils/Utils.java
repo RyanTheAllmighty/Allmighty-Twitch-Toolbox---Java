@@ -57,12 +57,20 @@ public class Utils {
         return getDataDir().resolve("followersTally.txt");
     }
 
+    public static Path getFollowerGoalFile() {
+        return getDataDir().resolve("followerGoal.txt");
+    }
+
     public static Path getLatestDonationFile() {
         return getDataDir().resolve("latestDonation.txt");
     }
 
     public static Path getDonationsTallyFile() {
         return getDataDir().resolve("donationsTally.txt");
+    }
+
+    public static Path getDonationGoalFile() {
+        return getDataDir().resolve("donationGoal.txt");
     }
 
     public static <K, V extends Comparable<? super V>> Map<K, V> sortMapByValue(Map<K, V> map) {
