@@ -53,8 +53,11 @@ public class TwitchNotifier {
 
     private Console console;
 
-    private int followersTally;
-    private float donationsTally;
+    private int followersTally = 0;
+    private float donationsTally = 0.00f;
+
+    private int followerGoal = 0;
+    private float donationGoal = 0.00f;
 
     public TwitchNotifier() {
         loadSettings();
@@ -401,6 +404,11 @@ public class TwitchNotifier {
         return this.followersTally;
     }
 
+    public String getFollowersTallyFormatted() {
+        DecimalFormat df = new DecimalFormat("###,###");
+        return df.format(this.followersTally);
+    }
+
     public void resetFollowersTally() {
         this.followersTally = 0;
     }
@@ -429,5 +437,35 @@ public class TwitchNotifier {
 
     public int getFollowersTotal() {
         return this.followers.size();
+    }
+
+    public String getFollowersTotalFormatted() {
+        DecimalFormat df = new DecimalFormat("###,###");
+        return df.format(this.followers.size());
+    }
+
+    public String getDonationsTallyFormatted() {
+        return "$" + String.format("%.2f", this.donationsTally);
+    }
+
+    public String getDonationTotalFormatted() {
+        return "$" + String.format("%.2f", this.getDonationsTotal());
+    }
+
+    public int getFollowerGoal() {
+        return this.followerGoal;
+    }
+
+    public String getFollowerGoalFormatted() {
+        DecimalFormat df = new DecimalFormat("###,###");
+        return df.format(this.followerGoal);
+    }
+
+    public float getDonationGoal() {
+        return this.donationGoal;
+    }
+
+    public String getDonationGoalFormatted() {
+        return "$" + String.format("%.2f", this.donationGoal);
     }
 }
