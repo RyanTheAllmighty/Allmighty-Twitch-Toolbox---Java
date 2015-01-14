@@ -217,7 +217,7 @@ public class SettingsPanel extends JPanel {
 
         this.newDonationSoundLabel = new JLabel("New Donation Sound:");
 
-        this.newDonationSoundTextField = new JTextField(App.NOTIFIER.getSettings().getNewFollowSoundPath(), 16);
+        this.newDonationSoundTextField = new JTextField(App.NOTIFIER.getSettings().getNewDonationSoundPath(), 16);
         this.newDonationSoundTextField.setEnabled(false);
 
         this.newDonationSoundChooser = new JFileChooser();

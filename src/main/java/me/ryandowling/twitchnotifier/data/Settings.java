@@ -85,6 +85,10 @@ public class Settings {
         return this.newFollowSoundPath;
     }
 
+    public String getNewDonationSoundPath() {
+        return this.newDonationSoundPath;
+    }
+
     public void setNewFollowSound(String path) {
         this.newFollowSoundPath = path;
     }
