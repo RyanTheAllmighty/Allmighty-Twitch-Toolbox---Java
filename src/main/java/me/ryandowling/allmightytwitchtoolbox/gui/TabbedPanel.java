@@ -23,6 +23,8 @@ public class TabbedPanel extends JTabbedPane {
         addTab("Settings", this.settingsPanel);
 
         if (!App.NOTIFIER.getSettings().isSetup()) {
+            this.setSelectedComponent(this.consolePanel);
+            
             this.setEnabledAt(0, false);
             this.setEnabledAt(2, false);
             this.setEnabledAt(3, false);
