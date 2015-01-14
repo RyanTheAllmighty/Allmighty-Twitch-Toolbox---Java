@@ -4,18 +4,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.ryandowling</groupId>
-    <artifactId>twitchnotifier</artifactId>
-    <name>Twitch Notifier</name>
+    <artifactId>allmightytwitchtoolbox</artifactId>
+    <name>Allmighty Twitch Toolbox</name>
     <version>1.0.0.0</version>
     <packaging>jar</packaging>
-    <description>This is a notifier I use for Twitch to tell me about new followers and donations as well as providing a
-        simple UI for the broadcaster to use
+    <description>This is a bunch of 'Allmighty' tools for Twitch that I use.
     </description>
-    <url>http://www.ryandowling.me</url>
+    <url>http://www.ryandowling.me/allmightytwitchtoolbox/</url>
 
     <properties>
         <project.jdk.version>1.7</project.jdk.version>
-        <mainclass>me.ryandowling.twitchnotifier.App</mainclass>
+        <mainclass>me.ryandowling.allmightytwitchtoolbox.App</mainclass>
     </properties>
 
     <repositories>
@@ -88,7 +87,7 @@
                             <mainClass>${mainclass}</mainClass>
                         </manifest>
                         <manifestEntries>
-                            <Implementation-Vender>RyanTheAllmighty</Implementation-Vender>
+                            <Implementation-Vender>Ryan Dowling</Implementation-Vender>
                             <Implementation-Version>${project.version}</Implementation-Version>
                             <Built-By>${user.name}</Built-By>
                         </manifestEntries>
@@ -105,7 +104,7 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <finalName>TwitchNotifier-${project.version}</finalName>
+                            <finalName>AllmightyTwitchToolbox-${project.version}</finalName>
                         </configuration>
                     </execution>
                 </executions>
