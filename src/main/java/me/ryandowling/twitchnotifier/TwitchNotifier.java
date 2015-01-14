@@ -468,4 +468,12 @@ public class TwitchNotifier {
     public String getDonationGoalFormatted() {
         return "$" + String.format("%.2f", this.donationGoal);
     }
+
+    public void setDonationGoal(float donationGoal) {
+        this.donationGoal = donationGoal;
+    }
+
+    public void setFollowerGoal(int followerGoal) {
+        this.followerGoal = followerGoal;
+    }
 }

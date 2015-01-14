@@ -11,6 +11,7 @@ import me.ryandowling.twitchnotifier.events.managers.FollowerManager;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -47,6 +48,9 @@ public class DashboardPanel extends JPanel implements FollowerListener, Donation
 
     private JButton resetFollowerTally;
     private JButton resetDonationTally;
+
+    private JButton setFollowerGoal;
+    private JButton setDonationGoal;
 
     public DashboardPanel() {
         super();
@@ -149,7 +153,7 @@ public class DashboardPanel extends JPanel implements FollowerListener, Donation
             @Override
             public void actionPerformed(ActionEvent e) {
                 App.NOTIFIER.resetFollowersTally();
-                followersTally.setText("0");
+                updateFollowerValues();
             }
         });
 
@@ -158,7 +162,61 @@ public class DashboardPanel extends JPanel implements FollowerListener, Donation
             @Override
             public void actionPerformed(ActionEvent e) {
                 App.NOTIFIER.resetDonationsTally();
-                donationsTally.setText("$0.00");
+                updateDonationValues();
+            }
+        });
+
+        this.setFollowerGoal = new JButton("Set Follower Goal");
+        this.setFollowerGoal.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int goal = 0;
+
+                while (goal == 0.00f) {
+                    String output = JOptionPane.showInputDialog(DashboardPanel.this, "Enter a new follower goal!");
+
+                    if (output == null) {
+                        return;
+                    }
+
+                    try {
+                        goal = Integer.parseInt(output);
+                    } catch (NumberFormatException e1) {
+                        goal = 0;
+                        JOptionPane.showMessageDialog(DashboardPanel.this, "Invalid follower goal entered! Please " +
+                                "try again!", "Error!", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+
+                App.NOTIFIER.setFollowerGoal(goal);
+                updateFollowerValues();
+            }
+        });
+
+        this.setDonationGoal = new JButton("Set Donation Goal");
+        this.setDonationGoal.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                float goal = 0.00f;
+
+                while (goal == 0.00f) {
+                    String output = JOptionPane.showInputDialog(DashboardPanel.this, "Enter a new donation goal!");
+
+                    if (output == null) {
+                        return;
+                    }
+
+                    try {
+                        goal = Float.parseFloat(output);
+                    } catch (NumberFormatException e1) {
+                        goal = 0.00f;
+                        JOptionPane.showMessageDialog(DashboardPanel.this, "Invalid donation goal entered! Please " +
+                                "try again!", "Error!", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+
+                App.NOTIFIER.setDonationGoal(goal);
+                updateDonationValues();
             }
         });
     }
@@ -175,6 +233,9 @@ public class DashboardPanel extends JPanel implements FollowerListener, Donation
 
         this.buttonPane.add(this.resetFollowerTally);
         this.buttonPane.add(this.resetDonationTally);
+
+        this.buttonPane.add(this.setFollowerGoal);
+        this.buttonPane.add(this.setDonationGoal);
 
         add(this.mainPane, BorderLayout.CENTER);
         add(this.buttonPane, BorderLayout.SOUTH);
