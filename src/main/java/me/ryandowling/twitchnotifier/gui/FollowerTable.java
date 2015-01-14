@@ -2,7 +2,6 @@ package me.ryandowling.twitchnotifier.gui;
 
 import me.ryandowling.twitchnotifier.App;
 import me.ryandowling.twitchnotifier.data.interfaces.Follower;
-import me.ryandowling.twitchnotifier.data.twitch.TwitchFollower;
 import me.ryandowling.twitchnotifier.events.listeners.FollowerListener;
 import me.ryandowling.twitchnotifier.events.managers.FollowerManager;
 
@@ -32,7 +31,7 @@ public class FollowerTable extends JTable implements FollowerListener {
         this.tableModel = new AbstractTableModel() {
             @Override
             public int getRowCount() {
-                return App.NOTIFIER.getFollowersTotal();
+                return App.NOTIFIER.getFollowersTotal() <= 100 ? App.NOTIFIER.getFollowersTotal() : 100;
             }
 
             @Override

@@ -10,7 +10,6 @@ import javax.swing.table.AbstractTableModel;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class DonationTable extends JTable implements DonationListener {
     private AbstractTableModel tableModel;
@@ -33,7 +32,7 @@ public class DonationTable extends JTable implements DonationListener {
         this.tableModel = new AbstractTableModel() {
             @Override
             public int getRowCount() {
-                return App.NOTIFIER.getDonations().size();
+                return App.NOTIFIER.getDonations().size() <= 100 ? App.NOTIFIER.getDonations().size() : 100;
             }
 
             @Override
