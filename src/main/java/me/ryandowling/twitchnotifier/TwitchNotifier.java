@@ -103,11 +103,10 @@ public class TwitchNotifier {
         followerFiles = new FollowerFiles();
         followerFiles.writeFiles();
 
-        followerAlert = new FollowerAlert();
-
         donationFiles = new DonationFiles();
         donationFiles.writeFiles();
 
+        followerAlert = new FollowerAlert();
         donationAlert = new DonationAlert();
     }
 

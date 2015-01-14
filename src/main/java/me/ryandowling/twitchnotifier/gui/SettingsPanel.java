@@ -363,8 +363,8 @@ public class SettingsPanel extends JPanel {
                     FileUtils.forceDeleteOnExit(Utils.getLatestFollowerFile().toFile());
                 }
 
-                if (Files.exists(Utils.getNumberOfFollowerFile())) {
-                    FileUtils.forceDeleteOnExit(Utils.getNumberOfFollowerFile().toFile());
+                if (Files.exists(Utils.getNumberOfFollowersFile())) {
+                    FileUtils.forceDeleteOnExit(Utils.getNumberOfFollowersFile().toFile());
                 }
             } catch (IOException e) {
                 e.printStackTrace();

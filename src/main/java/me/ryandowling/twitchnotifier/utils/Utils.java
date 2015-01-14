@@ -49,12 +49,20 @@ public class Utils {
         return getDataDir().resolve("latestFollower.txt");
     }
 
-    public static Path getNumberOfFollowerFile() {
+    public static Path getNumberOfFollowersFile() {
         return getDataDir().resolve("numberOfFollowers.txt");
+    }
+
+    public static Path getFollowersTallyFile() {
+        return getDataDir().resolve("followersTally.txt");
     }
 
     public static Path getLatestDonationFile() {
         return getDataDir().resolve("latestDonation.txt");
+    }
+
+    public static Path getDonationsTallyFile() {
+        return getDataDir().resolve("donationsTally.txt");
     }
 
     public static <K, V extends Comparable<? super V>> Map<K, V> sortMapByValue(Map<K, V> map) {

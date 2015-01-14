@@ -25,6 +25,7 @@ public class DonationFiles implements DonationListener {
 
             FileUtils.write(Utils.getLatestDonationFile().toFile(), tip.getUsername() + ": " + tip.getPrintableAmount
                     ());
+            FileUtils.write(Utils.getDonationsTallyFile().toFile(), "" + App.NOTIFIER.getDonationsTally());
         } catch (IOException e) {
             e.printStackTrace();
         }
