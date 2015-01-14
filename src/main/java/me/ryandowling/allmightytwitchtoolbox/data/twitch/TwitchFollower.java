@@ -34,7 +34,7 @@ public class TwitchFollower implements Follower {
         try {
             date = DATE_FORMAT.parse(this.created_at);
             return date.getTime();
-        } catch (ParseException e) {
+        } catch (ParseException | NumberFormatException e) {
             e.printStackTrace();
         }
 

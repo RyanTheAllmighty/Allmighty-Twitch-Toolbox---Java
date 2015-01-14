@@ -4,7 +4,6 @@ import io.github.asyncronous.toast.Toaster;
 import me.ryandowling.allmightytwitchtoolbox.App;
 import me.ryandowling.allmightytwitchtoolbox.utils.SoundPlayer;
 import me.ryandowling.allmightytwitchtoolbox.utils.Utils;
-import org.apache.commons.io.FileUtils;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -19,7 +18,6 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -31,6 +29,10 @@ public class SettingsPanel extends JPanel {
     private JPanel twitchUsernamePanel;
     private JLabel twitchUsernameLabel;
     private JTextField twitchUsernameTextField;
+
+    private JPanel twitchAPITokenPanel;
+    private JLabel twitchAPITokenLabel;
+    private JTextField twitchAPITokenTextField;
 
     private JPanel streamTipClientIDPanel;
     private JLabel streamTipClientIDLabel;
@@ -84,6 +86,7 @@ public class SettingsPanel extends JPanel {
         this.buttonPane.setLayout(new FlowLayout());
 
         setupTwitchUsernamePanel();
+        setupTwitchAPITokenPanel();
         setupStreamTipClientIDPanel();
         setupStreamTipAccessTokenPanel();
         setupTimeBetweenFollowerChecksPanel();
@@ -103,6 +106,17 @@ public class SettingsPanel extends JPanel {
 
         this.twitchUsernamePanel.add(this.twitchUsernameLabel);
         this.twitchUsernamePanel.add(this.twitchUsernameTextField);
+    }
+
+    private void setupTwitchAPITokenPanel() {
+        this.twitchAPITokenPanel = new JPanel();
+        this.twitchAPITokenPanel.setLayout(new FlowLayout());
+
+        this.twitchAPITokenLabel = new JLabel("Twitch API Token:");
+        this.twitchAPITokenTextField = new JTextField(App.NOTIFIER.getSettings().getTwitchAPIToken(), 16);
+
+        this.twitchAPITokenPanel.add(this.twitchAPITokenLabel);
+        this.twitchAPITokenPanel.add(this.twitchAPITokenTextField);
     }
 
     private void setupStreamTipClientIDPanel() {
@@ -267,6 +281,7 @@ public class SettingsPanel extends JPanel {
 
     private void addComponents() {
         this.mainPane.add(this.twitchUsernamePanel);
+        this.mainPane.add(this.twitchAPITokenPanel);
         this.mainPane.add(this.streamTipClientIDPanel);
         this.mainPane.add(this.streamTipAccessTokenPanel);
         this.mainPane.add(this.timeBetweenFollowerChecksPanel);
@@ -286,6 +301,12 @@ public class SettingsPanel extends JPanel {
 
         if (this.twitchUsernameTextField.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Twitch username cannot be empty!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (this.twitchAPITokenTextField.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Twitch API Token cannot be empty!", "Error", JOptionPane
+                    .ERROR_MESSAGE);
             return;
         }
 
@@ -330,6 +351,7 @@ public class SettingsPanel extends JPanel {
         }
 
         App.NOTIFIER.getSettings().setTwitchUsername(this.twitchUsernameTextField.getText());
+        App.NOTIFIER.getSettings().setTwitchAPIToken(this.twitchAPITokenTextField.getText());
         App.NOTIFIER.getSettings().setStreamTipClientID(this.streamTipClientIDTextField.getText());
         App.NOTIFIER.getSettings().setStreamTipAccessToken(this.streamTipAccessTokenTextField.getText());
         App.NOTIFIER.getSettings().setSecondsBetweenFollowerChecks((int) this.timeBetweenFollowerChecksSpinner
@@ -354,22 +376,6 @@ public class SettingsPanel extends JPanel {
         Toaster.instance().pop("Settings saved!");
 
         if (restartApp) {
-            try {
-                if (Files.exists(Utils.getFollowersFile())) {
-                    FileUtils.forceDeleteOnExit(Utils.getFollowersFile().toFile());
-                }
-
-                if (Files.exists(Utils.getLatestFollowerFile())) {
-                    FileUtils.forceDeleteOnExit(Utils.getLatestFollowerFile().toFile());
-                }
-
-                if (Files.exists(Utils.getNumberOfFollowersFile())) {
-                    FileUtils.forceDeleteOnExit(Utils.getNumberOfFollowersFile().toFile());
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
             JOptionPane.showMessageDialog(this, "The app must be restarted! Please rerun the application after " +
                     "clicking OK!", "Restart Required", JOptionPane.INFORMATION_MESSAGE);
             System.exit(0);

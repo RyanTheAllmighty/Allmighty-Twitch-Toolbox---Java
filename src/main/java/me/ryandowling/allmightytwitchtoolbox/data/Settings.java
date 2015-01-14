@@ -11,6 +11,7 @@ public class Settings {
     private int serverPort;
 
     private String twitchUsername;
+    private String twitchAPIToken;
 
     private String streamTipClientID;
     private String streamTipAccessToken;
@@ -31,6 +32,7 @@ public class Settings {
         this.guiSize = new Dimension(600, 400);
         this.serverPort = 9001;
         this.twitchUsername = "";
+        this.twitchAPIToken = "";
         this.secondsBetweenFollowerChecks = 30;
         this.secondsBetweenDonationChecks = 30;
         this.newFollowSoundPath = "";
@@ -151,5 +153,13 @@ public class Settings {
 
     public String getDonationType() {
         return this.donationType;
+    }
+
+    public String getTwitchAPIToken() {
+        return this.twitchAPIToken;
+    }
+
+    public void setTwitchAPIToken(String twitchAPIToken) {
+        this.twitchAPIToken = twitchAPIToken;
     }
 }
