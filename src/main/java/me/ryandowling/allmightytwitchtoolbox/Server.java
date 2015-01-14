@@ -49,28 +49,28 @@ public class Server extends NanoHTTPD implements FollowerListener, DonationListe
                     return error();
                 }
             case "/followers/all":
-                json = TwitchNotifier.GSON.toJson(App.NOTIFIER.getFollowers());
+                json = AllmightyTwitchToolbox.GSON.toJson(App.NOTIFIER.getFollowers());
                 break;
             case "/followers/latest":
-                json = TwitchNotifier.GSON.toJson(this.latestFollower);
+                json = AllmightyTwitchToolbox.GSON.toJson(this.latestFollower);
                 break;
             case "/followers/latest/text":
-                json = TwitchNotifier.GSON.toJson(this.latestFollower.getDisplayName());
+                json = AllmightyTwitchToolbox.GSON.toJson(this.latestFollower.getDisplayName());
                 break;
             case "/followers/total":
-                json = TwitchNotifier.GSON.toJson(App.NOTIFIER.getFollowersTotal());
+                json = AllmightyTwitchToolbox.GSON.toJson(App.NOTIFIER.getFollowersTotal());
                 break;
             case "/donations/latest":
-                json = TwitchNotifier.GSON.toJson(this.latestDonation);
+                json = AllmightyTwitchToolbox.GSON.toJson(this.latestDonation);
                 break;
             case "/donations/latest/text":
-                json = TwitchNotifier.GSON.toJson(this.latestDonation.getID());
+                json = AllmightyTwitchToolbox.GSON.toJson(this.latestDonation.getID());
                 break;
             case "/donations/latest/username":
-                json = TwitchNotifier.GSON.toJson(this.latestDonation.getUsername());
+                json = AllmightyTwitchToolbox.GSON.toJson(this.latestDonation.getUsername());
                 break;
             case "/donations/latest/amount":
-                json = TwitchNotifier.GSON.toJson(this.latestDonation.getPrintableAmount());
+                json = AllmightyTwitchToolbox.GSON.toJson(this.latestDonation.getPrintableAmount());
                 break;
             default:
                 return notFound();

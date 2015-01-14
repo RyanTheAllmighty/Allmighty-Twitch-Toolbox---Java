@@ -33,7 +33,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class TwitchNotifier {
+public class AllmightyTwitchToolbox {
     private Settings settings;
 
     private Server server; // The Jetty server
@@ -59,7 +59,7 @@ public class TwitchNotifier {
     private int followerGoal = 0;
     private float donationGoal = 0.00f;
 
-    public TwitchNotifier() {
+    public AllmightyTwitchToolbox() {
         loadSettings();
         checkForServerResources();
     }

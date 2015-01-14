@@ -1,7 +1,7 @@
 package me.ryandowling.allmightytwitchtoolbox.data;
 
 import me.ryandowling.allmightytwitchtoolbox.Logger;
-import me.ryandowling.allmightytwitchtoolbox.TwitchNotifier;
+import me.ryandowling.allmightytwitchtoolbox.AllmightyTwitchToolbox;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
@@ -78,7 +78,7 @@ public abstract class APIRequest {
         setRequestProperties();
 
         if (object != null) {
-            this.connection.setRequestProperty("Content-Length", "" + TwitchNotifier.GSON.toJson(object).getBytes()
+            this.connection.setRequestProperty("Content-Length", "" + AllmightyTwitchToolbox.GSON.toJson(object).getBytes()
                     .length);
             connection.setDoOutput(true);
         }
@@ -87,7 +87,7 @@ public abstract class APIRequest {
 
         if (object != null) {
             DataOutputStream writer = new DataOutputStream(connection.getOutputStream());
-            writer.write(TwitchNotifier.GSON.toJson(object).getBytes());
+            writer.write(AllmightyTwitchToolbox.GSON.toJson(object).getBytes());
             writer.flush();
             writer.close();
         }
