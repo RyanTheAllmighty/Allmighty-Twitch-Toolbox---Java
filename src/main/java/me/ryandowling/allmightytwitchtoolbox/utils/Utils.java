@@ -1,7 +1,13 @@
 package me.ryandowling.allmightytwitchtoolbox.utils;
 
+import me.ryandowling.allmightytwitchtoolbox.data.twitch.TwitchAPIRequest;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import javax.swing.filechooser.FileFilter;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
@@ -142,5 +148,31 @@ public class Utils {
         }
 
         return sb.toString().substring(0, numchars);
+    }
+
+    public static boolean isTwitchAPITokenValid(String accessToken) {
+        try {
+            TwitchAPIRequest request = new TwitchAPIRequest("/", accessToken);
+            String response = request.get();
+            JSONParser parser = new JSONParser();
+            JSONObject jsonObject = (JSONObject) parser.parse(response);
+
+            JSONObject token = (JSONObject) jsonObject.get("token");
+            boolean valid = (boolean) token.get("valid");
+
+            if (!valid) {
+                System.err.println("API token not valid!");
+            }
+
+            return valid;
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Error connecting to Twitch API!");
+        } catch (ParseException e) {
+            e.printStackTrace();
+            System.err.println("Error occured parsing JSON from Twitch API!");
+        }
+
+        return false;
     }
 }

@@ -22,6 +22,7 @@ import me.ryandowling.allmightytwitchtoolbox.gui.Console;
 import me.ryandowling.allmightytwitchtoolbox.utils.Utils;
 import org.apache.commons.io.FileUtils;
 
+import javax.swing.JOptionPane;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URL;
@@ -90,6 +91,12 @@ public class AllmightyTwitchToolbox {
 
     public void setup() {
         if (this.settings.isSetup()) {
+            checkTwitchAPIToken();
+        }
+
+        // If things are still setup, then Twitch API token is good
+
+        if (this.settings.isSetup()) {
             loadFollowers();
             startCheckingForNewFollowers();
 
@@ -99,6 +106,15 @@ public class AllmightyTwitchToolbox {
             loadNotifiers();
 
             startServer();
+        }
+    }
+
+    private void checkTwitchAPIToken() {
+        if (!Utils.isTwitchAPITokenValid(this.settings.getTwitchAPIToken())) {
+            this.settings.setupInvalid();
+            this.saveSettings();
+
+            JOptionPane.showMessageDialog(null, "Twitch API Token is invalid!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -427,7 +443,7 @@ public class AllmightyTwitchToolbox {
         float total = 0.0f;
 
         for (Map.Entry<String, Donation> entry : this.donations.entrySet()) {
-                total += entry.getValue().getAmount();
+            total += entry.getValue().getAmount();
         }
 
         DecimalFormat df = new DecimalFormat("#0.00");

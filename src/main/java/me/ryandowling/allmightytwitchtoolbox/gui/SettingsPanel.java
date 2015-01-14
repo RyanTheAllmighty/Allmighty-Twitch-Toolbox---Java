@@ -310,6 +310,11 @@ public class SettingsPanel extends JPanel {
             return;
         }
 
+        if (!Utils.isTwitchAPITokenValid(this.twitchAPITokenTextField.getText())) {
+            JOptionPane.showMessageDialog(this, "Twitch API Token is invalid!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         if (this.streamTipClientIDTextField.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Stream Tip client ID cannot be empty!", "Error", JOptionPane
                     .ERROR_MESSAGE);

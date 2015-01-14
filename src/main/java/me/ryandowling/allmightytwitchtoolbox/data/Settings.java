@@ -131,6 +131,10 @@ public class Settings {
         this.isSetup = true;
     }
 
+    public void setupInvalid() {
+        this.isSetup = false;
+    }
+
     public String getStreamTipClientID() {
         return this.streamTipClientID;
     }
