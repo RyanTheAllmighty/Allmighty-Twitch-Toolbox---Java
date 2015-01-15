@@ -1,14 +1,18 @@
 package me.ryandowling.allmightytwitchtoolbox.utils;
 
+import me.ryandowling.allmightytwitchtoolbox.App;
 import me.ryandowling.allmightytwitchtoolbox.data.twitch.TwitchAPIRequest;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import javax.imageio.ImageIO;
 import javax.swing.filechooser.FileFilter;
 import java.awt.Desktop;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
@@ -30,20 +34,20 @@ public class Utils {
         return getCoreDir().resolve("data");
     }
 
-    public static Path getHTMLDir() {
-        return getDataDir().resolve("html");
+    public static Path getImagesDir() {
+        return getDataDir().resolve("images");
+    }
+
+    public static Path getTxtDir() {
+        return getDataDir().resolve("txt");
     }
 
     public static Path getSettingsFile() {
         return getCoreDir().resolve("settings.json");
     }
 
-    public static Path getNotificationsHTMLFile() {
-        return getHTMLDir().resolve("notifications.html");
-    }
-
     public static Path getNotificationsImageFile() {
-        return getHTMLDir().resolve("notifications.png");
+        return getImagesDir().resolve("notifications.png");
     }
 
     public static Path getFollowersFile() {
@@ -55,35 +59,35 @@ public class Utils {
     }
 
     public static Path getLatestFollowerFile() {
-        return getDataDir().resolve("latestFollower.txt");
+        return getTxtDir().resolve("latestFollower.txt");
     }
 
     public static Path getNumberOfFollowersFile() {
-        return getDataDir().resolve("numberOfFollowers.txt");
+        return getTxtDir().resolve("numberOfFollowers.txt");
     }
 
     public static Path getFollowersTallyFile() {
-        return getDataDir().resolve("followersTally.txt");
+        return getTxtDir().resolve("followersTally.txt");
     }
 
     public static Path getFollowerGoalFile() {
-        return getDataDir().resolve("followerGoal.txt");
+        return getTxtDir().resolve("followerGoal.txt");
     }
 
     public static Path getLatestDonationFile() {
-        return getDataDir().resolve("latestDonation.txt");
+        return getTxtDir().resolve("latestDonation.txt");
     }
 
     public static Path getDonationsTallyFile() {
-        return getDataDir().resolve("donationsTally.txt");
+        return getTxtDir().resolve("donationsTally.txt");
     }
 
     public static Path getDonationGoalFile() {
-        return getDataDir().resolve("donationGoal.txt");
+        return getTxtDir().resolve("donationGoal.txt");
     }
 
     public static Path getCounterFile() {
-        return getDataDir().resolve("counter.txt");
+        return getTxtDir().resolve("counter.txt");
     }
 
     public static <K, V extends Comparable<? super V>> Map<K, V> sortMapByValue(Map<K, V> map) {
@@ -198,6 +202,32 @@ public class Utils {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public static BufferedImage getImage(String image) {
+        try {
+            String name;
+            if (!image.startsWith("/assets/image/")) {
+                name = "/assets/image/" + image;
+            } else {
+                name = image;
+            }
+
+            if (!name.endsWith(".png")) {
+                name = name + ".png";
+            }
+
+            InputStream stream = App.class.getResourceAsStream(name);
+
+            if (stream == null) {
+                throw new NullPointerException("Stream == null");
+            }
+
+            return ImageIO.read(stream);
+        } catch (Exception ex) {
+            ex.printStackTrace(System.err);
+            return null;
         }
     }
 }

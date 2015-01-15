@@ -36,14 +36,14 @@ public class Server extends NanoHTTPD implements FollowerListener, DonationListe
         switch (session.getUri()) {
             case "/":
                 try {
-                    return found(IOUtils.toString(System.class.getResource("/assets/html/index.html")));
+                    return found(IOUtils.toString(System.class.getResource("/assets/web/html/index.html")));
                 } catch (IOException e) {
                     e.printStackTrace();
                     return error();
                 }
             case "/notifications":
                 try {
-                    return found(FileUtils.readFileToString(Utils.getNotificationsHTMLFile().toFile()));
+                    return found(IOUtils.toString(System.class.getResource("/assets/web/html/notifications.html")));
                 } catch (IOException e) {
                     e.printStackTrace();
                     return error();
@@ -82,7 +82,7 @@ public class Server extends NanoHTTPD implements FollowerListener, DonationListe
                 json = AllmightyTwitchToolbox.GSON.toJson(this.latestDonation.getNote());
                 break;
             default:
-                URL url = System.class.getResource("/assets/" + session.getUri());
+                URL url = System.class.getResource("/assets/web/" + session.getUri());
 
                 if (url != null) {
                     try {

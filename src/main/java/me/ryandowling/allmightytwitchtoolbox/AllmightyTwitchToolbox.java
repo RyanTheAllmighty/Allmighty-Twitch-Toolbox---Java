@@ -70,20 +70,9 @@ public class AllmightyTwitchToolbox {
     }
 
     private void checkForServerResources() {
-        if (!Files.exists(Utils.getNotificationsHTMLFile())) {
-            try {
-                URL inputUrl = System.class.getResource("/assets/html/notifications.html");
-                FileUtils.copyURLToFile(inputUrl, Utils.getNotificationsHTMLFile().toFile());
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.err.println("Failed to copy notifications.html to disk! Exiting!");
-                System.exit(1);
-            }
-        }
-
         if (!Files.exists(Utils.getNotificationsImageFile())) {
             try {
-                URL inputUrl = System.class.getResource("/assets/image/notifications.png");
+                URL inputUrl = System.class.getResource("/assets/web/image/notifications.png");
                 FileUtils.copyURLToFile(inputUrl, Utils.getNotificationsImageFile().toFile());
             } catch (Exception e) {
                 e.printStackTrace();
