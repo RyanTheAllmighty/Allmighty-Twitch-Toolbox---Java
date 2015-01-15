@@ -27,4 +27,15 @@ public class ViewerCountManager {
             }
         });
     }
+
+    public static synchronized void viewerCountDataAdded(final int viewerCount) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                for (ViewerCountListener listener : listeners) {
+                    listener.onViewerCountDataAdded(viewerCount);
+                }
+            }
+        });
+    }
 }

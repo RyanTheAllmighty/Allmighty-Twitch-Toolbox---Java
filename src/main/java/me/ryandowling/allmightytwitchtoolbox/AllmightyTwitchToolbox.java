@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.tulskiy.keymaster.common.Provider;
+import me.ryandowling.allmightytwitchtoolbox.data.ChartData;
 import me.ryandowling.allmightytwitchtoolbox.data.Settings;
 import me.ryandowling.allmightytwitchtoolbox.data.interfaces.Donation;
 import me.ryandowling.allmightytwitchtoolbox.data.interfaces.Follower;
@@ -31,8 +32,10 @@ import java.lang.reflect.Type;
 import java.net.URL;
 import java.nio.file.Files;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -69,6 +72,7 @@ public class AllmightyTwitchToolbox {
 
     private int followerGoal = 0;
     private float donationGoal = 0.00f;
+    private int[] viewerCountChartData;
 
     public AllmightyTwitchToolbox() {
         loadSettings();
@@ -340,6 +344,8 @@ public class AllmightyTwitchToolbox {
 
             this.viewerCount.put(new Date(), nowViewers);
 
+            ViewerCountManager.viewerCountDataAdded(nowViewers);
+
             if (lastViewers != nowViewers) {
                 ViewerCountManager.viewerCountChanged(nowViewers);
             }
@@ -424,6 +430,16 @@ public class AllmightyTwitchToolbox {
         }
 
         return this.viewerCount.entrySet().iterator().next().getValue();
+    }
+
+    public String getLatestViewerCountFormatted() {
+        DecimalFormat df = new DecimalFormat("###,###");
+
+        if (this.viewerCount.size() == 0) {
+            return df.format(0);
+        }
+
+        return df.format(this.viewerCount.entrySet().iterator().next().getValue());
     }
 
     public boolean addFollower(Follower follower) {
@@ -553,5 +569,19 @@ public class AllmightyTwitchToolbox {
 
     public Provider getHotKeyProvider() {
         return this.HOT_KEY_PROVIDER;
+    }
+
+    public ChartData getViewerCountChartData() {
+        List<Date> xValues = new ArrayList<>();
+        List<Integer> yValues = new ArrayList<>();
+
+        int i = 0;
+        for (Map.Entry<Date, Integer> entry : this.viewerCount.entrySet()) {
+            xValues.add(i, entry.getKey());
+            yValues.add(i, entry.getValue());
+
+            i++;
+        }
+        return new ChartData(xValues, yValues);
     }
 }

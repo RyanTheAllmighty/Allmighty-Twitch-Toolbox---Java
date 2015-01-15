@@ -3,9 +3,9 @@ package me.ryandowling.allmightytwitchtoolbox.gui;
 import me.ryandowling.allmightytwitchtoolbox.App;
 import me.ryandowling.allmightytwitchtoolbox.data.interfaces.Donation;
 import me.ryandowling.allmightytwitchtoolbox.data.interfaces.Follower;
+import me.ryandowling.allmightytwitchtoolbox.events.adapters.ViewerCountAdapter;
 import me.ryandowling.allmightytwitchtoolbox.events.listeners.DonationListener;
 import me.ryandowling.allmightytwitchtoolbox.events.listeners.FollowerListener;
-import me.ryandowling.allmightytwitchtoolbox.events.listeners.ViewerCountListener;
 import me.ryandowling.allmightytwitchtoolbox.events.managers.DonationManager;
 import me.ryandowling.allmightytwitchtoolbox.events.managers.FollowerManager;
 import me.ryandowling.allmightytwitchtoolbox.events.managers.ViewerCountManager;
@@ -20,7 +20,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class DashboardPanel extends JPanel implements FollowerListener, DonationListener, ViewerCountListener {
+public class DashboardPanel extends JPanel implements FollowerListener, DonationListener {
     private JPanel mainPane;
     private JPanel buttonPane;
 
@@ -67,7 +67,12 @@ public class DashboardPanel extends JPanel implements FollowerListener, Donation
 
         updateValues();
 
-        ViewerCountManager.addListener(this);
+        ViewerCountManager.addListener(new ViewerCountAdapter() {
+            @Override
+            public void onViewerCountChanged(int viewerCount) {
+                updateViewerCountValue();
+            }
+        });
         FollowerManager.addListener(this);
         DonationManager.addListener(this);
     }
@@ -263,11 +268,6 @@ public class DashboardPanel extends JPanel implements FollowerListener, Donation
     }
 
     @Override
-    public void onViewerCountChanged(int viewerCount) {
-        updateViewerCountValue();
-    }
-
-    @Override
     public void onNewFollow(Follower follower) {
         updateFollowerValues();
     }
@@ -284,7 +284,7 @@ public class DashboardPanel extends JPanel implements FollowerListener, Donation
     }
 
     private void updateViewerCountValue() {
-        this.viewerCount.setText("" + App.NOTIFIER.getLatestViewerCount());
+        this.viewerCount.setText(App.NOTIFIER.getLatestViewerCountFormatted());
     }
 
     public void updateFollowerValues() {
