@@ -57,6 +57,9 @@ public class Server extends NanoHTTPD implements FollowerListener, DonationListe
                     e.printStackTrace();
                     return error();
                 }
+            case "/viewers/total":
+                json = AllmightyTwitchToolbox.GSON.toJson(App.NOTIFIER.getLatestViewerCount());
+                break;
             case "/followers/latest":
                 json = AllmightyTwitchToolbox.GSON.toJson(this.latestFollower);
                 break;
