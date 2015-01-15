@@ -17,6 +17,7 @@ import me.ryandowling.allmightytwitchtoolbox.events.DonationAlert;
 import me.ryandowling.allmightytwitchtoolbox.events.DonationFiles;
 import me.ryandowling.allmightytwitchtoolbox.events.FollowerAlert;
 import me.ryandowling.allmightytwitchtoolbox.events.FollowerFiles;
+import me.ryandowling.allmightytwitchtoolbox.events.ViewerCountFiles;
 import me.ryandowling.allmightytwitchtoolbox.events.managers.DonationManager;
 import me.ryandowling.allmightytwitchtoolbox.events.managers.FollowerManager;
 import me.ryandowling.allmightytwitchtoolbox.events.managers.ViewerCountManager;
@@ -53,6 +54,8 @@ public class AllmightyTwitchToolbox {
     private Map<Date, Integer> viewerCount = new HashMap<>();
 
     // All the notificators
+    private ViewerCountFiles viewerCountFiles;
+
     private FollowerFiles followerFiles;
     private FollowerAlert followerAlert;
 
@@ -121,6 +124,9 @@ public class AllmightyTwitchToolbox {
     }
 
     private void loadNotifiers() {
+        viewerCountFiles = new ViewerCountFiles();
+        viewerCountFiles.writeFiles();
+
         followerFiles = new FollowerFiles();
         followerFiles.writeFiles();
 
