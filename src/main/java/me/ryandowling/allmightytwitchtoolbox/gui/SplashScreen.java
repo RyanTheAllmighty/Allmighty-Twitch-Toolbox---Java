@@ -13,7 +13,7 @@ public class SplashScreen extends JWindow {
         this.setLayout(null);
         this.setSize(img.getWidth(), img.getHeight());
         this.setLocationRelativeTo(null);
-        this.setAlwaysOnTop(true);
+        this.setAlwaysOnTop(false);
 
         this.setVisible(true);
     }
