@@ -41,7 +41,7 @@ public class AllmightyTwitchToolbox {
     private Server server; // The Jetty server
 
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+    private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(8);
 
     private Map<String, Follower> followers = new HashMap<>();
     private Map<String, Donation> donations = new HashMap<>();
@@ -307,7 +307,7 @@ public class AllmightyTwitchToolbox {
                 DonationManager.newDonation(tip);
             }
 
-            this.followers = Utils.sortMapByValue(this.followers);
+            this.donations = Utils.sortMapByValue(this.donations);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -383,7 +383,6 @@ public class AllmightyTwitchToolbox {
         boolean isNew = !this.followers.containsKey(follower.getUsername());
 
         this.followers.put(follower.getUsername(), follower);
-        this.followers = Utils.sortMapByValue(this.followers);
 
         if (isNew) {
             this.followersTally++;
@@ -396,7 +395,6 @@ public class AllmightyTwitchToolbox {
         boolean isNew = !this.donations.containsKey(donation.getID());
 
         this.donations.put(donation.getID(), donation);
-        this.donations = Utils.sortMapByValue(this.donations);
 
         if (isNew) {
             this.donationsTally = +donation.getAmount();
