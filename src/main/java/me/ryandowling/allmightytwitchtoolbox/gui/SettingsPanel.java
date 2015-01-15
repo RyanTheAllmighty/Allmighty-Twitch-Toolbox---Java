@@ -34,6 +34,7 @@ public class SettingsPanel extends JPanel {
     private JPanel twitchAPITokenPanel;
     private JLabel twitchAPITokenLabel;
     private JTextField twitchAPITokenTextField;
+    private JButton twitchAPITokenButton;
 
     private JPanel streamTipClientIDPanel;
     private JLabel streamTipClientIDLabel;
@@ -115,10 +116,20 @@ public class SettingsPanel extends JPanel {
         this.twitchAPITokenPanel.setLayout(new FlowLayout());
 
         this.twitchAPITokenLabel = new JLabel("Twitch API Token:");
+
         this.twitchAPITokenTextField = new JTextField(App.NOTIFIER.getSettings().getTwitchAPIToken(), 16);
+
+        this.twitchAPITokenButton = new JButton("?");
+        this.twitchAPITokenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Utils.openLink("http://www.ryandowling.me/twitch-api-token-generator/");
+            }
+        });
 
         this.twitchAPITokenPanel.add(this.twitchAPITokenLabel);
         this.twitchAPITokenPanel.add(this.twitchAPITokenTextField);
+        this.twitchAPITokenPanel.add(this.twitchAPITokenButton);
     }
 
     private void setupStreamTipClientIDPanel() {
