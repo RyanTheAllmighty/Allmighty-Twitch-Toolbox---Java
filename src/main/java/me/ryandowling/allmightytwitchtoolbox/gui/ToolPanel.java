@@ -3,8 +3,6 @@ package me.ryandowling.allmightytwitchtoolbox.gui;
 import me.ryandowling.allmightytwitchtoolbox.gui.tools.CounterToolPanel;
 
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 
