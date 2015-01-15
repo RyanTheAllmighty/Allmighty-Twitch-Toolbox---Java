@@ -5,6 +5,7 @@ import me.ryandowling.allmightytwitchtoolbox.App;
 import me.ryandowling.allmightytwitchtoolbox.events.managers.SettingsManager;
 import me.ryandowling.allmightytwitchtoolbox.utils.SoundPlayer;
 import me.ryandowling.allmightytwitchtoolbox.utils.Utils;
+import org.apache.commons.io.FileUtils;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -19,6 +20,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -393,8 +395,17 @@ public class SettingsPanel extends JPanel {
             return;
         }
 
-        if (!App.NOTIFIER.getSettings().getTwitchUsername().equalsIgnoreCase(this.twitchUsernameTextField.getText())
-                || App.NOTIFIER.getSettings().getServerPort() != Integer.parseInt(this.serverPortTextField.getText())) {
+        if (!App.NOTIFIER.getSettings().getTwitchUsername().equalsIgnoreCase(this.twitchUsernameTextField.getText())) {
+            try {
+                FileUtils.deleteDirectory(Utils.getTxtDir().toFile());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            restartApp = true;
+        }
+
+        if(App.NOTIFIER.getSettings().getServerPort() != Integer.parseInt(this.serverPortTextField.getText())) {
             restartApp = true;
         }
 
