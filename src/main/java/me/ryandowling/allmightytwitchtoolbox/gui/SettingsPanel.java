@@ -52,6 +52,10 @@ public class SettingsPanel extends JPanel {
     private JLabel timeBetweenDonationChecksLabel;
     private JSpinner timeBetweenDonationChecksSpinner;
 
+    private JPanel timeBetweenViewerCountChecksPanel;
+    private JLabel timeBetweenViewerCountChecksLabel;
+    private JSpinner timeBetweenViewerCountChecksSpinner;
+
     private JPanel serverPortPanel;
     private JLabel serverPortLabel;
     private JTextField serverPortTextField;
@@ -94,6 +98,7 @@ public class SettingsPanel extends JPanel {
         setupStreamTipAccessTokenPanel();
         setupTimeBetweenFollowerChecksPanel();
         setupTimeBetweenDonationChecksPanel();
+        setupTimeBetweenViewerCountChecksPanel();
         setupServerPortPanel();
         setupFollowerSoundPanel();
         setupDonationSoundPanel();
@@ -180,6 +185,20 @@ public class SettingsPanel extends JPanel {
 
         this.timeBetweenDonationChecksPanel.add(this.timeBetweenDonationChecksLabel);
         this.timeBetweenDonationChecksPanel.add(this.timeBetweenDonationChecksSpinner);
+    }
+
+    private void setupTimeBetweenViewerCountChecksPanel() {
+        this.timeBetweenViewerCountChecksPanel = new JPanel();
+        this.timeBetweenViewerCountChecksPanel.setLayout(new FlowLayout());
+
+        this.timeBetweenViewerCountChecksLabel = new JLabel("Seconds Between Viewer Count Checks:");
+
+        this.timeBetweenViewerCountChecksSpinner = new JSpinner();
+        this.timeBetweenViewerCountChecksSpinner.setModel(new SpinnerNumberModel(App.NOTIFIER.getSettings()
+                .getSecondsBetweenViewerCountChecks(), 10, 60, 5));
+
+        this.timeBetweenViewerCountChecksPanel.add(this.timeBetweenViewerCountChecksLabel);
+        this.timeBetweenViewerCountChecksPanel.add(this.timeBetweenViewerCountChecksSpinner);
     }
 
     private void setupServerPortPanel() {
@@ -307,6 +326,7 @@ public class SettingsPanel extends JPanel {
         this.mainPane.add(this.streamTipAccessTokenPanel);
         this.mainPane.add(this.timeBetweenFollowerChecksPanel);
         this.mainPane.add(this.timeBetweenDonationChecksPanel);
+        this.mainPane.add(this.timeBetweenViewerCountChecksPanel);
         this.mainPane.add(this.serverPortPanel);
         this.mainPane.add(this.newFollowerSoundPanel);
         this.mainPane.add(this.newDonationSoundPanel);
@@ -385,6 +405,8 @@ public class SettingsPanel extends JPanel {
         App.NOTIFIER.getSettings().setSecondsBetweenFollowerChecks((int) this.timeBetweenFollowerChecksSpinner
                 .getValue());
         App.NOTIFIER.getSettings().setSecondsBetweenDonationChecks((int) this.timeBetweenDonationChecksSpinner
+                .getValue());
+        App.NOTIFIER.getSettings().setSecondsBetweenViewerCountChecks((int) this.timeBetweenViewerCountChecksSpinner
                 .getValue());
         App.NOTIFIER.getSettings().setServerPort(Integer.parseInt(this.serverPortTextField.getText().replaceAll
                 ("[^0-9]", "")));

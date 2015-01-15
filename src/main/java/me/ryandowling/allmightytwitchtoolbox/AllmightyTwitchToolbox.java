@@ -19,6 +19,7 @@ import me.ryandowling.allmightytwitchtoolbox.events.FollowerAlert;
 import me.ryandowling.allmightytwitchtoolbox.events.FollowerFiles;
 import me.ryandowling.allmightytwitchtoolbox.events.managers.DonationManager;
 import me.ryandowling.allmightytwitchtoolbox.events.managers.FollowerManager;
+import me.ryandowling.allmightytwitchtoolbox.events.managers.ViewerCountManager;
 import me.ryandowling.allmightytwitchtoolbox.gui.Console;
 import me.ryandowling.allmightytwitchtoolbox.utils.Utils;
 import org.apache.commons.io.FileUtils;
@@ -29,6 +30,7 @@ import java.lang.reflect.Type;
 import java.net.URL;
 import java.nio.file.Files;
 import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executors;
@@ -48,6 +50,7 @@ public class AllmightyTwitchToolbox {
 
     private Map<String, Follower> followers = new HashMap<>();
     private Map<String, Donation> donations = new HashMap<>();
+    private Map<Date, Integer> viewerCount = new HashMap<>();
 
     // All the notificators
     private FollowerFiles followerFiles;
@@ -100,6 +103,8 @@ public class AllmightyTwitchToolbox {
             loadDonations();
             startCheckingForNewDonations();
 
+            startCheckingViewerCount();
+
             loadNotifiers();
 
             startServer();
@@ -148,6 +153,18 @@ public class AllmightyTwitchToolbox {
 
         this.executor.scheduleAtFixedRate(runnable, this.settings.getSecondsBetweenDonationChecks(), this.settings
                 .getSecondsBetweenDonationChecks(), TimeUnit.SECONDS);
+    }
+
+    private void startCheckingViewerCount() {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                checkViewerCount();
+            }
+        };
+
+        this.executor.scheduleAtFixedRate(runnable, this.settings.getSecondsBetweenViewerCountChecks(), this.settings
+                .getSecondsBetweenViewerCountChecks(), TimeUnit.SECONDS);
     }
 
     private void loadFollowers() {
@@ -305,6 +322,26 @@ public class AllmightyTwitchToolbox {
         }
     }
 
+    private void checkViewerCount() {
+        TwitchAPIRequest request = new TwitchAPIRequest("/streams/" + this.settings.getTwitchUsername());
+
+        try {
+            TwitchStreamResponse stream = GSON.fromJson(request.get(), TwitchStreamResponse.class);
+
+            int lastViewers = this.getLatestViewerCount();
+
+            this.viewerCount.put(new Date(), (stream.isLive() ? stream.getStream().getViewers() : 0));
+
+            int nowViewers = this.getLatestViewerCount();
+
+            if (lastViewers != nowViewers) {
+                ViewerCountManager.viewerCountChanged(nowViewers);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void saveFollowers() {
         try {
             FileUtils.write(Utils.getFollowersFile().toFile(), GSON.toJson(this.followers));
@@ -369,6 +406,14 @@ public class AllmightyTwitchToolbox {
 
     public Map<String, Donation> getDonations() {
         return this.donations;
+    }
+
+    public Map<Date, Integer> getViewerCount() {
+        return this.viewerCount;
+    }
+
+    public int getLatestViewerCount() {
+        return this.viewerCount.entrySet().iterator().next().getValue();
     }
 
     public boolean addFollower(Follower follower) {

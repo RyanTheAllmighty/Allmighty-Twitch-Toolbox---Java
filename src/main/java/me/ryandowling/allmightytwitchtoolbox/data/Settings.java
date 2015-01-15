@@ -18,6 +18,7 @@ public class Settings {
 
     private int secondsBetweenFollowerChecks;
     private int secondsBetweenDonationChecks;
+    private int secondsBetweenViewerCountChecks;
 
     private String newFollowSoundPath;
     private String newDonationSoundPath;
@@ -35,6 +36,7 @@ public class Settings {
         this.twitchAPIToken = "";
         this.secondsBetweenFollowerChecks = 30;
         this.secondsBetweenDonationChecks = 30;
+        this.secondsBetweenViewerCountChecks = 30;
         this.newFollowSoundPath = "";
         this.newDonationSoundPath = "";
         this.isSetup = false;
@@ -75,6 +77,10 @@ public class Settings {
         return this.secondsBetweenDonationChecks;
     }
 
+    public int getSecondsBetweenViewerCountChecks() {
+        return this.secondsBetweenViewerCountChecks;
+    }
+
     public Path getNewFollowSound() {
         return Paths.get(this.newFollowSoundPath);
     }
@@ -113,6 +119,10 @@ public class Settings {
 
     public void setSecondsBetweenDonationChecks(int secondsBetweenDonationChecks) {
         this.secondsBetweenDonationChecks = secondsBetweenDonationChecks;
+    }
+
+    public void setSecondsBetweenViewerCountChecks(int secondsBetweenViewerCountChecks) {
+        this.secondsBetweenViewerCountChecks = secondsBetweenViewerCountChecks;
     }
 
     public void setNewFollowSoundPath(String newFollowSoundPath) {
