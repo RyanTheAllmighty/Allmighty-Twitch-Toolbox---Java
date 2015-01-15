@@ -10,8 +10,6 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class StreamTipTip implements Donation {
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'");
-
     private boolean isTest;
     private String username;
     private String currencySymbol;
@@ -41,11 +39,10 @@ public class StreamTipTip implements Donation {
     }
 
     public long getTime() {
-        Date date;
+        final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'");
 
         try {
-            date = DATE_FORMAT.parse(this.date);
-            return date.getTime();
+            return format.parse(this.date).getTime();
         } catch (ParseException e) {
             e.printStackTrace();
         }

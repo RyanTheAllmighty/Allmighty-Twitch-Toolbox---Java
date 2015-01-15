@@ -9,8 +9,6 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class TwitchFollower implements Follower {
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-
     private boolean isTest;
     private String created_at;
     private boolean notifications;
@@ -29,11 +27,10 @@ public class TwitchFollower implements Follower {
     }
 
     public long getTime() {
-        Date date;
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
         try {
-            date = DATE_FORMAT.parse(this.created_at);
-            return date.getTime();
+            return format.parse(this.created_at).getTime();
         } catch (ParseException | NumberFormatException e) {
             e.printStackTrace();
         }
@@ -44,7 +41,7 @@ public class TwitchFollower implements Follower {
     public String getTimeLocal() {
         try {
             DateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-            DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("GMT"));
+            originalFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 
             Date date = originalFormat.parse(this.created_at);
 
