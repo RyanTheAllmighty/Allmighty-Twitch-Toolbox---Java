@@ -66,6 +66,7 @@ public class TwitchFollower implements Follower {
         }
 
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        format.setTimeZone(TimeZone.getTimeZone("GMT"));
 
         this.created_at = format.format(new Date());
         this.notifications = true;

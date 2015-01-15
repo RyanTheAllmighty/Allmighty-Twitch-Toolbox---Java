@@ -78,6 +78,7 @@ public class StreamTipTip implements Donation {
         }
 
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'");
+        format.setTimeZone(TimeZone.getTimeZone("GMT"));
 
         this.id = Utils.getRandomHexString(24);
         this.username = username;
