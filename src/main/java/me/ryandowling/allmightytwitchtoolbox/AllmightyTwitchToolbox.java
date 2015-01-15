@@ -34,6 +34,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+// @todo Clean up this massive mess of messiness
 public class AllmightyTwitchToolbox {
     private Settings settings;
 

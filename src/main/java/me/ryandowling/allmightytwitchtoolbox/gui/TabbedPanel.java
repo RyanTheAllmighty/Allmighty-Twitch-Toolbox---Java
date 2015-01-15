@@ -11,6 +11,7 @@ public class TabbedPanel extends JTabbedPane implements SettingsListener {
     private ConsolePanel consolePanel = new ConsolePanel();
     private FollowerPanel followerPanel = new FollowerPanel();
     private DonationPanel donationPanel = new DonationPanel();
+    private ToolPanel toolsPanel = new ToolPanel();
     private TestPanel testPanel = new TestPanel();
     private SettingsPanel settingsPanel = new SettingsPanel();
 
@@ -23,36 +24,33 @@ public class TabbedPanel extends JTabbedPane implements SettingsListener {
         addTab("Console", this.consolePanel);
         addTab("Followers", this.followerPanel);
         addTab("Donations", this.donationPanel);
+        addTab("Tools", this.toolsPanel);
         addTab("Test", this.testPanel);
         addTab("Settings", this.settingsPanel);
 
         if (!App.NOTIFIER.getSettings().isSetup()) {
             this.setSelectedComponent(this.consolePanel);
-
-            this.setEnabledAt(0, false);
-            this.setEnabledAt(2, false);
-            this.setEnabledAt(3, false);
-            this.setEnabledAt(4, false);
+            updateTabs(false);
         }
+    }
+
+    private void updateTabs(boolean b) {
+        this.setEnabledAt(0, b);
+        this.setEnabledAt(2, b);
+        this.setEnabledAt(3, b);
+        this.setEnabledAt(4, b);
+        this.setEnabledAt(5, b);
     }
 
     @Override
     public void onSetupComplete() {
         App.NOTIFIER.setup(false);
-        
-        this.setEnabledAt(0, true);
-        this.setEnabledAt(2, true);
-        this.setEnabledAt(3, true);
-        this.setEnabledAt(4, true);
+        updateTabs(true);
     }
 
     @Override
     public void onSetupInvalidated() {
         this.setSelectedComponent(this.consolePanel);
-
-        this.setEnabledAt(0, false);
-        this.setEnabledAt(2, false);
-        this.setEnabledAt(3, false);
-        this.setEnabledAt(4, false);
+        updateTabs(false);
     }
 }
