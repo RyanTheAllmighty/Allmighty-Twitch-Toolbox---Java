@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Allmighty Twitch Toolbox</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/css/custom.css" rel="stylesheet"/>
+</head>
+<body>
+
+<header id="layout-header">
+    <nav id="layout-nav" class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Allmighty Twitch Toolbox</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-main-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="#welcome">Welcome</a></li>
+                    <li><a href="#components">Components</a></li>
+                    <li><a href="#notifications">Notifications</a></li>
+                    <li><a href="#api">API</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<section id="layout-content">
+    <div class="container">
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">Welcome</div>
+                <div class="panel-body">
+                    <a name="welcome"></a>
+
+                    <p>
+                        Welcome to the start page for the Allmighty Twitch Toolbox. Here you can find all the
+                        information related to the program such as widget sizes for OBS, link to the different
+                        systems and more.
+                    </p>
+
+                    <p>
+                        To get started, pick a link in the top bar or just scroll down!
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">Components</div>
+                <div class="panel-body">
+                    <a name="components"></a>
+
+                    <p>
+                        There are multiple components to the Allmighty Twitch Toolbox which use this built in server.
+                        To find out more about the components just click on it's name.
+                    </p>
+
+                    <ul>
+                        <li><a href="#notifications">Notifications</a> - This shows followers and donation alerts
+                            on your stream as well as popup alerts and sounds on your computer.
+                        </li>
+                        <li><a href="#api">API</a> - If you don't know what an API is, you probably don't need it.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">Notifications</div>
+                <div class="panel-body">
+                    <a name="notifications"></a>
+
+                    <p>
+                        The notifications panel will show notifications on your stream when people follow or donate.
+                        A popup box is also shown on your computer in the bottom right hand side of the page with the
+                        details and a sound of your choosing is played.
+                    </p>
+
+                    <p>
+                        To add this to OBS, add a CLR Browser pointing to the below url with a width of 580 and a
+                        height of 110.
+                    </p>
+
+                    <p>
+                        <input id="notifications-url" class="col-xs-12" type="text"/><br/>
+                    </p>
+
+                    <p>
+                        If you wish to change the sound played when someone follows or donates, you can do so in the
+                        Allmighty Twitch Toolbox application in the Settings tab. Please be aware only .wav files are
+                        accepted and you can use the Test button to test that the sound plays before using it.
+                    </p>
+
+                    <p>
+                        A few things to note about the follower and donation alerts are that:
+                    </p>
+
+                    <ul>
+                        <li>People who unfollow and then refollow will NOT show an alert, only those who are new
+                            followers will show up.
+                        </li>
+                        <li>No donation note will show up on the stream notification, you can use the files
+                            generated by the Allmighty Twitch Toolbox if you wish to display that.
+                        </li>
+                        <li>Only StreamTip is supported at this time for donations. Support for more will come in
+                            the future.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">API</div>
+                <div class="panel-body">
+                    <a name="api"></a>
+
+                    <p>
+                        The Allmighty Twitch Toolbox contains a very limited and crappy API so you can get the
+                        information from the application using the inbuilt server. Again note the above words
+                        'limited' and 'crappy', so there is not much you can do with it. But if you do wish to use
+                        it, you can find the routes and very brief explanation below.
+                    </p>
+
+                    <ul>
+                        <li><a href="/followers/latest">/followers/latest</a> - Gets a JSON object of the latest
+                            follower.
+                        </li>
+                        <li><a href="/followers/latest/username">/followers/latest/username</a> - Gets the username of
+                            the
+                            latest follower.
+                        </li>
+                        <li><a href="/followers/total">/followers/total</a> - Gets the total number of followers.</li>
+                        <li><a href="/donations/latest">/donations/latest</a> - Gets a JSON object of the latest
+                            donation.
+                        </li>
+                        <li><a href="/donations/latest/id">/donations/latest/id</a> - Gets the unique ID of the
+                            latest donation.
+                        </li>
+                        <li><a href="/donations/latest/username">/donations/latest/username</a> - Gets the username
+                            of the latest donation.
+                        </li>
+                        <li><a href="/donations/latest/amount">/donations/latest/amount</a> - Gets the amount of
+                            the latest donation.
+                        </li>
+                        <li><a href="/donations/latest/note">/donations/latest/note</a> - Gets the note of the
+                            latest donation.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    if (!window.location.origin) {
+        window.location.origin = window.location.protocol + "//" + window.location.host;
+    }
+
+    $(document).ready(function () {
+        $('#notifications-url').val(window.location.origin + "/notifications");
+
+        $(window).resize(function () {
+            $('body').css('padding-top', parseInt($('#layout-nav').css("height")) + 15);
+        }).load(function () {
+            $('body').css('padding-top', parseInt($('#layout-nav').css("height")) + 15);
+        });
+    });
+</script>
+</body>
+</html>

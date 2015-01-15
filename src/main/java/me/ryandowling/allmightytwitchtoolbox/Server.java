@@ -9,9 +9,11 @@ import me.ryandowling.allmightytwitchtoolbox.events.managers.DonationManager;
 import me.ryandowling.allmightytwitchtoolbox.events.managers.FollowerManager;
 import me.ryandowling.allmightytwitchtoolbox.utils.Utils;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URL;
 
 public class Server extends NanoHTTPD implements FollowerListener, DonationListener {
     private Follower latestFollower;
@@ -34,6 +36,13 @@ public class Server extends NanoHTTPD implements FollowerListener, DonationListe
         switch (session.getUri()) {
             case "/":
                 try {
+                    return found(IOUtils.toString(System.class.getResource("/assets/html/index.html")));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return error();
+                }
+            case "/notifications":
+                try {
                     return found(FileUtils.readFileToString(Utils.getNotificationsHTMLFile().toFile()));
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -51,7 +60,7 @@ public class Server extends NanoHTTPD implements FollowerListener, DonationListe
             case "/followers/latest":
                 json = AllmightyTwitchToolbox.GSON.toJson(this.latestFollower);
                 break;
-            case "/followers/latest/text":
+            case "/followers/latest/username":
                 json = AllmightyTwitchToolbox.GSON.toJson(this.latestFollower.getDisplayName());
                 break;
             case "/followers/total":
@@ -60,7 +69,7 @@ public class Server extends NanoHTTPD implements FollowerListener, DonationListe
             case "/donations/latest":
                 json = AllmightyTwitchToolbox.GSON.toJson(this.latestDonation);
                 break;
-            case "/donations/latest/text":
+            case "/donations/latest/id":
                 json = AllmightyTwitchToolbox.GSON.toJson(this.latestDonation.getID());
                 break;
             case "/donations/latest/username":
@@ -69,7 +78,29 @@ public class Server extends NanoHTTPD implements FollowerListener, DonationListe
             case "/donations/latest/amount":
                 json = AllmightyTwitchToolbox.GSON.toJson(this.latestDonation.getPrintableAmount());
                 break;
+            case "/donations/latest/note":
+                json = AllmightyTwitchToolbox.GSON.toJson(this.latestDonation.getNote());
+                break;
             default:
+                URL url = System.class.getResource("/assets/" + session.getUri());
+
+                if (url != null) {
+                    try {
+                        String type = "text/html";
+
+                        if (session.getUri().substring(0, 4).equalsIgnoreCase("/js/")) {
+                            type = "text/javascript";
+                        } else if (session.getUri().substring(0, 5).equalsIgnoreCase("/css/")) {
+                            type = "text/css";
+                        }
+
+                        return found(IOUtils.toString(url), type);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        return error();
+                    }
+                }
+
                 return notFound();
         }
 
@@ -78,6 +109,10 @@ public class Server extends NanoHTTPD implements FollowerListener, DonationListe
 
     private Response found(String response) {
         return new NanoHTTPD.Response(response);
+    }
+
+    private Response found(String response, String type) {
+        return new NanoHTTPD.Response(Response.Status.OK, type, response);
     }
 
     private Response notFound() {
