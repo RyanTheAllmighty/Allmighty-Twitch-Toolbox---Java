@@ -79,6 +79,10 @@ public class Utils {
         return getDataDir().resolve("donationGoal.txt");
     }
 
+    public static Path getCounterFile() {
+        return getDataDir().resolve("counter.txt");
+    }
+
     public static <K, V extends Comparable<? super V>> Map<K, V> sortMapByValue(Map<K, V> map) {
         List<Map.Entry<K, V>> list = new LinkedList<>(map.entrySet());
         Collections.sort(list, new Comparator<Map.Entry<K, V>>() {

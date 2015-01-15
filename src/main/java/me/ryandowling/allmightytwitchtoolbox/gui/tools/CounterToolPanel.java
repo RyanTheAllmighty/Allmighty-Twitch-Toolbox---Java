@@ -1,11 +1,15 @@
 package me.ryandowling.allmightytwitchtoolbox.gui.tools;
 
+import me.ryandowling.allmightytwitchtoolbox.utils.Utils;
+import org.apache.commons.io.FileUtils;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class CounterToolPanel extends JPanel implements ActionListener {
     private JLabel counterLabel;
@@ -52,6 +56,12 @@ public class CounterToolPanel extends JPanel implements ActionListener {
     }
 
     private void updateCounter() {
+        try {
+            FileUtils.write(Utils.getCounterFile().toFile(), "" + this.counter);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
         counterValueLabel.setText("" + this.counter);
     }
 

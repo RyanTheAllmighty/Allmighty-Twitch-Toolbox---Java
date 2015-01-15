@@ -30,6 +30,10 @@
             <id>atlauncher-repo</id>
             <url>http://maven.atlcdn.net/</url>
         </repository>
+        <repository>
+            <id>snapshots-repo</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -65,6 +69,12 @@
             <groupId>com.googlecode.json-simple</groupId>
             <artifactId>json-simple</artifactId>
             <version>1.1.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.tulskiy</groupId>
+            <artifactId>jkeymaster</artifactId>
+            <version>1.2-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
