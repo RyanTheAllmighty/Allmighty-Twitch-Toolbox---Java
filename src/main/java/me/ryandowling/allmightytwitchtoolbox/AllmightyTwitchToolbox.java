@@ -413,6 +413,10 @@ public class AllmightyTwitchToolbox {
     }
 
     public int getLatestViewerCount() {
+        if (this.viewerCount.size() == 0) {
+            return 0;
+        }
+
         return this.viewerCount.entrySet().iterator().next().getValue();
     }
 
@@ -441,10 +445,18 @@ public class AllmightyTwitchToolbox {
     }
 
     public Follower getLatestFollower() {
+        if (this.followers.size() == 0) {
+            return null;
+        }
+
         return this.followers.entrySet().iterator().next().getValue();
     }
 
     public Donation getLatestDonation() {
+        if (this.donations.size() == 0) {
+            return null;
+        }
+
         return this.donations.entrySet().iterator().next().getValue();
     }
 
