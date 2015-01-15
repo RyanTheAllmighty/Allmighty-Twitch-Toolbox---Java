@@ -69,6 +69,7 @@ public class SettingsPanel extends JPanel {
     private JButton newDonationSoundChooserButton;
     private JButton newDonationSoundTestButton;
 
+    private JButton openServerButton;
     private JButton saveButton;
 
     public SettingsPanel() {
@@ -278,6 +279,14 @@ public class SettingsPanel extends JPanel {
                 saveSettings();
             }
         });
+
+        this.openServerButton = new JButton("Open Server");
+        this.openServerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Utils.openLink("http://localhost:" + serverPortTextField.getText());
+            }
+        });
     }
 
     private void addComponents() {
@@ -292,6 +301,7 @@ public class SettingsPanel extends JPanel {
         this.mainPane.add(this.newDonationSoundPanel);
 
         this.buttonPane.add(this.saveButton);
+        this.buttonPane.add(this.openServerButton);
 
         add(this.mainPane, BorderLayout.CENTER);
         add(this.buttonPane, BorderLayout.SOUTH);
@@ -352,7 +362,8 @@ public class SettingsPanel extends JPanel {
             return;
         }
 
-        if (!App.NOTIFIER.getSettings().getTwitchUsername().equalsIgnoreCase(this.twitchUsernameTextField.getText())) {
+        if (!App.NOTIFIER.getSettings().getTwitchUsername().equalsIgnoreCase(this.twitchUsernameTextField.getText())
+                || App.NOTIFIER.getSettings().getServerPort() != Integer.parseInt(this.serverPortTextField.getText())) {
             restartApp = true;
         }
 

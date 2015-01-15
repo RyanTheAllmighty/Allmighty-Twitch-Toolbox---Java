@@ -20,6 +20,8 @@ To get a runnable Jar file run 'mvn clean install' in the root of the project.
 
 To get a Twitch API token for use in the application you can either visit http://www.ryandowling.me/twitch-api-token-generator to generate a token using my site or you can follow the directions on Twitch's API docs (https://github.com/justintv/Twitch-API/blob/master/authentication.md) making sure to grant rights for all scopes when doing so
 
+For details on setup and information about the inbuilt server used and what you can do with it (such as display notifications on your stream), click the Open Server button on the Settings page to be taken to the index page for the inbuilt server.
+
 More instructions to follow
 
 ### License
