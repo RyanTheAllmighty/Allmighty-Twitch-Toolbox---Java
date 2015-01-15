@@ -336,10 +336,9 @@ public class AllmightyTwitchToolbox {
             TwitchStreamResponse stream = GSON.fromJson(request.get(), TwitchStreamResponse.class);
 
             int lastViewers = this.getLatestViewerCount();
+            int nowViewers = (stream.isLive() ? stream.getStream().getViewers() : 0);
 
-            this.viewerCount.put(new Date(), (stream.isLive() ? stream.getStream().getViewers() : 0));
-
-            int nowViewers = this.getLatestViewerCount();
+            this.viewerCount.put(new Date(), nowViewers);
 
             if (lastViewers != nowViewers) {
                 ViewerCountManager.viewerCountChanged(nowViewers);

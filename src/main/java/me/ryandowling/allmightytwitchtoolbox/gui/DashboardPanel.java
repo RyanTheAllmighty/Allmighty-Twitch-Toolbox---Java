@@ -8,6 +8,7 @@ import me.ryandowling.allmightytwitchtoolbox.events.listeners.FollowerListener;
 import me.ryandowling.allmightytwitchtoolbox.events.listeners.ViewerCountListener;
 import me.ryandowling.allmightytwitchtoolbox.events.managers.DonationManager;
 import me.ryandowling.allmightytwitchtoolbox.events.managers.FollowerManager;
+import me.ryandowling.allmightytwitchtoolbox.events.managers.ViewerCountManager;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -66,6 +67,7 @@ public class DashboardPanel extends JPanel implements FollowerListener, Donation
 
         updateValues();
 
+        ViewerCountManager.addListener(this);
         FollowerManager.addListener(this);
         DonationManager.addListener(this);
     }
