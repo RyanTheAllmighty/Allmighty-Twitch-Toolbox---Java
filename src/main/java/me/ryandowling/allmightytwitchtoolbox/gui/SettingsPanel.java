@@ -397,7 +397,9 @@ public class SettingsPanel extends JPanel {
 
         if (!App.NOTIFIER.getSettings().getTwitchUsername().equalsIgnoreCase(this.twitchUsernameTextField.getText())) {
             try {
-                FileUtils.deleteDirectory(Utils.getTxtDir().toFile());
+                FileUtils.forceDeleteOnExit(Utils.getFollowersFile().toFile());
+                FileUtils.forceDeleteOnExit(Utils.getDonationsFile().toFile());
+                FileUtils.forceDeleteOnExit(Utils.getTxtDir().toFile());
             } catch (IOException e) {
                 e.printStackTrace();
             }
