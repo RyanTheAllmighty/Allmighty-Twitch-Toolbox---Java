@@ -2,7 +2,7 @@ package me.ryandowling.allmightytwitchtoolbox.gui.tools;
 
 import com.tulskiy.keymaster.common.HotKey;
 import com.tulskiy.keymaster.common.HotKeyListener;
-import com.tulskiy.keymaster.common.Provider;
+import me.ryandowling.allmightytwitchtoolbox.App;
 import me.ryandowling.allmightytwitchtoolbox.utils.Utils;
 import org.apache.commons.io.FileUtils;
 
@@ -22,8 +22,6 @@ public class CounterToolPanel extends JPanel implements ActionListener {
     private JButton counterAddButton;
     private JButton counterRemoveButton;
     private JButton counterResetButton;
-
-    private Provider hotKeyProvider;
 
     private int counter;
 
@@ -98,26 +96,24 @@ public class CounterToolPanel extends JPanel implements ActionListener {
     }
 
     private void setupHotKeys() {
-        this.hotKeyProvider = Provider.getCurrentProvider(true);
+        App.NOTIFIER.getHotKeyProvider().register(KeyStroke.getKeyStroke(KeyEvent.VK_ADD, KeyEvent.CTRL_DOWN_MASK),
+                new HotKeyListener() {
+                    @Override
+                    public void onHotKey(HotKey hotKey) {
+                        addToCounter(1);
+                    }
+                });
 
-        this.hotKeyProvider.register(KeyStroke.getKeyStroke(KeyEvent.VK_ADD, KeyEvent.CTRL_DOWN_MASK), new
-                HotKeyListener() {
-            @Override
-            public void onHotKey(HotKey hotKey) {
-                addToCounter(1);
-            }
-        });
-
-        this.hotKeyProvider.register(KeyStroke.getKeyStroke(KeyEvent.VK_SUBTRACT, KeyEvent.CTRL_DOWN_MASK), new
-                HotKeyListener() {
+        App.NOTIFIER.getHotKeyProvider().register(KeyStroke.getKeyStroke(KeyEvent.VK_SUBTRACT, KeyEvent
+                .CTRL_DOWN_MASK), new HotKeyListener() {
             @Override
             public void onHotKey(HotKey hotKey) {
                 removeFromCounter(1);
             }
         });
 
-        this.hotKeyProvider.register(KeyStroke.getKeyStroke(KeyEvent.VK_MULTIPLY, KeyEvent.CTRL_DOWN_MASK), new
-                HotKeyListener() {
+        App.NOTIFIER.getHotKeyProvider().register(KeyStroke.getKeyStroke(KeyEvent.VK_MULTIPLY, KeyEvent
+                .CTRL_DOWN_MASK), new HotKeyListener() {
             @Override
             public void onHotKey(HotKey hotKey) {
                 resetCounter();

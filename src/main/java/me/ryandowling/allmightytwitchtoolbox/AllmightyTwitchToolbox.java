@@ -3,6 +3,7 @@ package me.ryandowling.allmightytwitchtoolbox;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.tulskiy.keymaster.common.Provider;
 import me.ryandowling.allmightytwitchtoolbox.data.Settings;
 import me.ryandowling.allmightytwitchtoolbox.data.interfaces.Donation;
 import me.ryandowling.allmightytwitchtoolbox.data.interfaces.Follower;
@@ -37,6 +38,8 @@ import java.util.concurrent.TimeUnit;
 // @todo Clean up this massive mess of messiness
 public class AllmightyTwitchToolbox {
     private Settings settings;
+
+    private final Provider HOT_KEY_PROVIDER = Provider.getCurrentProvider(true);
 
     private Server server; // The Jetty server
 
@@ -93,7 +96,7 @@ public class AllmightyTwitchToolbox {
     public void setup() {
         this.setup(true);
     }
-    
+
     public void setup(boolean checkAPIToken) {
         if (checkAPIToken && this.settings.isSetup()) {
             checkTwitchAPIToken();
@@ -494,5 +497,9 @@ public class AllmightyTwitchToolbox {
 
     public void setFollowerGoal(int followerGoal) {
         this.followerGoal = followerGoal;
+    }
+
+    public Provider getHotKeyProvider() {
+        return this.HOT_KEY_PROVIDER;
     }
 }
