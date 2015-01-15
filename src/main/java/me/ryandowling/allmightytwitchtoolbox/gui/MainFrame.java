@@ -12,7 +12,7 @@ import java.awt.event.WindowEvent;
 
 public class MainFrame extends JFrame {
     public MainFrame() {
-        setTitle("Twitch Notifier by RyanTheAllmighty");
+        setTitle("Allmighty Twitch Toolbox");
         setSize(App.NOTIFIER.getSettings().getGuiSize());
         setLocation(App.NOTIFIER.getSettings().getGuiPosition());
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
