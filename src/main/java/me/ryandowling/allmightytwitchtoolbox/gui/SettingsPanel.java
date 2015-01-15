@@ -38,6 +38,11 @@ public class SettingsPanel extends JPanel {
     private JTextField twitchAPITokenTextField;
     private JButton twitchAPITokenButton;
 
+    private JPanel twitchAPIClientIDPanel;
+    private JLabel twitchAPIClientIDLabel;
+    private JTextField twitchAPIClientIDTextField;
+    private JButton twitchAPIClientIDButton;
+
     private JPanel streamTipClientIDPanel;
     private JLabel streamTipClientIDLabel;
     private JTextField streamTipClientIDTextField;
@@ -96,6 +101,7 @@ public class SettingsPanel extends JPanel {
 
         setupTwitchUsernamePanel();
         setupTwitchAPITokenPanel();
+        setupTwitchAPIClientIDPanel();
         setupStreamTipClientIDPanel();
         setupStreamTipAccessTokenPanel();
         setupTimeBetweenFollowerChecksPanel();
@@ -137,6 +143,27 @@ public class SettingsPanel extends JPanel {
         this.twitchAPITokenPanel.add(this.twitchAPITokenLabel);
         this.twitchAPITokenPanel.add(this.twitchAPITokenTextField);
         this.twitchAPITokenPanel.add(this.twitchAPITokenButton);
+    }
+
+    private void setupTwitchAPIClientIDPanel() {
+        this.twitchAPIClientIDPanel = new JPanel();
+        this.twitchAPIClientIDPanel.setLayout(new FlowLayout());
+
+        this.twitchAPIClientIDLabel = new JLabel("Twitch API ClientID:");
+
+        this.twitchAPIClientIDTextField = new JTextField(App.NOTIFIER.getSettings().getTwitchAPIClientID(), 16);
+
+        this.twitchAPIClientIDButton = new JButton("?");
+        this.twitchAPIClientIDButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Utils.openLink("http://www.ryandowling.me/twitch-api-token-generator/");
+            }
+        });
+
+        this.twitchAPIClientIDPanel.add(this.twitchAPIClientIDLabel);
+        this.twitchAPIClientIDPanel.add(this.twitchAPIClientIDTextField);
+        this.twitchAPIClientIDPanel.add(this.twitchAPIClientIDButton);
     }
 
     private void setupStreamTipClientIDPanel() {
@@ -324,6 +351,7 @@ public class SettingsPanel extends JPanel {
     private void addComponents() {
         this.mainPane.add(this.twitchUsernamePanel);
         this.mainPane.add(this.twitchAPITokenPanel);
+        this.mainPane.add(this.twitchAPIClientIDPanel);
         this.mainPane.add(this.streamTipClientIDPanel);
         this.mainPane.add(this.streamTipAccessTokenPanel);
         this.mainPane.add(this.timeBetweenFollowerChecksPanel);
@@ -413,6 +441,7 @@ public class SettingsPanel extends JPanel {
 
         App.NOTIFIER.getSettings().setTwitchUsername(this.twitchUsernameTextField.getText());
         App.NOTIFIER.getSettings().setTwitchAPIToken(this.twitchAPITokenTextField.getText());
+        App.NOTIFIER.getSettings().setTwitchAPIClientID(this.twitchAPIClientIDTextField.getText());
         App.NOTIFIER.getSettings().setStreamTipClientID(this.streamTipClientIDTextField.getText());
         App.NOTIFIER.getSettings().setStreamTipAccessToken(this.streamTipAccessTokenTextField.getText());
         App.NOTIFIER.getSettings().setSecondsBetweenFollowerChecks((int) this.timeBetweenFollowerChecksSpinner

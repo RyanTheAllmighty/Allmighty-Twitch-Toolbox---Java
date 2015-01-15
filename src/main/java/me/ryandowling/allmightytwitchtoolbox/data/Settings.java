@@ -12,6 +12,7 @@ public class Settings {
 
     private String twitchUsername;
     private String twitchAPIToken;
+    private String twitchAPIClientID;
 
     private String streamTipClientID;
     private String streamTipAccessToken;
@@ -34,6 +35,7 @@ public class Settings {
         this.serverPort = 9001;
         this.twitchUsername = "";
         this.twitchAPIToken = "";
+        this.twitchAPIClientID = "";
         this.secondsBetweenFollowerChecks = 30;
         this.secondsBetweenDonationChecks = 30;
         this.secondsBetweenViewerCountChecks = 30;
@@ -173,7 +175,15 @@ public class Settings {
         return this.twitchAPIToken;
     }
 
+    public String getTwitchAPIClientID() {
+        return twitchAPIClientID;
+    }
+
     public void setTwitchAPIToken(String twitchAPIToken) {
         this.twitchAPIToken = twitchAPIToken;
+    }
+
+    public void setTwitchAPIClientID(String twitchAPIClientID) {
+        this.twitchAPIClientID = twitchAPIClientID;
     }
 }

@@ -106,6 +106,7 @@ public class AllmightyTwitchToolbox {
             loadDonations();
             startCheckingForNewDonations();
 
+            checkViewerCount();
             startCheckingViewerCount();
 
             loadNotifiers();

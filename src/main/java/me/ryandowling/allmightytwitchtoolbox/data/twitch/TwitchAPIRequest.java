@@ -23,6 +23,7 @@ public class TwitchAPIRequest extends APIRequest {
         super.setRequestProperties();
 
         this.connection.setRequestProperty("Accept", "application/vnd.twitchtv.v3+json");
+        this.connection.setRequestProperty("Client-ID", App.NOTIFIER.getSettings().getTwitchAPIClientID());
         this.connection.setRequestProperty("Authorization", "OAuth " + this.apiToken);
     }
 }
