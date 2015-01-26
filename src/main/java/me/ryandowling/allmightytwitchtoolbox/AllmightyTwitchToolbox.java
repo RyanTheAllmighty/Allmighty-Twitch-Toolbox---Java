@@ -73,6 +73,7 @@ public class AllmightyTwitchToolbox {
     private int followerGoal = 0;
     private float donationGoal = 0.00f;
     private int[] viewerCountChartData;
+    private boolean hasSetup = false;
 
     public AllmightyTwitchToolbox() {
         loadSettings();
@@ -103,7 +104,7 @@ public class AllmightyTwitchToolbox {
 
         // If things are still setup, then Twitch API token is good
 
-        if (this.settings.isSetup()) {
+        if (this.settings.isSetup() && !this.hasSetup) {
             loadFollowers();
             startCheckingForNewFollowers();
 
@@ -116,6 +117,8 @@ public class AllmightyTwitchToolbox {
             loadNotifiers();
 
             startServer();
+
+            this.hasSetup = true;
         }
     }
 
@@ -582,6 +585,15 @@ public class AllmightyTwitchToolbox {
 
             i++;
         }
+
+        if (xValues.size() == 0) {
+            xValues.add(new Date());
+        }
+
+        if (yValues.size() == 0) {
+            yValues.add(0);
+        }
+
         return new ChartData(xValues, yValues);
     }
 }
