@@ -577,8 +577,8 @@ public class AllmightyTwitchToolbox {
 
         int i = 0;
         for (Map.Entry<Date, Integer> entry : this.viewerCount.entrySet()) {
-            xValues.add(i, entry.getKey());
             yValues.add(i, entry.getValue());
+            xValues.add(i, entry.getKey());
 
             i++;
         }

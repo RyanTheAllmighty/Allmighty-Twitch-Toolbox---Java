@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.Date;
 
 public class ViewerCountPanel extends JPanel {
     private Chart chart;
