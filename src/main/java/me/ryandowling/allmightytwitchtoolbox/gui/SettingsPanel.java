@@ -63,6 +63,10 @@ public class SettingsPanel extends JPanel {
     private JLabel timeBetweenViewerCountChecksLabel;
     private JSpinner timeBetweenViewerCountChecksSpinner;
 
+    private JPanel numberOfPointsOnViewerChartPanel;
+    private JLabel numberOfPointsOnViewerChartLabel;
+    private JSpinner numberOfPointsOnViewerChartSpinner;
+
     private JPanel serverPortPanel;
     private JLabel serverPortLabel;
     private JTextField serverPortTextField;
@@ -107,6 +111,7 @@ public class SettingsPanel extends JPanel {
         setupTimeBetweenFollowerChecksPanel();
         setupTimeBetweenDonationChecksPanel();
         setupTimeBetweenViewerCountChecksPanel();
+        setupNumberOfPointsOnViewerChartPanel();
         setupServerPortPanel();
         setupFollowerSoundPanel();
         setupDonationSoundPanel();
@@ -228,6 +233,20 @@ public class SettingsPanel extends JPanel {
 
         this.timeBetweenViewerCountChecksPanel.add(this.timeBetweenViewerCountChecksLabel);
         this.timeBetweenViewerCountChecksPanel.add(this.timeBetweenViewerCountChecksSpinner);
+    }
+
+    private void setupNumberOfPointsOnViewerChartPanel() {
+        this.numberOfPointsOnViewerChartPanel = new JPanel();
+        this.numberOfPointsOnViewerChartPanel.setLayout(new FlowLayout());
+
+        this.numberOfPointsOnViewerChartLabel = new JLabel("Number Of Points On Viewer Count Chart:");
+
+        this.numberOfPointsOnViewerChartSpinner = new JSpinner();
+        this.numberOfPointsOnViewerChartSpinner.setModel(new SpinnerNumberModel(App.NOTIFIER.getSettings()
+                .getNumberOfPointsOnViewerChart(), 5, 100, 1));
+
+        this.numberOfPointsOnViewerChartPanel.add(this.numberOfPointsOnViewerChartLabel);
+        this.numberOfPointsOnViewerChartPanel.add(this.numberOfPointsOnViewerChartSpinner);
     }
 
     private void setupServerPortPanel() {
@@ -357,6 +376,7 @@ public class SettingsPanel extends JPanel {
         this.mainPane.add(this.timeBetweenFollowerChecksPanel);
         this.mainPane.add(this.timeBetweenDonationChecksPanel);
         this.mainPane.add(this.timeBetweenViewerCountChecksPanel);
+        this.mainPane.add(this.numberOfPointsOnViewerChartPanel);
         this.mainPane.add(this.serverPortPanel);
         this.mainPane.add(this.newFollowerSoundPanel);
         this.mainPane.add(this.newDonationSoundPanel);
@@ -413,6 +433,20 @@ public class SettingsPanel extends JPanel {
             return;
         }
 
+        if ((int) this.timeBetweenViewerCountChecksSpinner.getValue() < 10 || (int) this
+                .timeBetweenViewerCountChecksSpinner.getValue() > 60) {
+            JOptionPane.showMessageDialog(this, "Time between viewer count checks must be between 10 and 60 " +
+                    "seconds!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if ((int) this.numberOfPointsOnViewerChartSpinner.getValue() < 5 || (int) this
+                .numberOfPointsOnViewerChartSpinner.getValue() > 100) {
+            JOptionPane.showMessageDialog(this, "Number of points on viewer count chart must be between 5 and 100!",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         if (this.newFollowerSoundTextField.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "New follower sound must be set!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -435,7 +469,7 @@ public class SettingsPanel extends JPanel {
             restartApp = true;
         }
 
-        if(App.NOTIFIER.getSettings().getServerPort() != Integer.parseInt(this.serverPortTextField.getText())) {
+        if (App.NOTIFIER.getSettings().getServerPort() != Integer.parseInt(this.serverPortTextField.getText())) {
             restartApp = true;
         }
 
@@ -449,6 +483,8 @@ public class SettingsPanel extends JPanel {
         App.NOTIFIER.getSettings().setSecondsBetweenDonationChecks((int) this.timeBetweenDonationChecksSpinner
                 .getValue());
         App.NOTIFIER.getSettings().setSecondsBetweenViewerCountChecks((int) this.timeBetweenViewerCountChecksSpinner
+                .getValue());
+        App.NOTIFIER.getSettings().setNumberOfPointsOnViewerChart((int) this.numberOfPointsOnViewerChartSpinner
                 .getValue());
         App.NOTIFIER.getSettings().setServerPort(Integer.parseInt(this.serverPortTextField.getText().replaceAll
                 ("[^0-9]", "")));

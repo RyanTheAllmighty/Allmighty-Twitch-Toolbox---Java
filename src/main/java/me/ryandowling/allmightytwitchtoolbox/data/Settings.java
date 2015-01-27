@@ -21,6 +21,8 @@ public class Settings {
     private int secondsBetweenDonationChecks;
     private int secondsBetweenViewerCountChecks;
 
+    private int numberOfPointsOnViewerChart;
+
     private String newFollowSoundPath;
     private String newDonationSoundPath;
 
@@ -39,6 +41,7 @@ public class Settings {
         this.secondsBetweenFollowerChecks = 30;
         this.secondsBetweenDonationChecks = 30;
         this.secondsBetweenViewerCountChecks = 30;
+        this.numberOfPointsOnViewerChart = 20;
         this.newFollowSoundPath = "";
         this.newDonationSoundPath = "";
         this.isSetup = false;
@@ -185,5 +188,13 @@ public class Settings {
 
     public void setTwitchAPIClientID(String twitchAPIClientID) {
         this.twitchAPIClientID = twitchAPIClientID;
+    }
+
+    public int getNumberOfPointsOnViewerChart() {
+        return this.numberOfPointsOnViewerChart;
+    }
+
+    public void setNumberOfPointsOnViewerChart(int numberOfPointsOnViewerChart) {
+        this.numberOfPointsOnViewerChart = numberOfPointsOnViewerChart;
     }
 }

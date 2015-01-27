@@ -580,6 +580,7 @@ public class AllmightyTwitchToolbox {
         List<Integer> yValues = new ArrayList<>();
 
         int i = 0;
+        int total = this.viewerCount.size();
         for (Map.Entry<Date, Integer> entry : this.viewerCount.entrySet()) {
             yValues.add(i, entry.getValue());
             xValues.add(i, entry.getKey());
@@ -593,6 +594,16 @@ public class AllmightyTwitchToolbox {
 
         if (yValues.size() == 0) {
             yValues.add(0);
+        }
+
+        if (xValues.size() > App.NOTIFIER.getSettings().getNumberOfPointsOnViewerChart()) {
+            xValues = xValues.subList(xValues.size() - App.NOTIFIER.getSettings().getNumberOfPointsOnViewerChart(),
+                    xValues.size());
+        }
+
+        if (yValues.size() > App.NOTIFIER.getSettings().getNumberOfPointsOnViewerChart()) {
+            yValues = yValues.subList(yValues.size() - App.NOTIFIER.getSettings().getNumberOfPointsOnViewerChart(),
+                    yValues.size());
         }
 
         return new ChartData(xValues, yValues);
