@@ -37,6 +37,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -54,7 +55,7 @@ public class AllmightyTwitchToolbox {
 
     private Map<String, Follower> followers = new HashMap<>();
     private Map<String, Donation> donations = new HashMap<>();
-    private Map<Date, Integer> viewerCount = new HashMap<>();
+    private Map<Date, Integer> viewerCount = new TreeMap<>();
 
     // All the notificators
     private ViewerCountFiles viewerCountFiles;
