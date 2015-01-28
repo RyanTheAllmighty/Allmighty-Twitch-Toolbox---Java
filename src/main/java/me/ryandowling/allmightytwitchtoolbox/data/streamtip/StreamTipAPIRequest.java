@@ -4,8 +4,8 @@ import me.ryandowling.allmightytwitchtoolbox.App;
 import me.ryandowling.allmightytwitchtoolbox.data.APIRequest;
 
 public class StreamTipAPIRequest extends APIRequest {
-    public StreamTipAPIRequest(String path) {
-        super("https://streamtip.com/api", path);
+    public StreamTipAPIRequest(String path, int limit, int offset) {
+        super("https://streamtip.com/api", path + "?limit=" + limit + "&offset=" + offset);
     }
 
     @Override

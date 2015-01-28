@@ -273,18 +273,33 @@ public class AllmightyTwitchToolbox {
             }
         }
 
-        StreamTipAPIRequest request = new StreamTipAPIRequest("/tips");
+        boolean hasMoreDonations = true;
 
-        try {
-            donations = GSON.fromJson(request.get(), StreamTipTips.class);
+        int limit = 100;
+        int offset = 0;
 
-            for (StreamTipTip tip : donations.getTips()) {
-                if (!this.donations.containsKey(tip.getID())) {
-                    this.donations.put(tip.getID(), tip);
+        while (hasMoreDonations) {
+            StreamTipAPIRequest request = new StreamTipAPIRequest("/tips", limit, offset);
+            int added = 0;
+
+            try {
+                donations = GSON.fromJson(request.get(), StreamTipTips.class);
+
+                for (StreamTipTip tip : donations.getTips()) {
+                    if (!this.donations.containsKey(tip.getID())) {
+                        added++;
+                        this.donations.put(tip.getID(), tip);
+                    }
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+
+            offset += limit;
+
+            if (added == 0) {
+                hasMoreDonations = false;
+            }
         }
     }
 
@@ -322,7 +337,7 @@ public class AllmightyTwitchToolbox {
     }
 
     private void checkForNewStreamTipDonations() {
-        StreamTipAPIRequest request = new StreamTipAPIRequest("/tips");
+        StreamTipAPIRequest request = new StreamTipAPIRequest("/tips", 5, 0);
 
         try {
             StreamTipTips donations = GSON.fromJson(request.get(), StreamTipTips.class);
