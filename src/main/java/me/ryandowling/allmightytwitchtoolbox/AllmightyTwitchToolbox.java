@@ -1,5 +1,7 @@
 package me.ryandowling.allmightytwitchtoolbox;
 
+import com.corundumstudio.socketio.Configuration;
+import com.corundumstudio.socketio.SocketIOServer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -16,8 +18,10 @@ import me.ryandowling.allmightytwitchtoolbox.data.twitch.TwitchFollower;
 import me.ryandowling.allmightytwitchtoolbox.data.twitch.TwitchUserFollows;
 import me.ryandowling.allmightytwitchtoolbox.events.DonationAlert;
 import me.ryandowling.allmightytwitchtoolbox.events.DonationFiles;
+import me.ryandowling.allmightytwitchtoolbox.events.DonationSocket;
 import me.ryandowling.allmightytwitchtoolbox.events.FollowerAlert;
 import me.ryandowling.allmightytwitchtoolbox.events.FollowerFiles;
+import me.ryandowling.allmightytwitchtoolbox.events.FollowerSocket;
 import me.ryandowling.allmightytwitchtoolbox.events.ViewerCountFiles;
 import me.ryandowling.allmightytwitchtoolbox.events.managers.DonationManager;
 import me.ryandowling.allmightytwitchtoolbox.events.managers.FollowerManager;
@@ -49,6 +53,7 @@ public class AllmightyTwitchToolbox {
     private final Provider HOT_KEY_PROVIDER = Provider.getCurrentProvider(true);
 
     private Server server; // The Jetty server
+    private SocketIOServer socketIOServer; // The Socket IO server
 
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(8);
@@ -60,9 +65,11 @@ public class AllmightyTwitchToolbox {
     // All the notificators
     private ViewerCountFiles viewerCountFiles;
 
+    private FollowerSocket followerSocket;
     private FollowerFiles followerFiles;
     private FollowerAlert followerAlert;
 
+    private DonationSocket donationSocket;
     private DonationFiles donationFiles;
     private DonationAlert donationAlert;
 
@@ -137,6 +144,9 @@ public class AllmightyTwitchToolbox {
     private void loadNotifiers() {
         viewerCountFiles = new ViewerCountFiles();
         viewerCountFiles.writeFiles();
+
+        followerSocket = new FollowerSocket();
+        donationSocket = new DonationSocket();
 
         followerFiles = new FollowerFiles();
         followerFiles.writeFiles();
@@ -435,11 +445,33 @@ public class AllmightyTwitchToolbox {
             System.err.println("Cannot start the server! Exiting!");
             System.exit(1);
         }
+
+        startSocketIOServer();
+    }
+
+    private void startSocketIOServer() {
+        Configuration config = new Configuration();
+        config.setHostname("localhost");
+        config.setPort(9002);
+
+        socketIOServer = new SocketIOServer(config);
+
+        socketIOServer.start();
+    }
+
+    public void sendSocketMessage(String eventName, Object data) {
+        this.socketIOServer.getBroadcastOperations().sendEvent(eventName, data);
     }
 
     public void stopServer() {
         if (this.server != null && this.server.isAlive()) {
             this.server.stop();
+        }
+    }
+
+    public void stopSocketIOServer() {
+        if (this.socketIOServer != null) {
+            this.socketIOServer.stop();
         }
     }
 
@@ -638,6 +670,7 @@ public class AllmightyTwitchToolbox {
 
     public void setCountdownTimer(Date countdownTimer) {
         this.settings.setCountdownTimer(countdownTimer);
+        this.sendSocketMessage("timerchanged", Utils.getDateDiff(new Date(), countdownTimer, TimeUnit.SECONDS));
         this.saveSettings();
     }
 
@@ -645,7 +678,7 @@ public class AllmightyTwitchToolbox {
         if (this.settings.getCountdownTimer() == null) {
             return new Date();
         }
-        
+
         return this.settings.getCountdownTimer();
     }
 }

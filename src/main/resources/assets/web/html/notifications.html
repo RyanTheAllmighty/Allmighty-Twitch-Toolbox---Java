@@ -37,46 +37,34 @@
     <div class="text" id="message"></div>
 </div>
 <script src="/js/jquery.min.js"></script>
+<script src="/js/socket.io.js"></script>
 <script type="text/javascript">
-    var latestFollower;
-    var latestDonation;
+    function newFollower(name) {
+        $("#message").html(name + " followed");
 
-    function checkForNewFollow() {
-        var newest = getLatestFollower();
+        $("#alert .text").css("font-size", "35px");
 
-        if (newest != latestFollower) {
-            latestFollower = newest;
-            $("#message").html(latestFollower + " followed");
+        $("#alert").animate({width: 'toggle'}, 600);
 
-            $("#alert .text").css("font-size", "35px");
+        resizeName();
 
+        setTimeout(function () {
             $("#alert").animate({width: 'toggle'}, 600);
-
-            resizeName();
-
-            setTimeout(function () {
-                $("#alert").animate({width: 'toggle'}, 600);
-            }, 6000);
-        }
+        }, 6000);
     }
 
-    function checkForNewDonation() {
-        var newest = getLatestDonation();
+    function newDonation(name, amount) {
+        $("#message").html(name + " donated " + amount);
 
-        if (newest != latestDonation) {
-            latestDonation = newest;
-            $("#message").html(getLatestDonationUsername() + " donated " + getLatestDonationAmount());
+        $("#alert .text").css("font-size", "35px");
 
-            $("#alert .text").css("font-size", "35px");
+        $("#alert").animate({width: 'toggle'}, 600);
 
+        resizeName();
+
+        setTimeout(function () {
             $("#alert").animate({width: 'toggle'}, 600);
-
-            resizeName();
-
-            setTimeout(function () {
-                $("#alert").animate({width: 'toggle'}, 600);
-            }, 6000);
-        }
+        }, 6000);
     }
 
     function resizeName() {
@@ -86,78 +74,22 @@
         }
     }
 
-    function getLatestFollower() {
-        var latest;
-
-        $.ajax({
-            url: window.location.origin + "/followers/latest/username",
-            type: 'GET',
-            async: false,
-            success: function (result) {
-                latest = result;
-            }
-        });
-
-        return latest;
-    }
-
-    function getLatestDonation() {
-        var latest;
-
-        $.ajax({
-            url: window.location.origin + "/donations/latest/id",
-            type: 'GET',
-            async: false,
-            success: function (result) {
-                latest = result;
-            }
-        });
-
-        return latest;
-    }
-
-    function getLatestDonationUsername() {
-        var latest;
-
-        $.ajax({
-            url: window.location.origin + "/donations/latest/username",
-            type: 'GET',
-            async: false,
-            success: function (result) {
-                latest = result;
-            }
-        });
-
-        return latest;
-    }
-
-    function getLatestDonationAmount() {
-        var latest;
-
-        $.ajax({
-            url: window.location.origin + "/donations/latest/amount",
-            type: 'GET',
-            async: false,
-            success: function (result) {
-                latest = result;
-            }
-        });
-
-        return latest;
-    }
-
     if (!window.location.origin) {
         window.location.origin = window.location.protocol + "//" + window.location.host;
     }
 
     $(document).ready(function () {
-        latestFollower = getLatestFollower();
-        latestDonation = getLatestDonation();
-
         $('#alert').css('background-image', 'url(' + window.location.origin + "/image" + ')');
 
-        setInterval(checkForNewFollow, 500);
-        setInterval(checkForNewDonation, 500);
+        var socket = io.connect('http://localhost:9002');
+
+        socket.on('newfollower', function (data) {
+            newFollower(data.displayName)
+        });
+
+        socket.on('newdonation', function (data) {
+            newDonation(data.username, data.printableAmount);
+        });
     });
 </script>
 </body>

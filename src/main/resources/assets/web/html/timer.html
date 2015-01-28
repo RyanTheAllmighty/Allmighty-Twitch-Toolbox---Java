@@ -43,6 +43,7 @@
 </div>
 <script src="/js/jquery.min.js"></script>
 <script src="/js/flipclock.min.js"></script>
+<script src="/js/socket.io.js"></script>
 <script type="text/javascript">
     function getSecondsLeft() {
         var secondsLeft;
@@ -73,10 +74,15 @@
             countdown: true
         });
 
-        setInterval(function () {
-            clock.setTime(getSecondsLeft());
+        var socket = io.connect('http://localhost:9002');
+        socket.on('timerchanged', function (data) {
+            clock.stop();
+            clock.setTime(data);
             clock.start();
-        }, 1000);
+        });
+
+        clock.setTime(getSecondsLeft());
+        clock.start();
     });
 </script>
 </body>
