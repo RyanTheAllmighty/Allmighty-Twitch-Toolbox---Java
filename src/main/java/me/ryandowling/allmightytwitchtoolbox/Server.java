@@ -119,7 +119,7 @@ public class Server extends NanoHTTPD implements FollowerListener, DonationListe
                         .getCountdownTimer(3), TimeUnit.SECONDS));
                 break;
             default:
-                URL url = System.class.getResource("/assets/web/" + session.getUri());
+                URL url = System.class.getResource("/assets/web" + session.getUri());
 
                 if (url != null) {
                     try {
