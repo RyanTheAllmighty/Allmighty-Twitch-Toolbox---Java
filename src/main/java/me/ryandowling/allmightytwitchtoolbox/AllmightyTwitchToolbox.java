@@ -128,6 +128,15 @@ public class AllmightyTwitchToolbox {
 
             startServer();
 
+            startSocketIOServer();
+
+            executor.submit(new Runnable() {
+                @Override
+                public void run() {
+                    sendInitialCountdownTimers();
+                }
+            });
+
             this.hasSetup = true;
         }
     }
@@ -445,8 +454,6 @@ public class AllmightyTwitchToolbox {
             System.err.println("Cannot start the server! Exiting!");
             System.exit(1);
         }
-
-        startSocketIOServer();
     }
 
     private void startSocketIOServer() {
@@ -668,17 +675,44 @@ public class AllmightyTwitchToolbox {
         return new ChartData(xValues, yValues);
     }
 
-    public void setCountdownTimer(Date countdownTimer) {
-        this.settings.setCountdownTimer(countdownTimer);
-        this.sendSocketMessage("timerchanged", Utils.getDateDiff(new Date(), countdownTimer, TimeUnit.SECONDS));
+    public void sendInitialCountdownTimers() {
+        int tries = 0;
+
+        do {
+            if (this.socketIOServer.getAllClients().size() != 0) {
+                this.sendSocketMessage("timerchanged1", Utils.getDateDiff(new Date(), this.settings.getCountdownTimer
+                        (1), TimeUnit.SECONDS));
+
+                this.sendSocketMessage("timerchanged2", Utils.getDateDiff(new Date(), this.settings.getCountdownTimer
+                        (2), TimeUnit.SECONDS));
+                this.sendSocketMessage("timerchanged3", Utils.getDateDiff(new Date(), this.settings.getCountdownTimer
+                        (3), TimeUnit.SECONDS));
+
+                break;
+            }
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                break;
+            }
+
+            tries++;
+        } while (tries < 10);
+    }
+
+    public void setCountdownTimer(int num, Date countdownTimer) {
+        this.settings.setCountdownTimer(num, countdownTimer);
+        this.sendSocketMessage("timerchanged" + num, Utils.getDateDiff(new Date(), countdownTimer, TimeUnit.SECONDS));
         this.saveSettings();
     }
 
-    public Date getCountdownTimer() {
-        if (this.settings.getCountdownTimer() == null) {
+    public Date getCountdownTimer(int num) {
+        if (this.settings.getCountdownTimer(num) == null) {
             return new Date();
         }
 
-        return this.settings.getCountdownTimer();
+        return this.settings.getCountdownTimer(num);
     }
 }

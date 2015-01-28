@@ -49,7 +49,7 @@
         var secondsLeft;
 
         $.ajax({
-            url: window.location.origin + "/timer/seconds",
+            url: window.location.origin + "/timer/" + num + "/seconds",
             type: 'GET',
             async: false,
             success: function (result) {
@@ -68,6 +68,12 @@
         window.location.origin = window.location.protocol + "//" + window.location.host;
     }
 
+    if (window.location.href.substr(-1) == '/') {
+        window.location.href = window.location.href.substr(0, -1);
+    }
+
+    var num = parseInt(window.location.href.substr(-1));
+
     $(document).ready(function () {
         var clock = $('#countdown').FlipClock({
             autoStart: false,
@@ -75,7 +81,7 @@
         });
 
         var socket = io.connect('http://localhost:9002');
-        socket.on('timerchanged', function (data) {
+        socket.on('timerchanged' + num, function (data) {
             clock.stop();
             clock.setTime(data);
             clock.start();

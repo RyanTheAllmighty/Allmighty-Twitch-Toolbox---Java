@@ -42,7 +42,21 @@ public class Server extends NanoHTTPD implements FollowerListener, DonationListe
                     e.printStackTrace();
                     return error();
                 }
-            case "/timer":
+            case "/timer/1":
+                try {
+                    return found(IOUtils.toString(System.class.getResource("/assets/web/html/timer.html")));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return error();
+                }
+            case "/timer/2":
+                try {
+                    return found(IOUtils.toString(System.class.getResource("/assets/web/html/timer.html")));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return error();
+                }
+            case "/timer/3":
                 try {
                     return found(IOUtils.toString(System.class.getResource("/assets/web/html/timer.html")));
                 } catch (IOException e) {
@@ -92,9 +106,17 @@ public class Server extends NanoHTTPD implements FollowerListener, DonationListe
             case "/donations/latest/note":
                 json = AllmightyTwitchToolbox.GSON.toJson(this.latestDonation.getNote());
                 break;
-            case "/timer/seconds":
+            case "/timer/1/seconds":
                 json = AllmightyTwitchToolbox.GSON.toJson(Utils.getDateDiff(new Date(), App.NOTIFIER
-                        .getCountdownTimer(), TimeUnit.SECONDS));
+                        .getCountdownTimer(1), TimeUnit.SECONDS));
+                break;
+            case "/timer/2/seconds":
+                json = AllmightyTwitchToolbox.GSON.toJson(Utils.getDateDiff(new Date(), App.NOTIFIER
+                        .getCountdownTimer(2), TimeUnit.SECONDS));
+                break;
+            case "/timer/3/seconds":
+                json = AllmightyTwitchToolbox.GSON.toJson(Utils.getDateDiff(new Date(), App.NOTIFIER
+                        .getCountdownTimer(3), TimeUnit.SECONDS));
                 break;
             default:
                 URL url = System.class.getResource("/assets/web/" + session.getUri());

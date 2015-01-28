@@ -5,6 +5,8 @@ import java.awt.Point;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Settings {
     private Point guiPosition;
@@ -30,7 +32,7 @@ public class Settings {
     private String followerType;
     private String donationType;
 
-    private Date countdownTimer;
+    private Map<Integer, Date> countdownTimers;
 
     private boolean isSetup;
 
@@ -47,7 +49,7 @@ public class Settings {
         this.numberOfPointsOnViewerChart = 20;
         this.newFollowSoundPath = "";
         this.newDonationSoundPath = "";
-        this.countdownTimer = new Date();
+        this.countdownTimers = new HashMap<>();
         this.isSetup = false;
 
         this.followerType = "TwitchFollower";
@@ -202,11 +204,19 @@ public class Settings {
         this.numberOfPointsOnViewerChart = numberOfPointsOnViewerChart;
     }
 
-    public void setCountdownTimer(Date countdownTimer) {
-        this.countdownTimer = countdownTimer;
+    public void setCountdownTimer(int num, Date countdownTimer) {
+        if (this.countdownTimers == null) {
+            this.countdownTimers = new HashMap<>();
+        }
+
+        this.countdownTimers.put(num, countdownTimer);
     }
 
-    public Date getCountdownTimer() {
-        return this.countdownTimer;
+    public Date getCountdownTimer(int num) {
+        if (this.countdownTimers == null) {
+            return null;
+        }
+
+        return this.countdownTimers.get(num);
     }
 }
