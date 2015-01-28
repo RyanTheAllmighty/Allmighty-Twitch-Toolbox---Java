@@ -76,6 +76,8 @@ public class AllmightyTwitchToolbox {
     private int[] viewerCountChartData;
     private boolean hasSetup = false;
 
+    private Date countdownTimer = new Date();
+
     public AllmightyTwitchToolbox() {
         loadSettings();
         checkForServerResources();
@@ -632,5 +634,18 @@ public class AllmightyTwitchToolbox {
         }
 
         return new ChartData(xValues, yValues);
+    }
+
+    public void setCountdownTimer(Date countdownTimer) {
+        this.settings.setCountdownTimer(countdownTimer);
+        this.saveSettings();
+    }
+
+    public Date getCountdownTimer() {
+        if (this.settings.getCountdownTimer() == null) {
+            return new Date();
+        }
+        
+        return this.settings.getCountdownTimer();
     }
 }

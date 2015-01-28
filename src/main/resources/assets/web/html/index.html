@@ -25,6 +25,7 @@
                     <li><a href="#welcome">Welcome</a></li>
                     <li><a href="#components">Components</a></li>
                     <li><a href="#notifications">Notifications</a></li>
+                    <li><a href="#timer">Timer</a></li>
                     <li><a href="#api">API</a></li>
                 </ul>
             </div>
@@ -68,6 +69,7 @@
                         <li><a href="#notifications">Notifications</a> - This shows followers and donation alerts
                             on your stream as well as popup alerts and sounds on your computer.
                         </li>
+                        <li><a href="#timer">Timer</a> - This shows a timer/countdown</li>
                         <li><a href="#api">API</a> - If you don't know what an API is, you probably don't need it.</li>
                     </ul>
                 </div>
@@ -129,6 +131,28 @@
 
         <div class="row">
             <div class="panel panel-default">
+                <div class="panel-heading">Timer</div>
+                <div class="panel-body">
+                    <a name="timer"></a>
+
+                    <p>
+                        This timer panel will show a timer or countdown based upon whats configured in the application.
+                    </p>
+
+                    <p>
+                        To add this to OBS, add a CLR Browser pointing to the below url with a width of 500 and a
+                        height of 125.
+                    </p>
+
+                    <p>
+                        <input id="timer-url" class="col-xs-12" type="text"/><br/>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="panel panel-default">
                 <div class="panel-heading">API</div>
                 <div class="panel-body">
                     <a name="api"></a>
@@ -146,8 +170,7 @@
                             follower.
                         </li>
                         <li><a href="/followers/latest/username">/followers/latest/username</a> - Gets the username of
-                            the
-                            latest follower.
+                            the latest follower.
                         </li>
                         <li><a href="/followers/total">/followers/total</a> - Gets the total number of followers.</li>
                         <li><a href="/donations/latest">/donations/latest</a> - Gets a JSON object of the latest
@@ -165,6 +188,9 @@
                         <li><a href="/donations/latest/note">/donations/latest/note</a> - Gets the note of the
                             latest donation.
                         </li>
+                        <li><a href="/timer/seconds">/timer/seconds</a> - Gets the number of seconds left on the
+                            countdown timer.
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -181,6 +207,8 @@
 
     $(document).ready(function () {
         $('#notifications-url').val(window.location.origin + "/notifications");
+
+        $('#timer-url').val(window.location.origin + "/timer");
 
         $(window).resize(function () {
             $('body').css('padding-top', parseInt($('#layout-nav').css("height")) + 15);

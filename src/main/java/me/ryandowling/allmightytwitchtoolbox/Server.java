@@ -8,12 +8,13 @@ import me.ryandowling.allmightytwitchtoolbox.events.listeners.FollowerListener;
 import me.ryandowling.allmightytwitchtoolbox.events.managers.DonationManager;
 import me.ryandowling.allmightytwitchtoolbox.events.managers.FollowerManager;
 import me.ryandowling.allmightytwitchtoolbox.utils.Utils;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class Server extends NanoHTTPD implements FollowerListener, DonationListener {
     private Follower latestFollower;
@@ -37,6 +38,13 @@ public class Server extends NanoHTTPD implements FollowerListener, DonationListe
             case "/":
                 try {
                     return found(IOUtils.toString(System.class.getResource("/assets/web/html/index.html")));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return error();
+                }
+            case "/timer":
+                try {
+                    return found(IOUtils.toString(System.class.getResource("/assets/web/html/timer.html")));
                 } catch (IOException e) {
                     e.printStackTrace();
                     return error();
@@ -83,6 +91,10 @@ public class Server extends NanoHTTPD implements FollowerListener, DonationListe
                 break;
             case "/donations/latest/note":
                 json = AllmightyTwitchToolbox.GSON.toJson(this.latestDonation.getNote());
+                break;
+            case "/timer/seconds":
+                json = AllmightyTwitchToolbox.GSON.toJson(Utils.getDateDiff(new Date(), App.NOTIFIER
+                        .getCountdownTimer(), TimeUnit.SECONDS));
                 break;
             default:
                 URL url = System.class.getResource("/assets/web/" + session.getUri());

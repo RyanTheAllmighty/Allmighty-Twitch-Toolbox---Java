@@ -10,7 +10,7 @@ public class FollowerPanel extends JPanel {
 
     public FollowerPanel() {
         super();
-        
+
         setLayout(new BorderLayout());
 
         this.scrollPane = new JScrollPane(this.followerTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane

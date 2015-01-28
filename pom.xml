@@ -82,6 +82,11 @@
             <artifactId>xchart</artifactId>
             <version>2.4.3</version>
         </dependency>
+        <dependency>
+            <groupId>org.jbundle.util.jcalendarbutton</groupId>
+            <artifactId>org.jbundle.util.jcalendarbutton</artifactId>
+            <version>1.6.4</version>
+        </dependency>
     </dependencies>
 
     <build>

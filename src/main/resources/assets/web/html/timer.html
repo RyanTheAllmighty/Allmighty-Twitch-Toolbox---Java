@@ -1,0 +1,83 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Twitch Notifier by RyanTheAllmighty</title>
+    <link href="/css/flipclock.css" rel="stylesheet"/>
+    <style>
+        body {
+            background-color: transparent;
+            color: white;
+            overflow: hidden;
+        }
+
+        #alert {
+            display: none;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 580px;
+            height: 110px;
+            color: red;
+        }
+
+        #alert .text {
+            padding-top: 8px;
+            text-align: center;
+            width: 580px;
+            line-height: 58px;
+            vertical-align: middle;
+            font-size: 45px;
+            font-family: Impact;
+            text-shadow: 2px 2px 1px #000;
+            white-space: nowrap;
+            color: #ffffff;
+        }
+
+        .flip-clock-label {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+<div id="countdown">
+</div>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/flipclock.min.js"></script>
+<script type="text/javascript">
+    function getSecondsLeft() {
+        var secondsLeft;
+
+        $.ajax({
+            url: window.location.origin + "/timer/seconds",
+            type: 'GET',
+            async: false,
+            success: function (result) {
+                secondsLeft = result;
+            }
+        });
+
+        if (secondsLeft < 0) {
+            secondsLeft = 0;
+        }
+
+        return secondsLeft;
+    }
+
+    if (!window.location.origin) {
+        window.location.origin = window.location.protocol + "//" + window.location.host;
+    }
+
+    $(document).ready(function () {
+        var clock = $('#countdown').FlipClock({
+            autoStart: false,
+            countdown: true
+        });
+
+        setInterval(function () {
+            clock.setTime(getSecondsLeft());
+            clock.start();
+        }, 1000);
+    });
+</script>
+</body>
+</html>

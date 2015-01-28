@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Date;
 
 public class Settings {
     private Point guiPosition;
@@ -29,6 +30,8 @@ public class Settings {
     private String followerType;
     private String donationType;
 
+    private Date countdownTimer;
+
     private boolean isSetup;
 
     public void loadDefaults() {
@@ -44,6 +47,7 @@ public class Settings {
         this.numberOfPointsOnViewerChart = 20;
         this.newFollowSoundPath = "";
         this.newDonationSoundPath = "";
+        this.countdownTimer = new Date();
         this.isSetup = false;
 
         this.followerType = "TwitchFollower";
@@ -196,5 +200,13 @@ public class Settings {
 
     public void setNumberOfPointsOnViewerChart(int numberOfPointsOnViewerChart) {
         this.numberOfPointsOnViewerChart = numberOfPointsOnViewerChart;
+    }
+
+    public void setCountdownTimer(Date countdownTimer) {
+        this.countdownTimer = countdownTimer;
+    }
+
+    public Date getCountdownTimer() {
+        return this.countdownTimer;
     }
 }
