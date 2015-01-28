@@ -256,11 +256,12 @@ public class AllmightyTwitchToolbox {
 
         this.donations = Utils.sortMapByValue(this.donations);
 
-        saveFollowers();
+        saveDonations();
     }
 
     private void loadStreamTipDonations() {
         StreamTipTips donations;
+        boolean loadedFromFile = false;
 
         if (Files.exists(Utils.getDonationsFile())) {
             Type listType = new TypeToken<HashMap<String, StreamTipTip>>() {
@@ -268,6 +269,7 @@ public class AllmightyTwitchToolbox {
 
             try {
                 this.donations = GSON.fromJson(FileUtils.readFileToString(Utils.getDonationsFile().toFile()), listType);
+                loadedFromFile = true;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -275,7 +277,7 @@ public class AllmightyTwitchToolbox {
 
         boolean hasMoreDonations = true;
 
-        int limit = 100;
+        int limit = (loadedFromFile ? 10 : 100);
         int offset = 0;
 
         while (hasMoreDonations) {
@@ -376,6 +378,14 @@ public class AllmightyTwitchToolbox {
     public void saveFollowers() {
         try {
             FileUtils.write(Utils.getFollowersFile().toFile(), GSON.toJson(this.followers));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveDonations() {
+        try {
+            FileUtils.write(Utils.getDonationsFile().toFile(), GSON.toJson(this.donations));
         } catch (IOException e) {
             e.printStackTrace();
         }
