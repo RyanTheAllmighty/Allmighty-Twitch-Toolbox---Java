@@ -62,6 +62,8 @@ public class AllmightyTwitchToolbox {
     private Map<String, Donation> donations = new HashMap<>();
     private Map<Date, Integer> viewerCount = new TreeMap<>();
 
+    private int latestViewerCount = 0;
+
     // All the notificators
     private ViewerCountFiles viewerCountFiles;
 
@@ -385,6 +387,7 @@ public class AllmightyTwitchToolbox {
             int nowViewers = (stream.isLive() ? stream.getStream().getViewers() : 0);
 
             this.viewerCount.put(new Date(), nowViewers);
+            this.latestViewerCount = nowViewers;
 
             ViewerCountManager.viewerCountDataAdded(nowViewers);
 
@@ -495,21 +498,12 @@ public class AllmightyTwitchToolbox {
     }
 
     public int getLatestViewerCount() {
-        if (this.viewerCount.size() == 0) {
-            return 0;
-        }
-
-        return this.viewerCount.entrySet().iterator().next().getValue();
+        return this.latestViewerCount;
     }
 
     public String getLatestViewerCountFormatted() {
         DecimalFormat df = new DecimalFormat("###,###");
-
-        if (this.viewerCount.size() == 0) {
-            return df.format(0);
-        }
-
-        return df.format(this.viewerCount.entrySet().iterator().next().getValue());
+        return df.format(this.latestViewerCount);
     }
 
     public boolean addFollower(Follower follower) {
