@@ -36,6 +36,8 @@ public class TimerPanel extends JPanel implements PropertyChangeListener {
     private JTimeButton timeButton1;
     private JButton resetButton1;
     private JButton addMinuteButton1;
+    private JButton addHourButton1;
+    private JButton addDayButton1;
 
     private JPanel countdownPanel2;
     private JLabel countdownLabel2;
@@ -44,6 +46,8 @@ public class TimerPanel extends JPanel implements PropertyChangeListener {
     private JTimeButton timeButton2;
     private JButton resetButton2;
     private JButton addMinuteButton2;
+    private JButton addHourButton2;
+    private JButton addDayButton2;
 
     private JPanel countdownPanel3;
     private JLabel countdownLabel3;
@@ -52,6 +56,8 @@ public class TimerPanel extends JPanel implements PropertyChangeListener {
     private JTimeButton timeButton3;
     private JButton resetButton3;
     private JButton addMinuteButton3;
+    private JButton addHourButton3;
+    private JButton addDayButton3;
 
     private Date countdownDate1 = App.NOTIFIER.getCountdownTimer(1);
     private Date countdownDate2 = App.NOTIFIER.getCountdownTimer(2);
@@ -120,7 +126,7 @@ public class TimerPanel extends JPanel implements PropertyChangeListener {
             }
         });
 
-        this.addMinuteButton1 = new JButton("Add Minute");
+        this.addMinuteButton1 = new JButton("Minute");
         this.addMinuteButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -131,12 +137,36 @@ public class TimerPanel extends JPanel implements PropertyChangeListener {
             }
         });
 
+        this.addHourButton1 = new JButton("Hour");
+        this.addHourButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(countdownDate1);
+                cal.add(Calendar.HOUR, 1);
+                setCountdownTo(1, cal.getTime());
+            }
+        });
+
+        this.addDayButton1 = new JButton("Day");
+        this.addDayButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(countdownDate1);
+                cal.add(Calendar.DAY_OF_MONTH, 1);
+                setCountdownTo(1, cal.getTime());
+            }
+        });
+
         this.countdownPanel1.add(this.countdownLabel1);
         this.countdownPanel1.add(this.countdownToLabel1);
         this.countdownPanel1.add(this.dateButton1);
         this.countdownPanel1.add(this.timeButton1);
         this.countdownPanel1.add(this.resetButton1);
         this.countdownPanel1.add(this.addMinuteButton1);
+        this.countdownPanel1.add(this.addHourButton1);
+        this.countdownPanel1.add(this.addDayButton1);
     }
 
     private void setupCountdownPanel2() {
@@ -175,7 +205,7 @@ public class TimerPanel extends JPanel implements PropertyChangeListener {
             }
         });
 
-        this.addMinuteButton2 = new JButton("Add Minute");
+        this.addMinuteButton2 = new JButton("Minute");
         this.addMinuteButton2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -186,12 +216,36 @@ public class TimerPanel extends JPanel implements PropertyChangeListener {
             }
         });
 
+        this.addHourButton2 = new JButton("Hour");
+        this.addHourButton2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(countdownDate2);
+                cal.add(Calendar.HOUR, 1);
+                setCountdownTo(2, cal.getTime());
+            }
+        });
+
+        this.addDayButton2 = new JButton("Day");
+        this.addDayButton2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(countdownDate2);
+                cal.add(Calendar.DAY_OF_MONTH, 1);
+                setCountdownTo(2, cal.getTime());
+            }
+        });
+
         this.countdownPanel2.add(this.countdownLabel2);
         this.countdownPanel2.add(this.countdownToLabel2);
         this.countdownPanel2.add(this.dateButton2);
         this.countdownPanel2.add(this.timeButton2);
         this.countdownPanel2.add(this.resetButton2);
         this.countdownPanel2.add(this.addMinuteButton2);
+        this.countdownPanel2.add(this.addHourButton2);
+        this.countdownPanel2.add(this.addDayButton2);
     }
 
     private void setupCountdownPanel3() {
@@ -230,7 +284,7 @@ public class TimerPanel extends JPanel implements PropertyChangeListener {
             }
         });
 
-        this.addMinuteButton3 = new JButton("Add Minute");
+        this.addMinuteButton3 = new JButton("Minute");
         this.addMinuteButton3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -241,12 +295,36 @@ public class TimerPanel extends JPanel implements PropertyChangeListener {
             }
         });
 
+        this.addHourButton3 = new JButton("Hour");
+        this.addHourButton3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(countdownDate3);
+                cal.add(Calendar.HOUR, 1);
+                setCountdownTo(3, cal.getTime());
+            }
+        });
+
+        this.addDayButton3 = new JButton("Day");
+        this.addDayButton3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(countdownDate3);
+                cal.add(Calendar.DAY_OF_MONTH, 1);
+                setCountdownTo(3, cal.getTime());
+            }
+        });
+
         this.countdownPanel3.add(this.countdownLabel3);
         this.countdownPanel3.add(this.countdownToLabel3);
         this.countdownPanel3.add(this.dateButton3);
         this.countdownPanel3.add(this.timeButton3);
         this.countdownPanel3.add(this.resetButton3);
         this.countdownPanel3.add(this.addMinuteButton3);
+        this.countdownPanel3.add(this.addHourButton3);
+        this.countdownPanel3.add(this.addDayButton3);
     }
 
     private void setupButtonPanel() {
