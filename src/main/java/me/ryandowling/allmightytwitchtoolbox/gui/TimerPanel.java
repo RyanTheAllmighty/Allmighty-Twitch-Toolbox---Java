@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,18 +34,24 @@ public class TimerPanel extends JPanel implements PropertyChangeListener {
     private JTextField countdownToLabel1;
     private JCalendarButton dateButton1;
     private JTimeButton timeButton1;
+    private JButton resetButton1;
+    private JButton addMinuteButton1;
 
     private JPanel countdownPanel2;
     private JLabel countdownLabel2;
     private JTextField countdownToLabel2;
     private JCalendarButton dateButton2;
     private JTimeButton timeButton2;
+    private JButton resetButton2;
+    private JButton addMinuteButton2;
 
     private JPanel countdownPanel3;
     private JLabel countdownLabel3;
     private JTextField countdownToLabel3;
     private JCalendarButton dateButton3;
     private JTimeButton timeButton3;
+    private JButton resetButton3;
+    private JButton addMinuteButton3;
 
     private Date countdownDate1 = App.NOTIFIER.getCountdownTimer(1);
     private Date countdownDate2 = App.NOTIFIER.getCountdownTimer(2);
@@ -60,6 +67,8 @@ public class TimerPanel extends JPanel implements PropertyChangeListener {
 
         setupPanes();
         addComponents();
+
+        checkForOldDates();
     }
 
     private void setupPanes() {
@@ -103,10 +112,31 @@ public class TimerPanel extends JPanel implements PropertyChangeListener {
         this.timeButton1 = new JTimeButton();
         this.timeButton1.addPropertyChangeListener(this);
 
+        this.resetButton1 = new JButton("Reset");
+        this.resetButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setCountdownTo(1, new Date());
+            }
+        });
+
+        this.addMinuteButton1 = new JButton("Add Minute");
+        this.addMinuteButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(countdownDate1);
+                cal.add(Calendar.MINUTE, 1);
+                setCountdownTo(1, cal.getTime());
+            }
+        });
+
         this.countdownPanel1.add(this.countdownLabel1);
         this.countdownPanel1.add(this.countdownToLabel1);
         this.countdownPanel1.add(this.dateButton1);
         this.countdownPanel1.add(this.timeButton1);
+        this.countdownPanel1.add(this.resetButton1);
+        this.countdownPanel1.add(this.addMinuteButton1);
     }
 
     private void setupCountdownPanel2() {
@@ -137,10 +167,31 @@ public class TimerPanel extends JPanel implements PropertyChangeListener {
         this.timeButton2 = new JTimeButton();
         this.timeButton2.addPropertyChangeListener(this);
 
+        this.resetButton2 = new JButton("Reset");
+        this.resetButton2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setCountdownTo(2, new Date());
+            }
+        });
+
+        this.addMinuteButton2 = new JButton("Add Minute");
+        this.addMinuteButton2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(countdownDate2);
+                cal.add(Calendar.MINUTE, 1);
+                setCountdownTo(2, cal.getTime());
+            }
+        });
+
         this.countdownPanel2.add(this.countdownLabel2);
         this.countdownPanel2.add(this.countdownToLabel2);
         this.countdownPanel2.add(this.dateButton2);
         this.countdownPanel2.add(this.timeButton2);
+        this.countdownPanel2.add(this.resetButton2);
+        this.countdownPanel2.add(this.addMinuteButton2);
     }
 
     private void setupCountdownPanel3() {
@@ -171,10 +222,31 @@ public class TimerPanel extends JPanel implements PropertyChangeListener {
         this.timeButton3 = new JTimeButton();
         this.timeButton3.addPropertyChangeListener(this);
 
+        this.resetButton3 = new JButton("Reset");
+        this.resetButton3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setCountdownTo(3, new Date());
+            }
+        });
+
+        this.addMinuteButton3 = new JButton("Add Minute");
+        this.addMinuteButton3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(countdownDate3);
+                cal.add(Calendar.MINUTE, 1);
+                setCountdownTo(3, cal.getTime());
+            }
+        });
+
         this.countdownPanel3.add(this.countdownLabel3);
         this.countdownPanel3.add(this.countdownToLabel3);
         this.countdownPanel3.add(this.dateButton3);
         this.countdownPanel3.add(this.timeButton3);
+        this.countdownPanel3.add(this.resetButton3);
+        this.countdownPanel3.add(this.addMinuteButton3);
     }
 
     private void setupButtonPanel() {
@@ -275,6 +347,28 @@ public class TimerPanel extends JPanel implements PropertyChangeListener {
                 this.countdownDate3 = countdownTo;
                 this.countdownToLabel3.setText(this.dateFormat.format(this.countdownDate3));
                 break;
+        }
+
+        checkForOldDates();
+    }
+
+    private void checkForOldDates() {
+        if (countdownDate1.before(new Date())) {
+            this.countdownToLabel1.setBackground(Color.RED);
+        } else {
+            this.countdownToLabel1.setBackground(Color.WHITE);
+        }
+
+        if (countdownDate2.before(new Date())) {
+            this.countdownToLabel2.setBackground(Color.RED);
+        } else {
+            this.countdownToLabel2.setBackground(Color.WHITE);
+        }
+
+        if (countdownDate3.before(new Date())) {
+            this.countdownToLabel3.setBackground(Color.RED);
+        } else {
+            this.countdownToLabel3.setBackground(Color.WHITE);
         }
     }
 }
