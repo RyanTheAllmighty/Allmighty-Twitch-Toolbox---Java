@@ -6,7 +6,7 @@
     <groupId>me.ryandowling</groupId>
     <artifactId>allmightytwitchtoolbox</artifactId>
     <name>Allmighty Twitch Toolbox</name>
-    <version>1.0.0.0</version>
+    <version>1.0.0.%BUILD%</version>
     <packaging>jar</packaging>
     <description>This is a bunch of 'Allmighty' tools for Twitch that I use.
     </description>
