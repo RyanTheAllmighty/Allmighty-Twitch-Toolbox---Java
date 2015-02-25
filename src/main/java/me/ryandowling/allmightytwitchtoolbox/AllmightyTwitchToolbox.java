@@ -59,6 +59,8 @@ public class AllmightyTwitchToolbox {
     private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(8);
 
     private Map<String, Follower> followers = new HashMap<>();
+    private int totalFollowers = 0;
+
     private Map<String, Donation> donations = new HashMap<>();
     private Map<Date, Integer> viewerCount = new TreeMap<>();
 
@@ -247,6 +249,8 @@ public class AllmightyTwitchToolbox {
             try {
                 followers = GSON.fromJson(request.get(), TwitchUserFollows.class);
 
+                this.totalFollowers = followers.getTotalFollowers();
+
                 int added = 0;
 
                 for (TwitchFollower follower : followers.getFollows()) {
@@ -342,6 +346,8 @@ public class AllmightyTwitchToolbox {
 
         try {
             TwitchUserFollows followers = GSON.fromJson(request.get(), TwitchUserFollows.class);
+
+            this.totalFollowers = followers.getTotalFollowers();
 
             for (TwitchFollower follower : followers.getFollows()) {
                 FollowerManager.newFollow(follower);
@@ -590,12 +596,12 @@ public class AllmightyTwitchToolbox {
     }
 
     public int getFollowersTotal() {
-        return this.followers.size();
+        return this.totalFollowers;
     }
 
     public String getFollowersTotalFormatted() {
         DecimalFormat df = new DecimalFormat("###,###");
-        return df.format(this.followers.size());
+        return df.format(this.totalFollowers);
     }
 
     public String getDonationsTallyFormatted() {
