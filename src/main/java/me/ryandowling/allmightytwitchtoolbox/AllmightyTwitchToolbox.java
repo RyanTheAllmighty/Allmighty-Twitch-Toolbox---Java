@@ -79,7 +79,7 @@ public class AllmightyTwitchToolbox {
 
     private Console console;
 
-    private int followersTally = 0;
+    private int followersStart = 0;
     private float donationsTally = 0.00f;
 
     private int followerGoal = 0;
@@ -250,6 +250,7 @@ public class AllmightyTwitchToolbox {
                 followers = GSON.fromJson(request.get(), TwitchUserFollows.class);
 
                 this.totalFollowers = followers.getTotalFollowers();
+                this.followersStart = followers.getTotalFollowers();
 
                 int added = 0;
 
@@ -346,6 +347,10 @@ public class AllmightyTwitchToolbox {
 
         try {
             TwitchUserFollows followers = GSON.fromJson(request.get(), TwitchUserFollows.class);
+
+            if(this.totalFollowers != followers.getTotalFollowers()) {
+                FollowerManager.followersNumberChanged(followers.getTotalFollowers());
+            }
 
             this.totalFollowers = followers.getTotalFollowers();
 
@@ -517,10 +522,6 @@ public class AllmightyTwitchToolbox {
 
         this.followers.put(follower.getUsername(), follower);
 
-        if (isNew) {
-            this.followersTally++;
-        }
-
         return isNew;
     }
 
@@ -561,16 +562,16 @@ public class AllmightyTwitchToolbox {
     }
 
     public int getFollowersTally() {
-        return this.followersTally;
+        return this.totalFollowers - this.followersStart;
     }
 
     public String getFollowersTallyFormatted() {
         DecimalFormat df = new DecimalFormat("###,###");
-        return df.format(this.followersTally);
+        return df.format(this.totalFollowers - this.followersStart);
     }
 
     public void resetFollowersTally() {
-        this.followersTally = 0;
+        this.followersStart = this.totalFollowers;
     }
 
     public float getDonationsTally() {

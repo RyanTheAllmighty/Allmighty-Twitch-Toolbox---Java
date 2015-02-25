@@ -23,4 +23,9 @@ public class FollowerAlert implements FollowerListener {
         });
         thread.run();
     }
+
+    @Override
+    public void onFollowersNumberChanged(final int newTotal) {
+
+    }
 }

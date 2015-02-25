@@ -16,13 +16,31 @@ public class FollowerFiles implements FollowerListener {
 
     @Override
     public void onNewFollow(final Follower follower) {
-        writeFiles();
+        try {
+            FileUtils.write(Utils.getLatestFollowerFile().toFile(), App.NOTIFIER.getLatestFollower().getDisplayName());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void writeFiles() {
         try {
             FileUtils.write(Utils.getLatestFollowerFile().toFile(), App.NOTIFIER.getLatestFollower().getDisplayName());
 
+            FileUtils.write(Utils.getNumberOfFollowersFile().toFile(), "" + App.NOTIFIER.getFollowersTotalFormatted());
+
+            FileUtils.write(Utils.getFollowersTallyFile().toFile(), "" + App.NOTIFIER.getFollowersTallyFormatted());
+
+            FileUtils.write(Utils.getFollowerGoalFile().toFile(), App.NOTIFIER.getFollowersTotalFormatted() + " / " +
+                    App.NOTIFIER.getFollowerGoalFormatted());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onFollowersNumberChanged(final int newTotal) {
+        try {
             FileUtils.write(Utils.getNumberOfFollowersFile().toFile(), "" + App.NOTIFIER.getFollowersTotalFormatted());
 
             FileUtils.write(Utils.getFollowersTallyFile().toFile(), "" + App.NOTIFIER.getFollowersTallyFormatted());

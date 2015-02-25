@@ -21,4 +21,9 @@ public class FollowerSocket implements FollowerListener {
 
         App.NOTIFIER.sendSocketMessage("newfollower", data);
     }
+
+    @Override
+    public void onFollowersNumberChanged(final int newTotal) {
+
+    }
 }

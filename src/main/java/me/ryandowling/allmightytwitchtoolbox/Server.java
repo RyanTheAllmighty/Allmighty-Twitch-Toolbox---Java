@@ -166,6 +166,11 @@ public class Server extends NanoHTTPD implements FollowerListener, DonationListe
     }
 
     @Override
+    public void onFollowersNumberChanged(int newTotal) {
+
+    }
+
+    @Override
     public void onNewDonation(Donation donation) {
         this.latestDonation = donation;
     }

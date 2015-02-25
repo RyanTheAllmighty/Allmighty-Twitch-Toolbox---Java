@@ -34,4 +34,15 @@ public class FollowerManager {
             }
         });
     }
+
+    public static synchronized void followersNumberChanged(final int newTotal) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                for (FollowerListener listener : listeners) {
+                    listener.onFollowersNumberChanged(newTotal);
+                }
+            }
+        });
+    }
 }

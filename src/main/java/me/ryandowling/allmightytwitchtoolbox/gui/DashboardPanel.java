@@ -269,6 +269,10 @@ public class DashboardPanel extends JPanel implements FollowerListener, Donation
 
     @Override
     public void onNewFollow(Follower follower) {
+    }
+
+    @Override
+    public void onFollowersNumberChanged(final int newTotal) {
         updateFollowerValues();
     }
 

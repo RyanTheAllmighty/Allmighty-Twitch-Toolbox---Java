@@ -67,4 +67,9 @@ public class FollowerTable extends JTable implements FollowerListener {
     public void onNewFollow(final Follower follower) {
         this.tableModel.fireTableDataChanged();
     }
+
+    @Override
+    public void onFollowersNumberChanged(final int newTotal) {
+
+    }
 }
