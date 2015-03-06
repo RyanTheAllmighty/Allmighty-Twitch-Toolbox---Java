@@ -118,6 +118,89 @@ public class Server extends NanoHTTPD implements FollowerListener, DonationListe
                 json = AllmightyTwitchToolbox.GSON.toJson(Utils.getDateDiff(new Date(), App.NOTIFIER
                         .getCountdownTimer(3), TimeUnit.SECONDS));
                 break;
+            case "/foobar/stop":
+                json = "{\"done\": false}";
+
+                if (App.NOTIFIER.getSettings().getFoobarLocation() != null && !App.NOTIFIER.getSettings()
+                        .getFoobarLocation()
+                        .isEmpty()) {
+                    try {
+                        Runtime.getRuntime().exec(App.NOTIFIER.getSettings().getFoobarLocation() + " /stop");
+                        json = "{\"done\": true}";
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+            case "/foobar/play":
+                json = "{\"done\": false}";
+
+                if (App.NOTIFIER.getSettings().getFoobarLocation() != null && !App.NOTIFIER.getSettings()
+                        .getFoobarLocation()
+                        .isEmpty()) {
+                    try {
+                        Runtime.getRuntime().exec(App.NOTIFIER.getSettings().getFoobarLocation() + " /play");
+                        json = "{\"done\": true}";
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+            case "/foobar/pause":
+                json = "{\"done\": false}";
+
+                if (App.NOTIFIER.getSettings().getFoobarLocation() != null && !App.NOTIFIER.getSettings()
+                        .getFoobarLocation().isEmpty()) {
+                    try {
+                        Runtime.getRuntime().exec(App.NOTIFIER.getSettings().getFoobarLocation() + " /pause");
+                        json = "{\"done\": true}";
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+            case "/foobar/next":
+                json = "{\"done\": false}";
+
+                if (App.NOTIFIER.getSettings().getFoobarLocation() != null && !App.NOTIFIER.getSettings()
+                        .getFoobarLocation().isEmpty()) {
+                    try {
+                        Runtime.getRuntime().exec(App.NOTIFIER.getSettings().getFoobarLocation() + " /next");
+                        json = "{\"done\": true}";
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+            case "/foobar/prev":
+                json = "{\"done\": false}";
+
+                if (App.NOTIFIER.getSettings().getFoobarLocation() != null && !App.NOTIFIER.getSettings()
+                        .getFoobarLocation().isEmpty()) {
+                    try {
+                        Runtime.getRuntime().exec(App.NOTIFIER.getSettings().getFoobarLocation() + " /prev");
+                        json = "{\"done\": true}";
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+            case "/foobar/nextpause":
+                json = "{\"done\": false}";
+
+                if (App.NOTIFIER.getSettings().getFoobarLocation() != null && !App.NOTIFIER.getSettings()
+                        .getFoobarLocation().isEmpty()) {
+                    try {
+                        Runtime.getRuntime().exec(App.NOTIFIER.getSettings().getFoobarLocation() + " /next");
+                        Thread.sleep(100);
+                        Runtime.getRuntime().exec(App.NOTIFIER.getSettings().getFoobarLocation() + " /pause");
+                        json = "{\"done\": true}";
+                    } catch (IOException | InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                break;
             default:
                 URL url = System.class.getResource("/assets/web" + session.getUri());
 

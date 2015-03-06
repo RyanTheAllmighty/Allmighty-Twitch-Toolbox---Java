@@ -86,6 +86,12 @@ public class SettingsPanel extends JPanel {
     private JButton newDonationSoundChooserButton;
     private JButton newDonationSoundTestButton;
 
+    private JPanel foobarLocationPanel;
+    private JLabel foobarLocationLabel;
+    private JTextField foobarLocationTextField;
+    private JFileChooser foobarLocationChooser;
+    private JButton foobarLocationChooserButton;
+
     private JPanel rawNowPlayingFilePanel;
     private JLabel rawNowPlayingFileLabel;
     private JTextField rawNowPlayingFileTextField;
@@ -139,6 +145,8 @@ public class SettingsPanel extends JPanel {
 
         setupFollowerSoundPanel();
         setupDonationSoundPanel();
+
+        setupFoobarLocationPanel();
 
         setupRawNowPlayingFilePanel();
         setupNowPlayingFilePanel();
@@ -380,6 +388,34 @@ public class SettingsPanel extends JPanel {
         this.newDonationSoundPanel.add(this.newDonationSoundTestButton);
     }
 
+    private void setupFoobarLocationPanel() {
+        this.foobarLocationPanel = new JPanel();
+        this.foobarLocationPanel.setLayout(new FlowLayout());
+
+        this.foobarLocationLabel = new JLabel("foobar2000 Executable File:");
+
+        this.foobarLocationTextField = new JTextField(App.NOTIFIER.getSettings().getFoobarLocation(), 16);
+        this.foobarLocationTextField.setEnabled(false);
+
+        this.foobarLocationChooser = new JFileChooser();
+        this.foobarLocationChooser.setMultiSelectionEnabled(false);
+
+        this.foobarLocationChooserButton = new JButton("Browse");
+        this.foobarLocationChooserButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                foobarLocationChooser.showOpenDialog(SettingsPanel.this);
+                if (foobarLocationChooser.getSelectedFile() != null) {
+                    foobarLocationTextField.setText(foobarLocationChooser.getSelectedFile().getAbsolutePath());
+                }
+            }
+        });
+
+        this.foobarLocationPanel.add(this.foobarLocationLabel);
+        this.foobarLocationPanel.add(this.foobarLocationTextField);
+        this.foobarLocationPanel.add(this.foobarLocationChooserButton);
+    }
+
     private void setupRawNowPlayingFilePanel() {
         this.rawNowPlayingFilePanel = new JPanel();
         this.rawNowPlayingFilePanel.setLayout(new FlowLayout());
@@ -510,6 +546,8 @@ public class SettingsPanel extends JPanel {
         this.mainPane.add(this.newFollowerSoundPanel);
         this.mainPane.add(this.newDonationSoundPanel);
 
+        this.mainPane.add(this.foobarLocationPanel);
+
         this.mainPane.add(this.rawNowPlayingFilePanel);
         this.mainPane.add(this.nowPlayingFilePanel);
         this.mainPane.add(this.nowPlayingFileFilePanel);
@@ -631,6 +669,11 @@ public class SettingsPanel extends JPanel {
 
         if (this.newDonationSoundChooser.getSelectedFile() != null) {
             App.NOTIFIER.getSettings().setNewDonationSound(this.newDonationSoundChooser.getSelectedFile()
+                    .getAbsolutePath());
+        }
+
+        if (this.foobarLocationChooser.getSelectedFile() != null) {
+            App.NOTIFIER.getSettings().setFoobarLocation(this.foobarLocationChooser.getSelectedFile()
                     .getAbsolutePath());
         }
 

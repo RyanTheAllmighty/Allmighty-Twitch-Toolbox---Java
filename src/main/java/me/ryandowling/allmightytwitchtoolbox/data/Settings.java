@@ -29,6 +29,8 @@ public class Settings {
     private String newFollowSoundPath;
     private String newDonationSoundPath;
 
+    private String foobarLocation;
+
     private String rawNowPlayingFilePath;
     private String nowPlayingFilePath;
     private String nowPlayingFileFilePath;
@@ -279,5 +281,13 @@ public class Settings {
         return this.getRawNowPlayingFilePath() != null && !this.getRawNowPlayingFilePath().isEmpty() &&
                 this.getNowPlayingFilePath() != null && !this.getNowPlayingFilePath().isEmpty() &&
                 this.getNowPlayingFileFilePath() != null && !this.getNowPlayingFileFilePath().isEmpty();
+    }
+
+    public String getFoobarLocation() {
+        return this.foobarLocation;
+    }
+
+    public void setFoobarLocation(String foobarLocation) {
+        this.foobarLocation = foobarLocation;
     }
 }
