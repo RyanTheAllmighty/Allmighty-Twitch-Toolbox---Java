@@ -54,7 +54,6 @@ public class FoobarNowPlayingConverter extends JPanel implements ActionListener 
         TimerTask task = new FileWatcher(App.NOTIFIER.getSettings().getRawNowPlayingFile().toFile()) {
             @Override
             protected void onChange(File file) {
-                System.out.println("AAAAA");
                 updateFiles();
             }
         };
