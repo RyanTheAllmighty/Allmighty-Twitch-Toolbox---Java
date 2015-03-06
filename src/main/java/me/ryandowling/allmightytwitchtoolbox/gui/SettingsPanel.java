@@ -9,6 +9,7 @@ import org.apache.commons.io.FileUtils;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -103,6 +104,10 @@ public class SettingsPanel extends JPanel {
     private JFileChooser nowPlayingFileFileChooser;
     private JButton nowPlayingFileFileChooserButton;
 
+    private JPanel autoRunFoobarNowPlayingConverterPanel;
+    private JLabel autoRunFoobarNowPlayingConverterLabel;
+    private JCheckBox autoRunFoobarNowPlayingConverterCheckbox;
+
     private JButton openServerButton;
     private JButton saveButton;
 
@@ -138,6 +143,8 @@ public class SettingsPanel extends JPanel {
         setupRawNowPlayingFilePanel();
         setupNowPlayingFilePanel();
         setupNowPlayingFileFilePanel();
+
+        setupAutoRunFoobarNowPlayingConverterPanel();
 
         setupButtonPanel();
     }
@@ -457,6 +464,19 @@ public class SettingsPanel extends JPanel {
         this.nowPlayingFileFilePanel.add(this.nowPlayingFileFileChooserButton);
     }
 
+    private void setupAutoRunFoobarNowPlayingConverterPanel() {
+        this.autoRunFoobarNowPlayingConverterPanel = new JPanel();
+        this.autoRunFoobarNowPlayingConverterPanel.setLayout(new FlowLayout());
+
+        this.autoRunFoobarNowPlayingConverterLabel = new JLabel("Auto Run Foobar Now Playing Converter?");
+
+        this.autoRunFoobarNowPlayingConverterCheckbox = new JCheckBox();
+        this.autoRunFoobarNowPlayingConverterCheckbox.setSelected(App.NOTIFIER.getSettings().autoRunFoobarNowPlayingConverter());
+
+        this.autoRunFoobarNowPlayingConverterPanel.add(this.autoRunFoobarNowPlayingConverterLabel);
+        this.autoRunFoobarNowPlayingConverterPanel.add(this.autoRunFoobarNowPlayingConverterCheckbox);
+    }
+
     private void setupButtonPanel() {
         this.saveButton = new JButton("Save");
         this.saveButton.addActionListener(new ActionListener() {
@@ -493,6 +513,8 @@ public class SettingsPanel extends JPanel {
         this.mainPane.add(this.rawNowPlayingFilePanel);
         this.mainPane.add(this.nowPlayingFilePanel);
         this.mainPane.add(this.nowPlayingFileFilePanel);
+
+        this.mainPane.add(this.autoRunFoobarNowPlayingConverterPanel);
 
         this.buttonPane.add(this.saveButton);
         this.buttonPane.add(this.openServerButton);
@@ -626,6 +648,8 @@ public class SettingsPanel extends JPanel {
             App.NOTIFIER.getSettings().setNowPlayingFileFile(this.nowPlayingFileFileChooser.getSelectedFile()
                     .getAbsolutePath());
         }
+
+        App.NOTIFIER.getSettings().setAutoRunFoobarNowPlayingConverter(this.autoRunFoobarNowPlayingConverterCheckbox.isSelected());
 
         App.NOTIFIER.getSettings().setupFinished();
         App.NOTIFIER.saveSettings();

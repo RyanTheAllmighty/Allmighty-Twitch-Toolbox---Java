@@ -2,7 +2,6 @@ package me.ryandowling.allmightytwitchtoolbox.gui.tools;
 
 import me.ryandowling.allmightytwitchtoolbox.App;
 import me.ryandowling.allmightytwitchtoolbox.utils.FileWatcher;
-import me.ryandowling.allmightytwitchtoolbox.utils.Utils;
 import org.apache.commons.io.FileUtils;
 
 import javax.swing.JButton;
@@ -33,6 +32,10 @@ public class FoobarNowPlayingConverter extends JPanel implements ActionListener 
 
         setupComponents();
         addComponents();
+
+        if (App.NOTIFIER.getSettings().autoRunFoobarNowPlayingConverter()) {
+            this.toggleState();
+        }
     }
 
     private void setupComponents() {
@@ -60,6 +63,8 @@ public class FoobarNowPlayingConverter extends JPanel implements ActionListener 
 
         timer = new Timer();
         timer.schedule(task, new Date(), 100);
+
+        updateFiles();
     }
 
     private void cancelTimer() {

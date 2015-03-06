@@ -33,6 +33,8 @@ public class Settings {
     private String nowPlayingFilePath;
     private String nowPlayingFileFilePath;
 
+    private boolean autoRunFoobarNowPlayingConverter;
+
     private String followerType;
     private String donationType;
 
@@ -53,6 +55,11 @@ public class Settings {
         this.numberOfPointsOnViewerChart = 20;
         this.newFollowSoundPath = "";
         this.newDonationSoundPath = "";
+        this.rawNowPlayingFilePath = "";
+        this.nowPlayingFilePath = "";
+        this.nowPlayingFileFilePath = "";
+        this.autoRunFoobarNowPlayingConverter = false;
+
         this.countdownTimers = new HashMap<>();
         this.isSetup = false;
 
@@ -222,6 +229,14 @@ public class Settings {
         }
 
         return this.countdownTimers.get(num);
+    }
+
+    public boolean autoRunFoobarNowPlayingConverter() {
+        return this.autoRunFoobarNowPlayingConverter;
+    }
+
+    public void setAutoRunFoobarNowPlayingConverter(boolean autoRunFoobarNowPlayingConverter) {
+        this.autoRunFoobarNowPlayingConverter = autoRunFoobarNowPlayingConverter;
     }
 
     public Path getRawNowPlayingFile() {
