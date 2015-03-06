@@ -343,19 +343,21 @@ public class AllmightyTwitchToolbox {
 
     private void checkForNewTwitchFollowers() {
         TwitchAPIRequest request = new TwitchAPIRequest("/channels/" + this.settings.getTwitchUsername() +
-                "/follows?direction=desc&limit=100");
+                "/follows?direction=desc&limit=20");
 
         try {
             TwitchUserFollows followers = GSON.fromJson(request.get(), TwitchUserFollows.class);
 
-            if(this.totalFollowers != followers.getTotalFollowers()) {
+            if (this.totalFollowers != followers.getTotalFollowers()) {
                 FollowerManager.followersNumberChanged(followers.getTotalFollowers());
             }
 
             this.totalFollowers = followers.getTotalFollowers();
 
             for (TwitchFollower follower : followers.getFollows()) {
-                FollowerManager.newFollow(follower);
+                if (!this.followers.containsKey(follower.getUsername())) {
+                    FollowerManager.newFollow(follower);
+                }
             }
 
             this.followers = Utils.sortMapByValue(this.followers);
@@ -379,7 +381,9 @@ public class AllmightyTwitchToolbox {
             StreamTipTips donations = GSON.fromJson(request.get(), StreamTipTips.class);
 
             for (StreamTipTip tip : donations.getTips()) {
-                DonationManager.newDonation(tip);
+                if (!this.donations.containsKey(tip.getID())) {
+                    DonationManager.newDonation(tip);
+                }
             }
 
             this.donations = Utils.sortMapByValue(this.donations);
