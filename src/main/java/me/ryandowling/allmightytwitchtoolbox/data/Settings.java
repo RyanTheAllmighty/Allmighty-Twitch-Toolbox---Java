@@ -29,6 +29,10 @@ public class Settings {
     private String newFollowSoundPath;
     private String newDonationSoundPath;
 
+    private String rawNowPlayingFilePath;
+    private String nowPlayingFilePath;
+    private String nowPlayingFileFilePath;
+
     private String followerType;
     private String donationType;
 
@@ -218,5 +222,47 @@ public class Settings {
         }
 
         return this.countdownTimers.get(num);
+    }
+
+    public Path getRawNowPlayingFile() {
+        return Paths.get(this.rawNowPlayingFilePath);
+    }
+
+    public String getRawNowPlayingFilePath() {
+        return this.rawNowPlayingFilePath;
+    }
+
+    public void setRawNowPlayingFile(String rawNowPlayingFile) {
+        this.rawNowPlayingFilePath = rawNowPlayingFile;
+    }
+
+    public Path getNowPlayingFile() {
+        return Paths.get(this.nowPlayingFilePath);
+    }
+
+    public String getNowPlayingFilePath() {
+        return this.nowPlayingFilePath;
+    }
+
+    public void setNowPlayingFile(String nowPlayingFile) {
+        this.nowPlayingFilePath = nowPlayingFile;
+    }
+
+    public Path getNowPlayingFileFile() {
+        return Paths.get(this.nowPlayingFileFilePath);
+    }
+
+    public String getNowPlayingFileFilePath() {
+        return this.nowPlayingFileFilePath;
+    }
+
+    public void setNowPlayingFileFile(String nowPlayingFileFile) {
+        this.nowPlayingFileFilePath = nowPlayingFileFile;
+    }
+
+    public boolean hasSetupNowPlaying() {
+        return this.getRawNowPlayingFilePath() != null && !this.getRawNowPlayingFilePath().isEmpty() &&
+                this.getNowPlayingFilePath() != null && !this.getNowPlayingFilePath().isEmpty() &&
+                this.getNowPlayingFileFilePath() != null && !this.getNowPlayingFileFilePath().isEmpty();
     }
 }

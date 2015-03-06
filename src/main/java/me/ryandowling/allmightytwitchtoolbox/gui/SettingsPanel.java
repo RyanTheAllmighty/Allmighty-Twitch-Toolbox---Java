@@ -85,6 +85,24 @@ public class SettingsPanel extends JPanel {
     private JButton newDonationSoundChooserButton;
     private JButton newDonationSoundTestButton;
 
+    private JPanel rawNowPlayingFilePanel;
+    private JLabel rawNowPlayingFileLabel;
+    private JTextField rawNowPlayingFileTextField;
+    private JFileChooser rawNowPlayingFileChooser;
+    private JButton rawNowPlayingFileChooserButton;
+
+    private JPanel nowPlayingFilePanel;
+    private JLabel nowPlayingFileLabel;
+    private JTextField nowPlayingFileTextField;
+    private JFileChooser nowPlayingFileChooser;
+    private JButton nowPlayingFileChooserButton;
+
+    private JPanel nowPlayingFileFilePanel;
+    private JLabel nowPlayingFileFileLabel;
+    private JTextField nowPlayingFileFileTextField;
+    private JFileChooser nowPlayingFileFileChooser;
+    private JButton nowPlayingFileFileChooserButton;
+
     private JButton openServerButton;
     private JButton saveButton;
 
@@ -113,8 +131,14 @@ public class SettingsPanel extends JPanel {
         setupTimeBetweenViewerCountChecksPanel();
         setupNumberOfPointsOnViewerChartPanel();
         setupServerPortPanel();
+
         setupFollowerSoundPanel();
         setupDonationSoundPanel();
+
+        setupRawNowPlayingFilePanel();
+        setupNowPlayingFilePanel();
+        setupNowPlayingFileFilePanel();
+
         setupButtonPanel();
     }
 
@@ -349,6 +373,90 @@ public class SettingsPanel extends JPanel {
         this.newDonationSoundPanel.add(this.newDonationSoundTestButton);
     }
 
+    private void setupRawNowPlayingFilePanel() {
+        this.rawNowPlayingFilePanel = new JPanel();
+        this.rawNowPlayingFilePanel.setLayout(new FlowLayout());
+
+        this.rawNowPlayingFileLabel = new JLabel("Now Playing Raw File:");
+
+        this.rawNowPlayingFileTextField = new JTextField(App.NOTIFIER.getSettings().getRawNowPlayingFilePath(), 16);
+        this.rawNowPlayingFileTextField.setEnabled(false);
+
+        this.rawNowPlayingFileChooser = new JFileChooser();
+        this.rawNowPlayingFileChooser.setMultiSelectionEnabled(false);
+
+        this.rawNowPlayingFileChooserButton = new JButton("Browse");
+        this.rawNowPlayingFileChooserButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                rawNowPlayingFileChooser.showOpenDialog(SettingsPanel.this);
+                if (rawNowPlayingFileChooser.getSelectedFile() != null) {
+                    rawNowPlayingFileTextField.setText(rawNowPlayingFileChooser.getSelectedFile().getAbsolutePath());
+                }
+            }
+        });
+
+        this.rawNowPlayingFilePanel.add(this.rawNowPlayingFileLabel);
+        this.rawNowPlayingFilePanel.add(this.rawNowPlayingFileTextField);
+        this.rawNowPlayingFilePanel.add(this.rawNowPlayingFileChooserButton);
+    }
+
+    private void setupNowPlayingFilePanel() {
+        this.nowPlayingFilePanel = new JPanel();
+        this.nowPlayingFilePanel.setLayout(new FlowLayout());
+
+        this.nowPlayingFileLabel = new JLabel("Now Playing Output File:");
+
+        this.nowPlayingFileTextField = new JTextField(App.NOTIFIER.getSettings().getNowPlayingFilePath(), 16);
+        this.nowPlayingFileTextField.setEnabled(false);
+
+        this.nowPlayingFileChooser = new JFileChooser();
+        this.nowPlayingFileChooser.setMultiSelectionEnabled(false);
+
+        this.nowPlayingFileChooserButton = new JButton("Browse");
+        this.nowPlayingFileChooserButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                nowPlayingFileChooser.showOpenDialog(SettingsPanel.this);
+                if (nowPlayingFileChooser.getSelectedFile() != null) {
+                    nowPlayingFileTextField.setText(nowPlayingFileChooser.getSelectedFile().getAbsolutePath());
+                }
+            }
+        });
+
+        this.nowPlayingFilePanel.add(this.nowPlayingFileLabel);
+        this.nowPlayingFilePanel.add(this.nowPlayingFileTextField);
+        this.nowPlayingFilePanel.add(this.nowPlayingFileChooserButton);
+    }
+
+    private void setupNowPlayingFileFilePanel() {
+        this.nowPlayingFileFilePanel = new JPanel();
+        this.nowPlayingFileFilePanel.setLayout(new FlowLayout());
+
+        this.nowPlayingFileFileLabel = new JLabel("Now Playing File Output File:");
+
+        this.nowPlayingFileFileTextField = new JTextField(App.NOTIFIER.getSettings().getNowPlayingFileFilePath(), 16);
+        this.nowPlayingFileFileTextField.setEnabled(false);
+
+        this.nowPlayingFileFileChooser = new JFileChooser();
+        this.nowPlayingFileFileChooser.setMultiSelectionEnabled(false);
+
+        this.nowPlayingFileFileChooserButton = new JButton("Browse");
+        this.nowPlayingFileFileChooserButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                nowPlayingFileFileChooser.showOpenDialog(SettingsPanel.this);
+                if (nowPlayingFileFileChooser.getSelectedFile() != null) {
+                    nowPlayingFileFileTextField.setText(nowPlayingFileFileChooser.getSelectedFile().getAbsolutePath());
+                }
+            }
+        });
+
+        this.nowPlayingFileFilePanel.add(this.nowPlayingFileFileLabel);
+        this.nowPlayingFileFilePanel.add(this.nowPlayingFileFileTextField);
+        this.nowPlayingFileFilePanel.add(this.nowPlayingFileFileChooserButton);
+    }
+
     private void setupButtonPanel() {
         this.saveButton = new JButton("Save");
         this.saveButton.addActionListener(new ActionListener() {
@@ -378,8 +486,13 @@ public class SettingsPanel extends JPanel {
         this.mainPane.add(this.timeBetweenViewerCountChecksPanel);
         this.mainPane.add(this.numberOfPointsOnViewerChartPanel);
         this.mainPane.add(this.serverPortPanel);
+
         this.mainPane.add(this.newFollowerSoundPanel);
         this.mainPane.add(this.newDonationSoundPanel);
+
+        this.mainPane.add(this.rawNowPlayingFilePanel);
+        this.mainPane.add(this.nowPlayingFilePanel);
+        this.mainPane.add(this.nowPlayingFileFilePanel);
 
         this.buttonPane.add(this.saveButton);
         this.buttonPane.add(this.openServerButton);
@@ -496,6 +609,21 @@ public class SettingsPanel extends JPanel {
 
         if (this.newDonationSoundChooser.getSelectedFile() != null) {
             App.NOTIFIER.getSettings().setNewDonationSound(this.newDonationSoundChooser.getSelectedFile()
+                    .getAbsolutePath());
+        }
+
+        if (this.rawNowPlayingFileChooser.getSelectedFile() != null) {
+            App.NOTIFIER.getSettings().setRawNowPlayingFile(this.rawNowPlayingFileChooser.getSelectedFile()
+                    .getAbsolutePath());
+        }
+
+        if (this.nowPlayingFileChooser.getSelectedFile() != null) {
+            App.NOTIFIER.getSettings().setNowPlayingFile(this.nowPlayingFileChooser.getSelectedFile()
+                    .getAbsolutePath());
+        }
+
+        if (this.nowPlayingFileFileChooser.getSelectedFile() != null) {
+            App.NOTIFIER.getSettings().setNowPlayingFileFile(this.nowPlayingFileFileChooser.getSelectedFile()
                     .getAbsolutePath());
         }
 
