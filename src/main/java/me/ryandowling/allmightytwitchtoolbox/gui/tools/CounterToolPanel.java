@@ -3,8 +3,6 @@ package me.ryandowling.allmightytwitchtoolbox.gui.tools;
 import com.tulskiy.keymaster.common.HotKey;
 import com.tulskiy.keymaster.common.HotKeyListener;
 import me.ryandowling.allmightytwitchtoolbox.App;
-import me.ryandowling.allmightytwitchtoolbox.utils.Utils;
-import org.apache.commons.io.FileUtils;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -14,7 +12,6 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
 
 public class CounterToolPanel extends JPanel implements ActionListener {
     private JLabel counterLabel;
@@ -23,7 +20,7 @@ public class CounterToolPanel extends JPanel implements ActionListener {
     private JButton counterRemoveButton;
     private JButton counterResetButton;
 
-    private int counter;
+    private int counter = App.NOTIFIER.getSettings().getCounter();
 
     public CounterToolPanel() {
         super();
@@ -34,8 +31,6 @@ public class CounterToolPanel extends JPanel implements ActionListener {
         addComponents();
 
         setupHotKeys();
-
-        resetCounter();
     }
 
     private int resetCounter() {
@@ -63,19 +58,14 @@ public class CounterToolPanel extends JPanel implements ActionListener {
     }
 
     private void updateCounter() {
-        try {
-            FileUtils.write(Utils.getCounterFile().toFile(), "" + this.counter);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        App.NOTIFIER.setCounter(this.counter);
         counterValueLabel.setText("" + this.counter);
     }
 
     private void setupComponents() {
         this.counterLabel = new JLabel("Counter: ");
 
-        this.counterValueLabel = new JLabel("0");
+        this.counterValueLabel = new JLabel("" + this.counter);
 
         this.counterAddButton = new JButton("Add");
         this.counterAddButton.addActionListener(this);

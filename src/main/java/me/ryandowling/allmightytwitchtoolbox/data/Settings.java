@@ -43,6 +43,7 @@ public class Settings {
     private Map<Integer, Date> countdownTimers;
 
     private boolean isSetup;
+    private int counter;
 
     public void loadDefaults() {
         this.guiPosition = new Point(0, 0);
@@ -289,5 +290,13 @@ public class Settings {
 
     public void setFoobarLocation(String foobarLocation) {
         this.foobarLocation = foobarLocation;
+    }
+
+    public void setCounter(int counter) {
+        this.counter = counter;
+    }
+
+    public int getCounter() {
+        return this.counter;
     }
 }

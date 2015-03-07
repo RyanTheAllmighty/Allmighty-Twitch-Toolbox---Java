@@ -720,4 +720,14 @@ public class AllmightyTwitchToolbox {
 
         return this.settings.getCountdownTimer(num);
     }
+
+    public void setCounter(int counter) {
+        this.settings.setCounter(counter);
+
+        try {
+            FileUtils.write(Utils.getCounterFile().toFile(), "" + counter);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
