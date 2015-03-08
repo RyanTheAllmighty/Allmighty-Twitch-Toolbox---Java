@@ -14,6 +14,7 @@ public class TabbedPanel extends JTabbedPane implements SettingsListener {
     private DonationPanel donationPanel = new DonationPanel();
     private TimerPanel timerPanel = new TimerPanel();
     private ToolPanel toolsPanel = new ToolPanel();
+    private SoundboardPanel soundboardPanel = new SoundboardPanel();
     private TestPanel testPanel = new TestPanel();
     private SettingsPanel settingsPanel = new SettingsPanel();
 
@@ -29,6 +30,7 @@ public class TabbedPanel extends JTabbedPane implements SettingsListener {
         addTab("Donations", this.donationPanel);
         addTab("Timer", this.timerPanel);
         addTab("Tools", this.toolsPanel);
+        addTab("Soundboard", this.soundboardPanel);
         addTab("Test", this.testPanel);
         addTab("Settings", this.settingsPanel);
 
@@ -46,6 +48,7 @@ public class TabbedPanel extends JTabbedPane implements SettingsListener {
         this.setEnabledAt(5, b);
         this.setEnabledAt(6, b);
         this.setEnabledAt(7, b);
+        this.setEnabledAt(8, b);
     }
 
     @Override

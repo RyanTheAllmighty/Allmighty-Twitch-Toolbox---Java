@@ -47,10 +47,6 @@ public class MainFrame extends JFrame {
     }
 
     private void exit() {
-        System.out.println("Exiting the application!");
-        App.NOTIFIER.saveSettings();
-        App.NOTIFIER.stopServer();
-        App.NOTIFIER.stopSocketIOServer();
-        System.exit(0);
+        App.NOTIFIER.exit();
     }
 }

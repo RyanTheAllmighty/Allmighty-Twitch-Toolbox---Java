@@ -1,5 +1,7 @@
 package me.ryandowling.allmightytwitchtoolbox.data;
 
+import me.ryandowling.allmightytwitchtoolbox.App;
+
 import java.awt.Dimension;
 import java.awt.Point;
 import java.nio.file.Path;
@@ -44,6 +46,7 @@ public class Settings {
 
     private boolean isSetup;
     private int counter;
+    private String[] soundboardSounds;
 
     public void loadDefaults() {
         this.guiPosition = new Point(0, 0);
@@ -62,12 +65,20 @@ public class Settings {
         this.nowPlayingFilePath = "";
         this.nowPlayingFileFilePath = "";
         this.autoRunFoobarNowPlayingConverter = false;
+        this.soundboardSounds = new String[9];
 
         this.countdownTimers = new HashMap<>();
         this.isSetup = false;
 
         this.followerType = "TwitchFollower";
         this.donationType = "StreamTipTip";
+    }
+
+    public void setupSoundboardSoundDefaults() {
+        if (this.soundboardSounds == null) {
+            this.soundboardSounds = new String[9];
+            App.NOTIFIER.saveSettings();
+        }
     }
 
     public Point getGuiPosition() {
@@ -298,5 +309,17 @@ public class Settings {
 
     public int getCounter() {
         return this.counter;
+    }
+
+    public Path getSoundboardSound(int i) {
+        if (this.soundboardSounds[i - 1] == null) {
+            return null;
+        }
+
+        return Paths.get(this.soundboardSounds[i - 1]);
+    }
+
+    public void setSoundboardSound(int i, String absolutePath) {
+        this.soundboardSounds[i - 1] = absolutePath;
     }
 }

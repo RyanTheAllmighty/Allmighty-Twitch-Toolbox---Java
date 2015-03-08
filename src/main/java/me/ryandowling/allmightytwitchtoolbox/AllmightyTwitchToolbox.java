@@ -5,6 +5,8 @@ import com.corundumstudio.socketio.SocketIOServer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.tulskiy.keymaster.common.HotKey;
+import com.tulskiy.keymaster.common.HotKeyListener;
 import com.tulskiy.keymaster.common.Provider;
 import me.ryandowling.allmightytwitchtoolbox.data.ChartData;
 import me.ryandowling.allmightytwitchtoolbox.data.Settings;
@@ -27,14 +29,18 @@ import me.ryandowling.allmightytwitchtoolbox.events.managers.DonationManager;
 import me.ryandowling.allmightytwitchtoolbox.events.managers.FollowerManager;
 import me.ryandowling.allmightytwitchtoolbox.events.managers.ViewerCountManager;
 import me.ryandowling.allmightytwitchtoolbox.gui.Console;
+import me.ryandowling.allmightytwitchtoolbox.utils.SoundPlayer;
 import me.ryandowling.allmightytwitchtoolbox.utils.Utils;
 import org.apache.commons.io.FileUtils;
 
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -119,6 +125,8 @@ public class AllmightyTwitchToolbox {
         // If things are still setup, then Twitch API token is good
 
         if (this.settings.isSetup() && !this.hasSetup) {
+            this.settings.setupSoundboardSoundDefaults();
+
             loadFollowers();
             startCheckingForNewFollowers();
 
@@ -134,6 +142,8 @@ public class AllmightyTwitchToolbox {
 
             startSocketIOServer();
 
+            setupSoundboardHotkeys();
+
             executor.submit(new Runnable() {
                 @Override
                 public void run() {
@@ -142,6 +152,35 @@ public class AllmightyTwitchToolbox {
             });
 
             this.hasSetup = true;
+        }
+    }
+
+    private void setupSoundboardHotkeys() {
+        int[] keyEvents = {
+                KeyEvent.VK_NUMPAD1,
+                KeyEvent.VK_NUMPAD2,
+                KeyEvent.VK_NUMPAD3,
+                KeyEvent.VK_NUMPAD4,
+                KeyEvent.VK_NUMPAD5,
+                KeyEvent.VK_NUMPAD6,
+                KeyEvent.VK_NUMPAD7,
+                KeyEvent.VK_NUMPAD8,
+                KeyEvent.VK_NUMPAD9
+        };
+
+        for (int i = 1; i <= 9; i++) {
+            final int num = i - 1;
+
+            getHotKeyProvider().register(KeyStroke.getKeyStroke(keyEvents[num], KeyEvent
+                    .CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK), new HotKeyListener() {
+                @Override
+                public void onHotKey(HotKey hotKey) {
+                    Path path = App.NOTIFIER.getSettings().getSoundboardSound(num + 1);
+                    if (path != null) {
+                        SoundPlayer.playSound(path);
+                    }
+                }
+            });
         }
     }
 
@@ -729,5 +768,13 @@ public class AllmightyTwitchToolbox {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void exit() {
+        System.out.println("Exiting the application!");
+        saveSettings();
+        stopServer();
+        stopSocketIOServer();
+        System.exit(0);
     }
 }
