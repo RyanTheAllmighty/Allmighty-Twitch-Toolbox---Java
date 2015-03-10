@@ -114,6 +114,10 @@ public class SettingsPanel extends JPanel {
     private JLabel autoRunFoobarNowPlayingConverterLabel;
     private JCheckBox autoRunFoobarNowPlayingConverterCheckbox;
 
+    private JPanel soundVolumePanel;
+    private JLabel soundVolumeLabel;
+    private JTextField soundVolumeTextField;
+
     private JButton openServerButton;
     private JButton saveButton;
 
@@ -153,6 +157,8 @@ public class SettingsPanel extends JPanel {
         setupNowPlayingFileFilePanel();
 
         setupAutoRunFoobarNowPlayingConverterPanel();
+
+        setupSoundVolumePanel();
 
         setupButtonPanel();
     }
@@ -513,6 +519,17 @@ public class SettingsPanel extends JPanel {
         this.autoRunFoobarNowPlayingConverterPanel.add(this.autoRunFoobarNowPlayingConverterCheckbox);
     }
 
+    private void setupSoundVolumePanel() {
+        this.soundVolumePanel = new JPanel();
+        this.soundVolumePanel.setLayout(new FlowLayout());
+
+        this.soundVolumeLabel = new JLabel("Sound Volume (-100 to 0):");
+        this.soundVolumeTextField = new JTextField(App.NOTIFIER.getSettings().getSoundsVolume() + "", 16);
+
+        this.soundVolumePanel.add(this.soundVolumeLabel);
+        this.soundVolumePanel.add(this.soundVolumeTextField);
+    }
+
     private void setupButtonPanel() {
         this.saveButton = new JButton("Save");
         this.saveButton.addActionListener(new ActionListener() {
@@ -553,6 +570,8 @@ public class SettingsPanel extends JPanel {
         this.mainPane.add(this.nowPlayingFileFilePanel);
 
         this.mainPane.add(this.autoRunFoobarNowPlayingConverterPanel);
+
+        this.mainPane.add(this.soundVolumePanel);
 
         this.buttonPane.add(this.saveButton);
         this.buttonPane.add(this.openServerButton);
@@ -630,6 +649,17 @@ public class SettingsPanel extends JPanel {
             return;
         }
 
+        try {
+            float value = Float.parseFloat(this.soundVolumeTextField.getText());
+            if (value < -100 || value > 0) {
+                throw new NumberFormatException("Sound volume must be a number between -100 and 0!");
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Sound volume must be a number between -100 and 0!", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         if (!App.NOTIFIER.getSettings().getTwitchUsername().equalsIgnoreCase(this.twitchUsernameTextField.getText())) {
             try {
                 FileUtils.forceDeleteOnExit(Utils.getFollowersFile().toFile());
@@ -690,6 +720,12 @@ public class SettingsPanel extends JPanel {
         if (this.nowPlayingFileFileChooser.getSelectedFile() != null) {
             App.NOTIFIER.getSettings().setNowPlayingFileFile(this.nowPlayingFileFileChooser.getSelectedFile()
                     .getAbsolutePath());
+        }
+
+        try {
+            float volumeLevel = Float.parseFloat(this.soundVolumeTextField.getText());
+            App.NOTIFIER.getSettings().setSoundsVolume(volumeLevel);
+        } catch (NumberFormatException ignored) {
         }
 
         App.NOTIFIER.getSettings().setAutoRunFoobarNowPlayingConverter(this.autoRunFoobarNowPlayingConverterCheckbox.isSelected());

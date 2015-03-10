@@ -47,6 +47,7 @@ public class Settings {
     private boolean isSetup;
     private int counter;
     private String[] soundboardSounds;
+    private float soundsVolume;
 
     public void loadDefaults() {
         this.guiPosition = new Point(0, 0);
@@ -66,6 +67,7 @@ public class Settings {
         this.nowPlayingFileFilePath = "";
         this.autoRunFoobarNowPlayingConverter = false;
         this.soundboardSounds = new String[9];
+        this.soundsVolume = 0.0f;
 
         this.countdownTimers = new HashMap<>();
         this.isSetup = false;
@@ -321,5 +323,13 @@ public class Settings {
 
     public void setSoundboardSound(int i, String absolutePath) {
         this.soundboardSounds[i - 1] = absolutePath;
+    }
+
+    public float getSoundsVolume() {
+        return this.soundsVolume;
+    }
+
+    public void setSoundsVolume(float soundsVolume) {
+        this.soundsVolume = soundsVolume;
     }
 }
