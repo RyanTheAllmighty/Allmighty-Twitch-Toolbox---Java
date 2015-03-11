@@ -45,6 +45,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -64,7 +65,7 @@ public class AllmightyTwitchToolbox {
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(8);
 
-    private Map<String, Follower> followers = new HashMap<>();
+    private Map<String, Follower> followers = new LinkedHashMap<>();
     private int totalFollowers = 0;
 
     private Map<String, Donation> donations = new HashMap<>();
@@ -564,6 +565,7 @@ public class AllmightyTwitchToolbox {
         boolean isNew = !this.followers.containsKey(follower.getUsername());
 
         this.followers.put(follower.getUsername(), follower);
+        this.followers = Utils.sortMapByValue(this.followers);
 
         return isNew;
     }
@@ -776,5 +778,16 @@ public class AllmightyTwitchToolbox {
         stopServer();
         stopSocketIOServer();
         System.exit(0);
+    }
+
+    public void removeFollower(String username) {
+        username = username.toLowerCase();
+
+        if (this.followers.containsKey(username)) {
+            System.out.println("Removing the follow for username " + username);
+            this.followers.remove(username);
+        } else {
+            System.err.println("There is no follow for username " + username);
+        }
     }
 }

@@ -5,8 +5,14 @@ import me.ryandowling.allmightytwitchtoolbox.data.interfaces.Follower;
 import me.ryandowling.allmightytwitchtoolbox.events.listeners.FollowerListener;
 import me.ryandowling.allmightytwitchtoolbox.events.managers.FollowerManager;
 
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +29,34 @@ public class FollowerTable extends JTable implements FollowerListener {
         getTableHeader().setReorderingAllowed(false);
 
         FollowerManager.addListener(this);
+
+        final JPopupMenu popup = new JPopupMenu();
+        final JMenuItem delete = new JMenuItem("Delete");
+        delete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                App.NOTIFIER.removeFollower((String) tableModel.getValueAt(getSelectedRow(), 0));
+                tableModel.fireTableDataChanged();
+            }
+        });
+        popup.add(delete);
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    JTable source = (JTable) e.getSource();
+                    int row = source.rowAtPoint(e.getPoint());
+                    int column = source.columnAtPoint(e.getPoint());
+
+                    if (!source.isRowSelected(row)) {
+                        source.changeSelection(row, column, false, false);
+                    }
+
+                    popup.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+        });
     }
 
     private void setupTableModel() {
