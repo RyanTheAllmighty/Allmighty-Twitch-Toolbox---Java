@@ -102,7 +102,8 @@ public class FoobarNowPlayingConverter extends JPanel implements ActionListener 
 
             // How to display the file then ||| followed by Absolute path to file "C:/music/file.mp3", example below
             // Artist Name - Song Name|||C:/music/file.mp3
-            // foobar: http://skipyrich.com/wiki/Foobar2000:Now_Playing_Simple - %artist% - %title%|||%path%
+            // foobar: http://skipyrich.com/wiki/Foobar2000:Now_Playing_Simple
+            // foobar plugin ^ setting: %artist% - %title%|||%path%
             String[] parts = nowPlaying.split("\\|\\|\\|");
 
             if (parts.length == 2) {
