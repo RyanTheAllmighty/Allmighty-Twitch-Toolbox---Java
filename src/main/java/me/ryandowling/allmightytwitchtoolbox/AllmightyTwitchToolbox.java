@@ -574,6 +574,7 @@ public class AllmightyTwitchToolbox {
         boolean isNew = !this.donations.containsKey(donation.getID());
 
         this.donations.put(donation.getID(), donation);
+        this.donations = Utils.sortMapByValue(this.donations);
 
         if (isNew) {
             this.donationsTally = +donation.getAmount();
@@ -788,6 +789,15 @@ public class AllmightyTwitchToolbox {
             this.followers.remove(username);
         } else {
             System.err.println("There is no follow for username " + username);
+        }
+    }
+
+    public void removeDonation(String id) {
+        if (this.donations.containsKey(id)) {
+            System.out.println("Removing the donation with ID of " + id);
+            this.donations.remove(id);
+        } else {
+            System.err.println("There is no donation with ID of " + id);
         }
     }
 }

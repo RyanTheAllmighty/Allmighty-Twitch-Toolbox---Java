@@ -5,8 +5,13 @@ import me.ryandowling.allmightytwitchtoolbox.data.interfaces.Donation;
 import me.ryandowling.allmightytwitchtoolbox.events.listeners.DonationListener;
 import me.ryandowling.allmightytwitchtoolbox.events.managers.DonationManager;
 
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +29,38 @@ public class DonationTable extends JTable implements DonationListener {
         getTableHeader().setReorderingAllowed(false);
 
         DonationManager.addListener(this);
+
+        final JPopupMenu popup = new JPopupMenu();
+        final JMenuItem delete = new JMenuItem("Delete");
+        delete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                App.NOTIFIER.removeDonation((String) tableModel.getValueAt(getSelectedRow(), 0));
+                tableModel.fireTableDataChanged();
+            }
+        });
+        popup.add(delete);
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    JTable source = (JTable) e.getSource();
+                    int row = source.rowAtPoint(e.getPoint());
+                    int column = source.columnAtPoint(e.getPoint());
+
+                    if (!source.isRowSelected(row)) {
+                        source.changeSelection(row, column, false, false);
+                    }
+
+                    popup.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+        });
     }
 
     private void setupTableModel() {
-        final String[] columnNames = {"Username", "Amount", "Message", "Time"};
+        final String[] columnNames = {"ID", "Username", "Amount", "Message", "Time"};
 
         this.tableModel = new AbstractTableModel() {
             @Override
@@ -54,12 +87,14 @@ public class DonationTable extends JTable implements DonationListener {
 
                 switch (columnIndex) {
                     case 0:
-                        return donation.getUsername();
+                        return donation.getID();
                     case 1:
-                        return donation.getPrintableAmount();
+                        return donation.getUsername();
                     case 2:
-                        return donation.getNote();
+                        return donation.getPrintableAmount();
                     case 3:
+                        return donation.getNote();
+                    case 4:
                         return donation.getTimeLocal();
                 }
 
