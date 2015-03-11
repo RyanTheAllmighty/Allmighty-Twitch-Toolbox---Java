@@ -49,7 +49,7 @@
         var secondsLeft;
 
         $.ajax({
-            url: window.location.origin + "/timer/" + num + "/seconds",
+            url: window.location.origin + "/api/timer/" + num + "/seconds",
             type: 'GET',
             async: false,
             success: function (result) {

@@ -136,7 +136,8 @@
                     <a name="timer"></a>
 
                     <p>
-                        This timer panel will show a timer or countdown based upon whats configured in the application.
+                        This timer panel will show a timer or countdown based upon whats configured in the
+                        application. There are a total of 3 timers available.
                     </p>
 
                     <p>
@@ -145,7 +146,9 @@
                     </p>
 
                     <p>
-                        <input id="timer-url" class="col-xs-12" type="text"/><br/>
+                        <input id="timer1-url" class="col-xs-12" type="text"/><br/>
+                        <input id="timer2-url" class="col-xs-12" type="text"/><br/>
+                        <input id="timer3-url" class="col-xs-12" type="text"/><br/>
                     </p>
                 </div>
             </div>
@@ -165,49 +168,61 @@
                     </p>
 
                     <ul>
-                        <li><a href="/viewers/total">/viewers/total</a> - Gets the viewer count for your channel</li>
-                        <li><a href="/followers/latest">/followers/latest</a> - Gets a JSON object of the latest
+                        <li><a href="/api/viewers/total">/api/viewers/total</a> - Gets the viewer count for your channel
+                        </li>
+                        <li><a href="/api/followers/latest">/api/followers/latest</a> - Gets a JSON object of the latest
                             follower.
                         </li>
-                        <li><a href="/followers/latest/username">/followers/latest/username</a> - Gets the username of
+                        <li><a href="/api/followers/latest/username">/api/followers/latest/username</a> - Gets the
+                            username of
                             the latest follower.
                         </li>
-                        <li><a href="/followers/total">/followers/total</a> - Gets the total number of followers.</li>
-                        <li><a href="/donations/latest">/donations/latest</a> - Gets a JSON object of the latest
+                        <li><a href="/api/followers/total">/api/followers/total</a> - Gets the total number of
+                            followers.
+                        </li>
+                        <li><a href="/api/donations/latest">/api/donations/latest</a> - Gets a JSON object of the latest
                             donation.
                         </li>
-                        <li><a href="/donations/latest/id">/donations/latest/id</a> - Gets the unique ID of the
+                        <li><a href="/api/donations/latest/id">/api/donations/latest/id</a> - Gets the unique ID of the
                             latest donation.
                         </li>
-                        <li><a href="/donations/latest/username">/donations/latest/username</a> - Gets the username
+                        <li><a href="/api/donations/latest/username">/api/donations/latest/username</a> - Gets the
+                            username
                             of the latest donation.
                         </li>
-                        <li><a href="/donations/latest/amount">/donations/latest/amount</a> - Gets the amount of
+                        <li><a href="/api/donations/latest/amount">/api/donations/latest/amount</a> - Gets the amount of
                             the latest donation.
                         </li>
-                        <li><a href="/donations/latest/note">/donations/latest/note</a> - Gets the note of the
+                        <li><a href="/api/donations/latest/note">/api/donations/latest/note</a> - Gets the note of the
                             latest donation.
                         </li>
-                        <li><a href="/timer/seconds">/timer/seconds</a> - Gets the number of seconds left on the
-                            countdown timer.
+                        <li><a href="/api/timer/1/seconds">/api/timer/1/seconds</a> - Gets the number of seconds left on
+                            the first countdown timer.
+                        </li>
+                        <li><a href="/api/timer/2/seconds">/api/timer/2/seconds</a> - Gets the number of seconds left on
+                            the second countdown timer.
+                        </li>
+                        <li><a href="/api/timer/3/seconds">/api/timer/3/seconds</a> - Gets the number of seconds left on
+                            the third countdown timer.
                         </li>
                         <li>
-                            <a href="/foobar/play">/foobar/play</a> - Issues a play command to foobar2000.
+                            <a href="/api/foobar/play">/api/foobar/play</a> - Issues a play command to foobar2000.
                         </li>
                         <li>
-                            <a href="/foobar/pause">/foobar/pause</a> - Issues a pause command to foobar2000.
+                            <a href="/api/foobar/pause">/api/foobar/pause</a> - Issues a pause command to foobar2000.
                         </li>
                         <li>
-                            <a href="/foobar/stop">/foobar/stop</a> - Issues a stop command to foobar2000.
+                            <a href="/api/foobar/stop">/api/foobar/stop</a> - Issues a stop command to foobar2000.
                         </li>
                         <li>
-                            <a href="/foobar/next">/foobar/next</a> - Issues a next command to foobar2000.
+                            <a href="/api/foobar/next">/api/foobar/next</a> - Issues a next command to foobar2000.
                         </li>
                         <li>
-                            <a href="/foobar/prev">/foobar/prev</a> - Issues a prev command to foobar2000.
+                            <a href="/api/foobar/prev">/api/foobar/prev</a> - Issues a prev command to foobar2000.
                         </li>
                         <li>
-                            <a href="/foobar/nextpause">/foobar/nextpause</a> - Issues a next and pause command to
+                            <a href="/api/foobar/nextpause">/api/foobar/nextpause</a> - Issues a next and pause command
+                            to
                             foobar2000.
                         </li>
                     </ul>
@@ -227,7 +242,9 @@
     $(document).ready(function () {
         $('#notifications-url').val(window.location.origin + "/notifications");
 
-        $('#timer-url').val(window.location.origin + "/timer");
+        $('#timer1-url').val(window.location.origin + "/timer/1");
+        $('#timer2-url').val(window.location.origin + "/timer/2");
+        $('#timer3-url').val(window.location.origin + "/timer/3");
 
         $(window).resize(function () {
             $('body').css('padding-top', parseInt($('#layout-nav').css("height")) + 15);

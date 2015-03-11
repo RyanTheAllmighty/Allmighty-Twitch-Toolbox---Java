@@ -79,46 +79,61 @@ public class Server extends NanoHTTPD implements FollowerListener, DonationListe
                     e.printStackTrace();
                     return error();
                 }
-            case "/viewers/total":
+            case "/api/viewers/total":
                 json = AllmightyTwitchToolbox.GSON.toJson(App.NOTIFIER.getLatestViewerCount());
                 break;
-            case "/followers/latest":
+            case "/api/followers/latest":
                 json = AllmightyTwitchToolbox.GSON.toJson(this.latestFollower);
                 break;
-            case "/followers/latest/username":
+            case "/api/followers/latest/username":
                 json = AllmightyTwitchToolbox.GSON.toJson(this.latestFollower.getDisplayName());
                 break;
-            case "/followers/total":
+            case "/api/followers/total":
                 json = AllmightyTwitchToolbox.GSON.toJson(App.NOTIFIER.getFollowersTotal());
                 break;
-            case "/donations/latest":
+            case "/api/donations/latest":
                 json = AllmightyTwitchToolbox.GSON.toJson(this.latestDonation);
                 break;
-            case "/donations/latest/id":
+            case "/api/donations/latest/id":
                 json = AllmightyTwitchToolbox.GSON.toJson(this.latestDonation.getID());
                 break;
-            case "/donations/latest/username":
+            case "/api/donations/latest/username":
                 json = AllmightyTwitchToolbox.GSON.toJson(this.latestDonation.getUsername());
                 break;
-            case "/donations/latest/amount":
+            case "/api/donations/latest/amount":
                 json = AllmightyTwitchToolbox.GSON.toJson(this.latestDonation.getPrintableAmount());
                 break;
-            case "/donations/latest/note":
+            case "/api/donations/latest/note":
                 json = AllmightyTwitchToolbox.GSON.toJson(this.latestDonation.getNote());
                 break;
-            case "/timer/1/seconds":
-                json = AllmightyTwitchToolbox.GSON.toJson(Utils.getDateDiff(new Date(), App.NOTIFIER
-                        .getCountdownTimer(1), TimeUnit.SECONDS));
+            case "/api/timer/1/seconds":
+                long seconds1 = Utils.getDateDiff(new Date(), App.NOTIFIER.getCountdownTimer(1), TimeUnit.SECONDS);
+
+                if (seconds1 < 0) {
+                    seconds1 = 0;
+                }
+
+                json = AllmightyTwitchToolbox.GSON.toJson(seconds1);
                 break;
-            case "/timer/2/seconds":
-                json = AllmightyTwitchToolbox.GSON.toJson(Utils.getDateDiff(new Date(), App.NOTIFIER
-                        .getCountdownTimer(2), TimeUnit.SECONDS));
+            case "/api/timer/2/seconds":
+                long seconds2 = Utils.getDateDiff(new Date(), App.NOTIFIER.getCountdownTimer(2), TimeUnit.SECONDS);
+
+                if (seconds2 < 0) {
+                    seconds2 = 0;
+                }
+
+                json = AllmightyTwitchToolbox.GSON.toJson(seconds2);
                 break;
-            case "/timer/3/seconds":
-                json = AllmightyTwitchToolbox.GSON.toJson(Utils.getDateDiff(new Date(), App.NOTIFIER
-                        .getCountdownTimer(3), TimeUnit.SECONDS));
+            case "/api/timer/3/seconds":
+                long seconds3 = Utils.getDateDiff(new Date(), App.NOTIFIER.getCountdownTimer(3), TimeUnit.SECONDS);
+
+                if (seconds3 < 0) {
+                    seconds3 = 0;
+                }
+
+                json = AllmightyTwitchToolbox.GSON.toJson(seconds3);
                 break;
-            case "/foobar/stop":
+            case "/api/foobar/stop":
                 json = "{\"done\": false}";
 
                 if (App.NOTIFIER.getSettings().getFoobarLocation() != null && !App.NOTIFIER.getSettings()
@@ -132,7 +147,7 @@ public class Server extends NanoHTTPD implements FollowerListener, DonationListe
                     }
                 }
                 break;
-            case "/foobar/play":
+            case "/api/foobar/play":
                 json = "{\"done\": false}";
 
                 if (App.NOTIFIER.getSettings().getFoobarLocation() != null && !App.NOTIFIER.getSettings()
@@ -146,7 +161,7 @@ public class Server extends NanoHTTPD implements FollowerListener, DonationListe
                     }
                 }
                 break;
-            case "/foobar/pause":
+            case "/api/foobar/pause":
                 json = "{\"done\": false}";
 
                 if (App.NOTIFIER.getSettings().getFoobarLocation() != null && !App.NOTIFIER.getSettings()
@@ -159,7 +174,7 @@ public class Server extends NanoHTTPD implements FollowerListener, DonationListe
                     }
                 }
                 break;
-            case "/foobar/next":
+            case "/api/foobar/next":
                 json = "{\"done\": false}";
 
                 if (App.NOTIFIER.getSettings().getFoobarLocation() != null && !App.NOTIFIER.getSettings()
@@ -172,7 +187,7 @@ public class Server extends NanoHTTPD implements FollowerListener, DonationListe
                     }
                 }
                 break;
-            case "/foobar/prev":
+            case "/api/foobar/prev":
                 json = "{\"done\": false}";
 
                 if (App.NOTIFIER.getSettings().getFoobarLocation() != null && !App.NOTIFIER.getSettings()
@@ -185,7 +200,7 @@ public class Server extends NanoHTTPD implements FollowerListener, DonationListe
                     }
                 }
                 break;
-            case "/foobar/nextpause":
+            case "/api/foobar/nextpause":
                 json = "{\"done\": false}";
 
                 if (App.NOTIFIER.getSettings().getFoobarLocation() != null && !App.NOTIFIER.getSettings()
