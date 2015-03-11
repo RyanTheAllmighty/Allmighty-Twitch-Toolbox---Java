@@ -60,6 +60,16 @@ public class SoundboardPanel extends JPanel {
             JPanel buttonPane = new JPanel();
             buttonPane.setLayout(new FlowLayout());
 
+            JButton clearButton = new JButton("Clear");
+            clearButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    labels[num].setText("No Sound");
+                    App.NOTIFIER.getSettings().setSoundboardSound(num + 1, null);
+                    App.NOTIFIER.saveSettings();
+                }
+            });
+
             JButton editButton = new JButton("Edit");
             editButton.addActionListener(new ActionListener() {
                 @Override
@@ -89,6 +99,7 @@ public class SoundboardPanel extends JPanel {
                 }
             });
 
+            buttonPane.add(clearButton);
             buttonPane.add(editButton);
             buttonPane.add(playButton);
 
