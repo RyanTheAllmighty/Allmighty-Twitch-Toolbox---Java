@@ -178,7 +178,7 @@ public class AllmightyTwitchToolbox {
                 public void onHotKey(HotKey hotKey) {
                     Path path = App.NOTIFIER.getSettings().getSoundboardSound(num + 1);
                     if (path != null) {
-                        SoundPlayer.playSound(path);
+                        SoundPlayer.playSound(path, App.NOTIFIER.getSettings().getSoundsVolume());
                     }
                 }
             });

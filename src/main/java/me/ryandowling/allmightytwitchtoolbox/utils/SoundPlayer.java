@@ -9,7 +9,7 @@ import javax.sound.sampled.FloatControl;
 import java.nio.file.Path;
 
 public class SoundPlayer {
-    public static void playSound(Path file) {
+    public static void playSound(Path file, float volume) {
         try {
             Clip clip = AudioSystem.getClip();
             AudioInputStream inputStream = AudioSystem.getAudioInputStream(file.toFile());
@@ -19,7 +19,7 @@ public class SoundPlayer {
             FloatControl gainControl =
                     (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 
-            gainControl.setValue(App.NOTIFIER.getSettings().getSoundsVolume());
+            gainControl.setValue(volume);
 
             clip.start();
         } catch (Exception e) {

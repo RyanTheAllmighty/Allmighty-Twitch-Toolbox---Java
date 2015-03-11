@@ -37,6 +37,10 @@ public class SoundSettingsPanel extends JPanel {
     private JButton newDonationSoundChooserButton;
     private JButton newDonationSoundTestButton;
 
+    private JPanel notificationVolumePanel;
+    private JLabel notificationVolumeLabel;
+    private JTextField notificationVolumeTextField;
+
     private JPanel soundVolumePanel;
     private JLabel soundVolumeLabel;
     private JTextField soundVolumeTextField;
@@ -56,6 +60,7 @@ public class SoundSettingsPanel extends JPanel {
         setupFollowerSoundPanel();
         setupDonationSoundPanel();
 
+        setupNotificationVolumePanel();
         setupSoundVolumePanel();
     }
 
@@ -91,7 +96,7 @@ public class SoundSettingsPanel extends JPanel {
                 if (!newFollowerSoundTextField.getText().isEmpty()) {
                     Path path = Paths.get(newFollowerSoundTextField.getText());
                     if (Files.exists(path) && Files.isRegularFile(path)) {
-                        SoundPlayer.playSound(path);
+                        SoundPlayer.playSound(path, App.NOTIFIER.getSettings().getNotificationVolume());
                     }
                 }
             }
@@ -135,7 +140,7 @@ public class SoundSettingsPanel extends JPanel {
                 if (!newDonationSoundTextField.getText().isEmpty()) {
                     Path path = Paths.get(newDonationSoundTextField.getText());
                     if (Files.exists(path) && Files.isRegularFile(path)) {
-                        SoundPlayer.playSound(path);
+                        SoundPlayer.playSound(path, App.NOTIFIER.getSettings().getNotificationVolume());
                     }
                 }
             }
@@ -145,6 +150,17 @@ public class SoundSettingsPanel extends JPanel {
         this.newDonationSoundPanel.add(this.newDonationSoundTextField);
         this.newDonationSoundPanel.add(this.newDonationSoundChooserButton);
         this.newDonationSoundPanel.add(this.newDonationSoundTestButton);
+    }
+
+    private void setupNotificationVolumePanel() {
+        this.notificationVolumePanel = new JPanel();
+        this.notificationVolumePanel.setLayout(new FlowLayout());
+
+        this.notificationVolumeLabel = new JLabel("Notification Volume (-100 to 0):");
+        this.notificationVolumeTextField = new JTextField(App.NOTIFIER.getSettings().getNotificationVolume() + "", 16);
+
+        this.notificationVolumePanel.add(this.notificationVolumeLabel);
+        this.notificationVolumePanel.add(this.notificationVolumeTextField);
     }
 
     private void setupSoundVolumePanel() {
@@ -162,6 +178,7 @@ public class SoundSettingsPanel extends JPanel {
         this.mainPane.add(this.newFollowerSoundPanel);
         this.mainPane.add(this.newDonationSoundPanel);
 
+        this.mainPane.add(this.notificationVolumePanel);
         this.mainPane.add(this.soundVolumePanel);
 
         add(this.mainPane, BorderLayout.CENTER);
@@ -175,6 +192,17 @@ public class SoundSettingsPanel extends JPanel {
 
         if (this.newDonationSoundTextField.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "New donation sound must be set!", "Error", JOptionPane.ERROR_MESSAGE);
+            throw new SettingsException();
+        }
+
+        try {
+            float value = Float.parseFloat(this.notificationVolumeTextField.getText());
+            if (value < -100 || value > 0) {
+                throw new NumberFormatException("Notification volume must be a number between -100 and 0!");
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Notification volume must be a number between -100 and 0!", "Error",
+                    JOptionPane.ERROR_MESSAGE);
             throw new SettingsException();
         }
 
@@ -200,8 +228,12 @@ public class SoundSettingsPanel extends JPanel {
         }
 
         try {
-            float volumeLevel = Float.parseFloat(this.soundVolumeTextField.getText());
-            App.NOTIFIER.getSettings().setSoundsVolume(volumeLevel);
+            App.NOTIFIER.getSettings().setNotificationVolume(Float.parseFloat(this.notificationVolumeTextField.getText()));
+        } catch (NumberFormatException ignored) {
+        }
+
+        try {
+            App.NOTIFIER.getSettings().setSoundsVolume(Float.parseFloat(this.soundVolumeTextField.getText()));
         } catch (NumberFormatException ignored) {
         }
     }

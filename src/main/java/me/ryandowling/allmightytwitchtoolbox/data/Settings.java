@@ -47,7 +47,9 @@ public class Settings {
     private boolean isSetup;
     private int counter;
     private String[] soundboardSounds;
+
     private float soundsVolume;
+    private float notificationVolume;
 
     public void loadDefaults() {
         this.guiPosition = new Point(0, 0);
@@ -68,6 +70,7 @@ public class Settings {
         this.autoRunFoobarNowPlayingConverter = false;
         this.soundboardSounds = new String[9];
         this.soundsVolume = 0.0f;
+        this.notificationVolume = 0.0f;
 
         this.countdownTimers = new HashMap<>();
         this.isSetup = false;
@@ -331,5 +334,13 @@ public class Settings {
 
     public void setSoundsVolume(float soundsVolume) {
         this.soundsVolume = soundsVolume;
+    }
+
+    public float getNotificationVolume() {
+        return this.notificationVolume;
+    }
+
+    public void setNotificationVolume(float notificationVolume) {
+        this.notificationVolume = notificationVolume;
     }
 }

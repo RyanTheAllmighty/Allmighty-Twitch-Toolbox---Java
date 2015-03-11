@@ -84,7 +84,7 @@ public class SoundboardPanel extends JPanel {
                 public void actionPerformed(ActionEvent e) {
                     Path path = App.NOTIFIER.getSettings().getSoundboardSound(num + 1);
                     if (path != null) {
-                        SoundPlayer.playSound(path);
+                        SoundPlayer.playSound(path, App.NOTIFIER.getSettings().getSoundsVolume());
                     }
                 }
             });

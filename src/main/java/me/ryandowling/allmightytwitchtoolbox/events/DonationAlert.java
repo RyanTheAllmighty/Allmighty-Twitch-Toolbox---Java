@@ -20,7 +20,7 @@ public class DonationAlert implements DonationListener {
             @Override
             public void run() {
                 Toaster.instance().pop("New Donation: " + tip.getUsername() + " donated " + tip.getPrintableAmount());
-                SoundPlayer.playSound(App.NOTIFIER.getSettings().getNewDonationSound());
+                SoundPlayer.playSound(App.NOTIFIER.getSettings().getNewDonationSound(), App.NOTIFIER.getSettings().getNotificationVolume());
             }
         });
         thread.run();
