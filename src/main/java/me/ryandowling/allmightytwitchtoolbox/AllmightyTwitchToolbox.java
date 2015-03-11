@@ -172,7 +172,7 @@ public class AllmightyTwitchToolbox {
             final int num = i - 1;
 
             getHotKeyProvider().register(KeyStroke.getKeyStroke(keyEvents[num], KeyEvent
-                    .CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK), new HotKeyListener() {
+                    .CTRL_DOWN_MASK), new HotKeyListener() {
                 @Override
                 public void onHotKey(HotKey hotKey) {
                     Path path = App.NOTIFIER.getSettings().getSoundboardSound(num + 1);
