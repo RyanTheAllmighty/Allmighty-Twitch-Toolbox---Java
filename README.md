@@ -1,5 +1,8 @@
-Allmighty Twitch Toolbox
+Allmighty Twitch Toolbox - Java
 ====================================
+
+### Warning
+This application is no longer being updated. For the updated version written in NodeJS see [here](https://github.com/RyanTheAllmighty/Allmighty-Twitch-Toolbox)
 
 ### What is it?
 
